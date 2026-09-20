@@ -1,0 +1,74 @@
+Group info
+{
+	# map_index
+	# limit_level
+	# required_item1 
+	# required_item2
+	# required_item3
+	map	356
+	level	75
+
+	Group 1
+	{
+		1	71095	1
+		2	71130	1
+		3	76019	1
+	}
+}
+
+Group info
+{
+	# map_index
+	# limit_level
+	# required_item1 
+	# required_item2
+	# required_item3
+	map	351
+	level	100
+
+	Group 1
+	{
+		1	71095	1
+		2	71130	1
+		3	76019	1
+	}
+}
+
+Group info
+{
+	# map_index
+	# limit_level
+	# required_item1 
+	# required_item2
+	# required_item3
+	map	352
+	level	100
+
+}
+
+Group info
+{
+	# map_index
+	# limit_level
+	# required_item1 
+	# required_item2
+	# required_item3
+	map	353
+	level	95
+
+	Group 1
+	{
+		1	30613	1
+	}
+}
+
+Group info
+{
+	# map_index
+	# limit_level
+	# required_item1 
+	# required_item2
+	# required_item3
+	map	354
+	level	95
+}

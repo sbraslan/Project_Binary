@@ -1,0 +1,72 @@
+<titles>
+	<title id = "1" achievement = "3" name = "[#1b23ef]Monster Hunter" bonus_type = "1" bonus_value = "500"></title>
+	<title id = "2" achievement = "4" name = "[#9b37e9]Demon Hunter"></title>
+	<title id = "3" achievement = "5" name = "[#bb2f21]Devil Hunter"></title>
+	<title id = "4" achievement = "6" name = "[#279845]Esoteric Hunter"></title>
+	<title id = "5" achievement = "7" name = "[#61eb86]Orc Hunter"></title>
+	<title id = "6" achievement = "8" name = "[#f0bc2b]Animal Hunter"></title>
+	<title id = "7" achievement = "31" name = "[#4467df]Metin Hunter"></title>
+	<title id = "8" achievement = "37" name = "[#45bfe2]Lord of Metins"></title>
+	<title id = "9" achievement = "40" name = "[#ec4d3e]Boss Executioner"></title>
+	<title id = "10" achievement = "41" name = "[#3a9342]Novice Boss Hunter"></title>
+	<title id = "11" achievement = "42" name = "[#44ab4d]Advanced Boss Hunter"></title>
+	<title id = "12" achievement = "43" name = "[#4dbf57]Competent Boss Hunter"></title>
+	<title id = "13" achievement = "44" name = "[#56d361]Expert Boss Hunter"></title>
+	<title id = "14" achievement = "45" name = "[#5fea6c]Master Boss Hunter"></title>
+	<title id = "15" achievement = "46" name = "[#f49996]Lord of Bosses"></title>
+	<title id = "16" achievement = "53" name = "[#8dfdf0]Highest in the Room"></title>
+	<title id = "17" achievement = "58" name = "[#26a6e9]24[#c1c8c7]/[#26a6e9]7[#c1c8c7]/[#26a6e9]365[#c1c8c7]/[#26a6e9]X"></title>
+	<title id = "18" achievement = "59" name = "[#767778]Ride Till I Die"></title>
+	<title id = "19" achievement = "60" name = "[#df487f]Perfect Bond"></title>
+	<title id = "20" achievement = "63" name = "[#7b5c56]Cowboy"></title>
+	<title id = "21" achievement = "66" name = "[#e27f82]Animal [#ffffff]Control"></title>
+	<title id = "22" achievement = "67" name = "[#6a6c6a]All [#ffffff]or [#6a6c6a]Nothing"></title>
+	<title id = "23" achievement = "68" name = "[#cfcc3c]Got Everything"></title>
+	<title id = "24" achievement = "69" name = "[#a8eff4]Fast as F Boi"></title>
+	<title id = "25" achievement = "72" name = "[#129fd3]Beach Boy"></title>
+	<title id = "26" achievement = "73" name = "[#314b9e]Empty the Oceans"></title>
+	<title id = "27" achievement = "76" name = "[#ec5d14]Born to Burn"></title>
+	<title id = "28" achievement = "77" name = "[#a6ec14]I'm Hungry"></title>
+	<title id = "29" achievement = "80" name = "[#be0626]Player [#747272]Slayer"></title>
+	<title id = "30" achievement = "84" name = "[#4b4a4a]Terrorist"></title>
+	<title id = "31" achievement = "85" name = "[#f30a0a]Warrior Slaughterer"></title>
+	<title id = "32" achievement = "86" name = "[#06b039]Ninja Slaughterer"></title>
+	<title id = "33" achievement = "87" name = "[#155cd1]Sura Slaughterer"></title>
+	<title id = "34" achievement = "88" name = "[#9e4ed5]Shaman Slaughterer"></title>
+	<title id = "35" achievement = "91" name = "[#dfb720]Duelist"></title>
+	<title id = "36" achievement = "92" name = "[#b62df6]Invincible"></title> <!-- MISSING -->
+	<title id = "37" achievement = "93" name = "[#bfb20b]Warlord"></title>
+	<title id = "38" achievement = "96" name = "[#ea2e3c]LOSER"></title>
+	<title id = "39" achievement = "97" name = "[#c9646c]Yo' want some?"></title>
+	<title id = "40" achievement = "98" name = "[#85c964]I'm Lagging"></title>
+	<title id = "41" achievement = "108" name = "[#e3e91c]Richie Rich"></title>
+	<title id = "42" achievement = "111" name = "[#b61ce9]Godlike x 10"></title>
+	<title id = "43" achievement = "112" name = "[#1cb1e9]Traveler"></title>
+	<title id = "44" achievement = "113" name = "[#e9af1c]Farmer"></title>
+	<title id = "45" achievement = "114" name = "[#679a68]Templar"></title>
+	<title id = "46" achievement = "115" name = "[#e3e766]Desert Walker"></title>
+	<title id = "47" achievement = "116" name = "[#c3fdfd]Ice Ice Baby"></title>
+	<title id = "48" achievement = "117" name = "[#874a39]Vulcano Visitor"></title>
+	<title id = "49" achievement = "118" name = "[#5e4943]Burned my Eyebrows"></title>
+	<title id = "50" achievement = "119" name = "[#2e5b29]Forest Gump"></title>
+	<title id = "51" achievement = "120" name = "[#294a5b]Lost Places"></title>
+	<title id = "52" achievement = "125" name = "[#de48ec]Shopping Queen"></title>
+	<title id = "53" achievement = "128" name = "[#f8df0a]Shopping King"></title>
+	<title id = "54" achievement = "131" name = "[#9c9c9c]Wasting Yang [#f94c4c]24/7"></title>
+	<title id = "55" achievement = "136" name = "[#4bc741]Rich [#9ee299]get [#4bc741]Richer"></title>
+	<title id = "56" achievement = "139" name = "[#7655a9]Trade Station"></title>
+	<title id = "57" achievement = "142" name = "[#f68181]EZ"></title>
+	<title id = "58" achievement = "145" name = "[#ff0000]EZ PZ"></title>
+	<title id = "59" achievement = "146" name = "[#1451f4]S[#ffffff]o[#1451f4]c[#ffffff]i[#1451f4]a[#ffffff]l [#1451f4]A[#ffffff]c[#1451f4]t[#ffffff]i[#1451f4]v[#ffffff]i[#1451f4]s[#ffffff]t"></title>
+	<title id = "60" achievement = "150" name = "[#d6489f]Nonstop Talker"></title>
+	<title id = "61" achievement = "153" name = "[#717071]Screamer"></title>
+	<title id = "62" achievement = "157" name = "[#294ec3]Ecstasy Skiller"></title>
+	<title id = "63" achievement = "158" name = "[#c21414]'Miss'"></title>
+	<title id = "64" achievement = "159" name = "[#f293f2]Over 9000"></title>
+	<title id = "65" achievement = "162" name = "[#7c5a5a]Blacksmith's Apprentice"></title>
+	<title id = "66" achievement = "163" name = "[#3f85be]Expert of Dungeons"></title>
+	<title id = "67" achievement = "177" name = "[#e27820]Speedy Gonzales"></title>
+	<title id = "68" achievement = "178" name = "[#f1f070]Fast[#e9e9e9]>[#f2f03c]Faster[#e9e9e9]>[#f6f403]Me"></title>
+	<title id = "69" achievement = "179" name = "[#868686]Two Man Army"></title>
+	<title id = "70" achievement = "180" name = "[#84c54c]Two Easy"></title>
+</titles>
