@@ -77,7 +77,7 @@ class FishingWindow(ui.ScriptWindow):
 			effect = ui.AniImageBox()
 			effect.SetParent(self.board)
 			effect.SetSize(30, 30)
-			for i in xrange(4):
+			for i in range(4):
 				effect.AppendImage("d:/ymir work/ui/game/fishing/wave/fishing_effect_wave_%d.sub")
 			(x, y) = self.fish.GetPosition()
 			effect.SetPosition(0, 0)

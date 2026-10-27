@@ -273,10 +273,10 @@ def GET_ACCESSORY_MATERIAL_VNUM(vnum, subType):
 		EAR_ITEM_VNUM_BASE = 17000
 		ret -= EAR_ITEM_VNUM_BASE
 
-	type = ret/20
+	type = ret//20
 
 	if type<0 or type>=len(ACCESSORY_MATERIAL_LIST):
-		type = (ret-170) / 20
+		type = (ret-170) // 20
 		if type<0 or type>=len(ACCESSORY_MATERIAL_LIST):
 			return 0
 

@@ -65,7 +65,7 @@ class PopupDialog(ui.ScriptWindow):
 				board = self.GetChild("board")
 				width = board.GetWidth()
 				height = board.GetHeight()
-				for i in xrange(textSize):
+				for i in range(textSize):
 					textLine = ui.TextLine()
 					textLine.SetText(textList[textSize - i - 1])
 					textLine.SetParent(board)
@@ -137,7 +137,7 @@ class MainStream(object):
 	def __del__(self):
 		import uiQuest
 		if uiQuest.QuestDialog:
-			if uiQuest.QuestDialog.__dict__.has_key("QuestCurtain"):
+			if "QuestCurtain" in uiQuest.QuestDialog.__dict__:
 				del uiQuest.QuestDialog.QuestCurtain
 
 	def Destroy(self):
@@ -160,17 +160,42 @@ class MainStream(object):
 		self.curtain = uiPhaseCurtain.PhaseCurtain()
 
 	def SetPhaseWindow(self, newPhaseWindow):
+		if not newPhaseWindow:
+			try:
+				dbg.TraceError(
+"PHASE ZERO DEBUG 01: SetPhaseWindow called with empty window"
+)
+				_phaseFrame = __import__(
+"sys"
+)._getframe(1)
+				_phaseDepth = 0
+				while _phaseFrame and _phaseDepth < 16:
+					dbg.TraceError(
+"PHASE ZERO FRAME %02d: %s:%d | %s" % (
+_phaseDepth, 
+_phaseFrame.f_code.co_filename, 
+_phaseFrame.f_lineno, 
+_phaseFrame.f_code.co_name))
+					_phaseFrame = _phaseFrame.f_back
+					_phaseDepth += 1
+				dbg.TraceError(
+"PHASE ZERO DEBUG 02: stack capture finished"
+)
+			except:
+				dbg.TraceError(
+"PHASE ZERO DEBUG 99: stack capture failed"
+)
 		if self.newPhaseWindow:
-			#print "ÀÌ¹Ì »õ·Î¿î À©µµ¿ì·Î ¹Ù²Û»óÅÂ¿¡¼­ ¶Ç ¹Ù²Þ", newPhaseWindow
+			#print "ì´ë¯¸ ìƒˆë¡œìš´ ìœˆë„ìš°ë¡œ ë°”ê¾¼ìƒíƒœì—ì„œ ë˜ ë°”ê¿ˆ", newPhaseWindow
 			self.__ChangePhaseWindow()
 
 		self.newPhaseWindow=newPhaseWindow
 
 		if self.curPhaseWindow:
-			#print "ÆäÀÌµå ¾Æ¿ôµÇ¸é ¹Ù²Þ"
+			#print "íŽ˜ì´ë“œ ì•„ì›ƒë˜ë©´ ë°”ê¿ˆ"
 			self.curtain.FadeOut(self.__ChangePhaseWindow)
 		else:
-			#print "ÇöÀç À©µµ¿ì°¡ ¾ø´Â »óÅÂ¶ó ¹Ù·Î ¹Ù²Þ"
+			#print "í˜„ìž¬ ìœˆë„ìš°ê°€ ì—†ëŠ” ìƒíƒœë¼ ë°”ë¡œ ë°”ê¿ˆ"
 			self.__ChangePhaseWindow()
 
 	def __ChangePhaseWindow(self):
@@ -284,7 +309,6 @@ class MainStream(object):
 			self.popupWindow.Close()
 			self.SetPhaseWindow(game.GameWindow(self))
 		except:
-			raise
 			import exception
 			exception.Abort("networkModule.SetGamePhase")
 

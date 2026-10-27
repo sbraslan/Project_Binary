@@ -13,7 +13,7 @@ import uiRefine
 import uiAttachMetin
 import uiPickMoney
 import uiCommon
-import uiPrivateShopBuilder # °³ÀÎ»óÁ¡ ¿­µ¿¾È ItemMove ¹æÁö
+import uiPrivateShopBuilder # ê°œì¸ìƒì  ì—´ë™ì•ˆ ItemMove ë°©ì§€
 import localeInfo
 import constInfo
 import ime
@@ -151,7 +151,7 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 			if self.tooltipitem:
 				self.tooltipitem.SetInventoryItem(slotIndex)
 		
-		#¸ğµç ¾ÆÀÌÅÛÀÌ µî·ÏµÇ¾î ÀÖÀ» ¶§ ¾ÆÀÌÅÛÀÇ SubType¿¡ µû¶ó °á°ú ¾ÆÀÌÅÛÀÇ ÅøÆÁÀ» º¸¿©Áİ´Ï´Ù.		
+		#ëª¨ë“  ì•„ì´í…œì´ ë“±ë¡ë˜ì–´ ìˆì„ ë•Œ ì•„ì´í…œì˜ SubTypeì— ë”°ë¼ ê²°ê³¼ ì•„ì´í…œì˜ íˆ´íŒì„ ë³´ì—¬ì¤ë‹ˆë‹¤.		
 		def __ShowResultToolTip(self):
 				if not self.IsFilledAllSlots():
 					return
@@ -159,7 +159,7 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 				if self.GetItemSubTypeByCombSlot(playerm2g2.COMB_WND_SLOT_MEDIUM) == item.MEDIUM_MOVE_COSTUME_ATTR:
 					self.tooltipResult.SetResulItemAttrMove(playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_BASE), playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MATERIAL))
 		
-		# ¾ÆÀÌÅÛ ÅøÆÁ º¸¿©ÁÖ±â
+		# ì•„ì´í…œ íˆ´íŒ ë³´ì—¬ì£¼ê¸°
 		def OverInItem(self, slotIndex):
 			if slotIndex == playerm2g2.COMB_WND_SLOT_RESULT:
 				if self.tooltipResult.IsShow():
@@ -177,7 +177,7 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 				
 			self.__ShowToolTip(InventorySlot)
 		
-		# ¾ÆÀÌÅÛ ÅøÆÁ °¨Ãß±â
+		# ì•„ì´í…œ íˆ´íŒ ê°ì¶”ê¸°
 		def OverOutItem(self):
 			self.tooltipitem.HideToolTip()
 			self.tooltipResult.HideToolTip()
@@ -191,7 +191,7 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 			if not ItemVNum:
 				return
 			
-			# ½ºÅ©·ÑÀ» ¹Ù²Ù¸é Ã¢ÀÇ ÀÌ¸§À» ¹Ù²Û´Ù. # Á¶ÇÕÄ­µµ È°¼ºÈ­ ½ÃÅ²´Ù.
+			# ìŠ¤í¬ë¡¤ì„ ë°”ê¾¸ë©´ ì°½ì˜ ì´ë¦„ì„ ë°”ê¾¼ë‹¤. # ì¡°í•©ì¹¸ë„ í™œì„±í™” ì‹œí‚¨ë‹¤.
 			if selectSlot == playerm2g2.COMB_WND_SLOT_MEDIUM:
 				self.textTitleName.SetText(item.GetItemNameByVnum(ItemVNum))
 				self.wndMediumSlot.SetItemSlot(selectSlot, ItemVNum)
@@ -211,11 +211,11 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 				self.interface.RefreshMarkInventoryBag()
 				
 		
-		# ÀÎº¥ -> Á¶ÇÕÃ¢
-		def SelectEmptySlot(self, selectedSlotPos): # selectedSlotPos : ÇØ´çÀÎº¥ÀÇ slotPos
+		# ì¸ë²¤ -> ì¡°í•©ì°½
+		def SelectEmptySlot(self, selectedSlotPos): # selectedSlotPos : í•´ë‹¹ì¸ë²¤ì˜ slotPos
 			if mouseModule.mouseController.isAttached():
-				attachedSlotType = mouseModule.mouseController.GetAttachedType() # Áö±İ attachµÈ ¾ÆÀÌÅÛÀÌ ÀÖ´ø ½½·ÔÀÇ Å¸ÀÔ.
-				attachedSlotPos = mouseModule.mouseController.GetAttachedSlotNumber() # Áö±İ attachµÈ ¾ÆÀÌÅÛÀÌ ÀÖ´ø ½½·ÔÀÇ Æ÷Áî.
+				attachedSlotType = mouseModule.mouseController.GetAttachedType() # ì§€ê¸ˆ attachëœ ì•„ì´í…œì´ ìˆë˜ ìŠ¬ë¡¯ì˜ íƒ€ì….
+				attachedSlotPos = mouseModule.mouseController.GetAttachedSlotNumber() # ì§€ê¸ˆ attachëœ ì•„ì´í…œì´ ìˆë˜ ìŠ¬ë¡¯ì˜ í¬ì¦ˆ.
 				attachedItemVNum = mouseModule.mouseController.GetAttachedItemIndex()
 				
 				mouseModule.mouseController.DeattachObject()
@@ -252,13 +252,13 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 			return True
 			
 		def CantAttachToCombSlot(self, slotIndex):
-			if playerm2g2.GetItemSealDate(playerm2g2.INVENTORY, slotIndex) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP: #ºÀÀÎ¾ÆÀÌÅÛ °É·¯³¿.
+			if playerm2g2.GetItemSealDate(playerm2g2.INVENTORY, slotIndex) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP: #ë´‰ì¸ì•„ì´í…œ ê±¸ëŸ¬ëƒ„.
 				return True
-			if playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MEDIUM) == -1: # Á¶ÇÕ ¸Å°³Ã¼°¡ µî·ÏÀÌ µÇÁö ¾Ê¾ÒÀ» ¶§
+			if playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MEDIUM) == -1: # ì¡°í•© ë§¤ê°œì²´ê°€ ë“±ë¡ì´ ë˜ì§€ ì•Šì•˜ì„ ë•Œ
 				return not playerm2g2.CanAttachToCombMediumSlot(playerm2g2.COMB_WND_SLOT_MEDIUM, playerm2g2.INVENTORY, slotIndex)
-			elif playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_BASE) == -1: # ±âº» ¾ÆÀÌÅÛÀÌ µî·Ï µÇÁö ¾Ê¾ÒÀ» ¶§
+			elif playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_BASE) == -1: # ê¸°ë³¸ ì•„ì´í…œì´ ë“±ë¡ ë˜ì§€ ì•Šì•˜ì„ ë•Œ
 				return not playerm2g2.CanAttachToCombItemSlot(playerm2g2.COMB_WND_SLOT_BASE, playerm2g2.INVENTORY, slotIndex)
-			elif playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MATERIAL) == -1: # Àç·á°¡ µî·Ï µÇÁö ¾Ê¾ÒÀ» ¶§
+			elif playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MATERIAL) == -1: # ì¬ë£Œê°€ ë“±ë¡ ë˜ì§€ ì•Šì•˜ì„ ë•Œ
 				return not playerm2g2.CanAttachToCombItemSlot(playerm2g2.COMB_WND_SLOT_MATERIAL, playerm2g2.INVENTORY, slotIndex)
 			return True
 		
@@ -280,7 +280,7 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 					chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.COMB_NOT_ITEM_IN_INVENTORY)
 					return
 
-				if attachedSlotPos > playerm2g2.EQUIPMENT_SLOT_START-1: ## ÀÎº¥Ã¢ ¾È¿¡ ÀÖ´Â °Í¸¸.
+				if attachedSlotPos > playerm2g2.EQUIPMENT_SLOT_START-1: ## ì¸ë²¤ì°½ ì•ˆì— ìˆëŠ” ê²ƒë§Œ.
 					chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.COMB_NOT_ITEM_IN_INVENTORY)
 					return False
 
@@ -295,7 +295,7 @@ if app.ENABLE_MOVE_COSTUME_ATTR:
 
 			if selectedSlotPos == playerm2g2.COMB_WND_SLOT_BASE or selectedSlotPos == playerm2g2.COMB_WND_SLOT_MATERIAL:
 
-				mediumInvenSlot = playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MEDIUM) # ¾ÆÀÌÅÛÀÌ µî·Ï ¾ÈµÈ °æ¿ì -1ÀÌ ¸®ÅÏµÈ´Ù.
+				mediumInvenSlot = playerm2g2.GetInvenSlotAttachedToConbWindowSlot(playerm2g2.COMB_WND_SLOT_MEDIUM) # ì•„ì´í…œì´ ë“±ë¡ ì•ˆëœ ê²½ìš° -1ì´ ë¦¬í„´ëœë‹¤.
 			
 				if not selectedSlotPos == playerm2g2.COMB_WND_SLOT_MEDIUM and mediumInvenSlot == -1:
 					chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.COMB_PLEASE_APPEND_MEDIUM_FIRST)

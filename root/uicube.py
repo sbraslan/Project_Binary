@@ -229,10 +229,10 @@ class CubeWindow(ui.ScriptWindow):
 		self.tooltipItem.SetCannotUseItemForceSetDisableColor(True)
 
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(0)
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append((0, 0))
 
 		#print "resultIndex, firstSlotIndex", resultIndex, self.firstSlotIndex
@@ -243,7 +243,7 @@ class CubeWindow(ui.ScriptWindow):
 		self.tooltipItem.AddItemData(itemVnum, metinSlot, attrSlot)
 
 
-	# Àç·á¸¦ Å¬¸¯ÇÏ¸é ÀÎº¥Åä¸®¿¡¼­ ÇØ´ç ¾ÆÀÌÅÛÀ» Ã£¾Æ¼­ µî·ÏÇÔ.
+	# ì¬ë£Œë¥¼ í´ë¦­í•˜ë©´ ì¸ë²¤í† ë¦¬ì—ì„œ í•´ë‹¹ ì•„ì´í…œì„ ì°¾ì•„ì„œ ë“±ë¡í•¨.
 	def __OnSelectMaterialSlot(self, trash, resultIndex, materialIndex):
 		resultIndex = resultIndex + self.firstSlotIndex
 		if resultIndex not in self.cubeMaterialInfos:
@@ -256,20 +256,20 @@ class CubeWindow(ui.ScriptWindow):
 			return
 
 		for itemVnum, itemCount in materialInfo[materialIndex]:
-			bAddedNow = False	# ÀÌ¹ø¿¡ Å¬¸¯ÇÔÀ¸·Î½á ¾ÆÀÌÅÛÀÌ Ãß°¡µÇ¾ú³ª?
+			bAddedNow = False	# ì´ë²ˆì— í´ë¦­í•¨ìœ¼ë¡œì¨ ì•„ì´í…œì´ ì¶”ê°€ë˜ì—ˆë‚˜?
 			item.SelectItem(itemVnum)
 			itemSizeX, itemSizeY = item.GetItemSize()
 
-			# Á¦Á¶¿¡ ÇÊ¿äÇÑ ¸¸Å­ÀÇ Àç·á¸¦ °¡Áö°í ÀÖ´Â°¡?
+			# ì œì¡°ì— í•„ìš”í•œ ë§Œí¼ì˜ ì¬ë£Œë¥¼ ê°€ì§€ê³  ìˆëŠ”ê°€?
 			if playerm2g2.GetItemCountByVnum(itemVnum) >= itemCount:
-				for i in xrange(playerm2g2.INVENTORY_SLOT_COUNT):
+				for i in range(playerm2g2.INVENTORY_SLOT_COUNT):
 					vnum = playerm2g2.GetItemIndex(i)
 					count= playerm2g2.GetItemCount(i)
 
 					if vnum == itemVnum and count >= itemCount:
-						# ÀÌ¹Ì °°Àº ¾ÆÀÌÅÛÀÌ µî·ÏµÇ¾î ÀÖ´ÂÁö °Ë»çÇÏ°í, ¾ø´Ù¸é Ãß°¡ÇÔ
+						# ì´ë¯¸ ê°™ì€ ì•„ì´í…œì´ ë“±ë¡ë˜ì–´ ìˆëŠ”ì§€ ê²€ì‚¬í•˜ê³ , ì—†ë‹¤ë©´ ì¶”ê°€í•¨
 						bAlreadyExists = False
-						for slotPos, invenPos in self.cubeItemInfo.items():
+						for slotPos, invenPos in list(self.cubeItemInfo.items()):
 							if invenPos == i:
 								bAlreadyExists = True
 
@@ -278,17 +278,17 @@ class CubeWindow(ui.ScriptWindow):
 
 						#print "Cube Status : ", self.cubeItemInfo
 
-						# ¿©±â ÁøÀÔÇÏ¸é Å¥ºê¿¡ µî·ÏµÇÁö ¾ÊÀº ¾ÆÀÌÅÛÀÌ¹Ç·Î, ºó Å¥ºê ½½·Ô¿¡ ÇØ´ç ¾ÆÀÌÅÛ Ãß°¡
+						# ì—¬ê¸° ì§„ì…í•˜ë©´ íë¸Œì— ë“±ë¡ë˜ì§€ ì•Šì€ ì•„ì´í…œì´ë¯€ë¡œ, ë¹ˆ íë¸Œ ìŠ¬ë¡¯ì— í•´ë‹¹ ì•„ì´í…œ ì¶”ê°€
 						bCanAddSlot = False
-						for slotPos in xrange(self.cubeSlot.GetSlotCount()):
-							# ÀÌ Å¥ºê ½½·ÔÀÌ ºñ¾îÀÖ´Â°¡?
+						for slotPos in range(self.cubeSlot.GetSlotCount()):
+							# ì´ íë¸Œ ìŠ¬ë¡¯ì´ ë¹„ì–´ìˆëŠ”ê°€?
 							if not slotPos in self.cubeItemInfo:
 								upperColumnItemSizeY = -1
 								currentSlotLine = int(slotPos / self.CUBE_SLOT_COUNTX)
 								cubeColumn = int(slotPos % self.CUBE_SLOT_COUNTX)
 
 
-								# ¸¸¾à Å¥ºê¿¡ 3Ä­Â¥¸® ¾ÆÀÌÅÛÀÌ µî·ÏµÇ¾î ÀÖ´Ù¸é, ÀÌ ¿­(column)Àº ´õ ÀÌ»ó º¼ °Íµµ ¾øÀÌ ³Ñ¾î°£´Ù
+								# ë§Œì•½ íë¸Œì— 3ì¹¸ì§œë¦¬ ì•„ì´í…œì´ ë“±ë¡ë˜ì–´ ìˆë‹¤ë©´, ì´ ì—´(column)ì€ ë” ì´ìƒ ë³¼ ê²ƒë„ ì—†ì´ ë„˜ì–´ê°„ë‹¤
 								if cubeColumn in self.cubeItemInfo:
 									columnVNUM = playerm2g2.GetItemIndex(self.cubeItemInfo[cubeColumn])
 									item.SelectItem(columnVNUM)
@@ -302,7 +302,7 @@ class CubeWindow(ui.ScriptWindow):
 									item.SelectItem(upperColumnVNUM)
 									columnItemSizeX, upperColumnItemSizeY = item.GetItemSize()
 
-								# 1Ä­Â¥¸® ¾ÆÀÌÅÛÀº ¹Ù·Î À­ÁÙ¿¡ ÇÑÄ­Â¥¸® ¾ÆÀÌÅÛÀÌ ÀÖ¾î¾ß ÇÔ
+								# 1ì¹¸ì§œë¦¬ ì•„ì´í…œì€ ë°”ë¡œ ìœ—ì¤„ì— í•œì¹¸ì§œë¦¬ ì•„ì´í…œì´ ìˆì–´ì•¼ í•¨
 								if 1 == itemSizeY:
 									if 0 == currentSlotLine:
 										bCanAddSlot = True
@@ -310,13 +310,13 @@ class CubeWindow(ui.ScriptWindow):
 										bCanAddSlot = True
 									elif 2 == currentSlotLine:
 										bCanAddSlot = True
-								# 2Ä­Â¥¸® ¾ÆÀÌÅÛÀº À§¾Æ·¡°¡ ºñ¾îÀÖ¾î¾ß ÇÔ
+								# 2ì¹¸ì§œë¦¬ ì•„ì´í…œì€ ìœ„ì•„ë˜ê°€ ë¹„ì–´ìˆì–´ì•¼ í•¨
 								elif 2 == itemSizeY:
 									if 0 == currentSlotLine and not cubeColumn + self.CUBE_SLOT_COUNTX in self.cubeItemInfo:
 										bCanAddSlot = True
 									elif 1 == currentSlotLine and 1 == upperColumnItemSizeY and not cubeColumn + (self.CUBE_SLOT_COUNTX * 2) in self.cubeItemInfo:
 										bCanAddSlot = True
-								# 3Ä­Â¥¸® ¾ÆÀÌÅÛÀº ÇØ´ç Column ÀÚÃ¼°¡ ¸ğµÎ ºñ¾îÀÖ¾î¾ß ÇÔ
+								# 3ì¹¸ì§œë¦¬ ì•„ì´í…œì€ í•´ë‹¹ Column ìì²´ê°€ ëª¨ë‘ ë¹„ì–´ìˆì–´ì•¼ í•¨
 								else:
 									if not cubeColumn in self.cubeItemInfo and not cubeColumn + self.CUBE_SLOT_COUNTX in self.cubeItemInfo and not cubeColumn + (self.CUBE_SLOT_COUNTX * 2) in self.cubeItemInfo:
 										bCanAddSlot = True
@@ -392,7 +392,7 @@ class CubeWindow(ui.ScriptWindow):
 		if self.tooltipItem:
 			self.tooltipItem.HideToolTip()
 
-		# MT-818 [GF] ¾ÆÀÌÅÛ - Á¦Á¶ ¼º°øµÈ ¾ÆÀÌÅÛÀÌ Æê¸ÔÀÌ°¡ µÇ´Â ÀÌ½´
+		# MT-818 [GF] ì•„ì´í…œ - ì œì¡° ì„±ê³µëœ ì•„ì´í…œì´ í«ë¨¹ì´ê°€ ë˜ëŠ” ì´ìŠˆ
 		self.__ClearCubeItemMouseEvent()
 
 		self.Hide()
@@ -409,7 +409,7 @@ class CubeWindow(ui.ScriptWindow):
 		self.Refresh()
 
 	def Refresh(self):
-		for slotPos in xrange(self.cubeSlot.GetSlotCount()):
+		for slotPos in range(self.cubeSlot.GetSlotCount()):
 
 			if not slotPos in self.cubeItemInfo:
 				self.cubeSlot.ClearSlot(slotPos)
@@ -451,7 +451,7 @@ class CubeWindow(ui.ScriptWindow):
 
 		#print "self.cubeMaterialInfos : ", self.cubeMaterialInfos
 		if self.firstSlotIndex in self.cubeMaterialInfos:
-			for i in xrange(self.RESULT_SLOT_COUNT):
+			for i in range(self.RESULT_SLOT_COUNT):
 				materialList = self.cubeMaterialInfos[self.firstSlotIndex + i]
 				#print "Refresh ::: ", materialList
 				j = 0
@@ -475,7 +475,7 @@ class CubeWindow(ui.ScriptWindow):
 
 						currentSlot.SetPosition(localX, 0 + adjustLocalY)
 
-				for k in xrange(5):
+				for k in range(5):
 					if k >= j:
 						self.materialSlots[i][k].ClearSlot(0)
 
@@ -488,17 +488,17 @@ class CubeWindow(ui.ScriptWindow):
 		if self.isUsable:
 			self.isUsable = False
 
-			print "Å¥ºê ´İ±â"
+			print("íë¸Œ ë‹«ê¸°")
 			m2netm2g.SendChatPacket("/cube close")
 
 		self.Close()
 
 	def __OnAcceptButtonClick(self):
 		if len(self.cubeItemInfo) == 0:
-			"ºó Å¥ºê"
+			"ë¹ˆ íë¸Œ"
 			return
 
-		print "Å¥ºê Á¦ÀÛ ½ÃÀÛ"
+		print("íë¸Œ ì œì‘ ì‹œì‘")
 		#for invenPos in self.cubeItemInfo.values():
 		#	m2netm2g.SendChatPacket("/cube add " + str(invenPos))
 		m2netm2g.SendChatPacket("/cube make")
@@ -521,7 +521,7 @@ class CubeWindow(ui.ScriptWindow):
 				if playerm2g2.GetItemSealDate(window, attachedSlotPos) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP:
 					return
 
-				for slotPos, invenPos in self.cubeItemInfo.items():
+				for slotPos, invenPos in list(self.cubeItemInfo.items()):
 					if invenPos == attachedSlotPos:
 						del self.cubeItemInfo[slotPos]
 
@@ -537,7 +537,7 @@ class CubeWindow(ui.ScriptWindow):
 				if playerm2g2.SLOT_TYPE_INVENTORY != attachedSlotType:
 					return
 
-				for slotPos, invenPos in self.cubeItemInfo.items():
+				for slotPos, invenPos in list(self.cubeItemInfo.items()):
 					if invenPos == attachedSlotPos:
 						del self.cubeItemInfo[slotPos]
 
@@ -557,7 +557,7 @@ class CubeWindow(ui.ScriptWindow):
 			if not selectedSlotPos in self.cubeItemInfo:
 				return
 
-			# MT-818 [GF] ¾ÆÀÌÅÛ - Á¦Á¶ ¼º°øµÈ ¾ÆÀÌÅÛÀÌ Æê¸ÔÀÌ°¡ µÇ´Â ÀÌ½´
+			# MT-818 [GF] ì•„ì´í…œ - ì œì¡° ì„±ê³µëœ ì•„ì´í…œì´ í«ë¨¹ì´ê°€ ë˜ëŠ” ì´ìŠˆ
 			self.__SetCanMouseEventSlot( self.cubeItemInfo[selectedSlotPos] )
 			snd.PlaySound("sound/ui/drop.wav")
 
@@ -568,7 +568,7 @@ class CubeWindow(ui.ScriptWindow):
 
 	def __OnOverInItem(self, slotIndex):
 		if self.tooltipItem:
-			if self.cubeItemInfo.has_key(slotIndex):
+			if slotIndex in self.cubeItemInfo:
 				self.tooltipItem.SetInventoryItem(self.cubeItemInfo[slotIndex])
 
 	def __OnOverOutItem(self):
@@ -582,10 +582,10 @@ class CubeWindow(ui.ScriptWindow):
 		if abs(x - self.xShopStart) > USE_SHOP_LIMIT_RANGE or abs(y - self.yShopStart) > USE_SHOP_LIMIT_RANGE:
 			self.__OnCloseButtonClick()
 
-		# MT-818 [GF] ¾ÆÀÌÅÛ - Á¦Á¶ ¼º°øµÈ ¾ÆÀÌÅÛÀÌ Æê¸ÔÀÌ°¡ µÇ´Â ÀÌ½´
+		# MT-818 [GF] ì•„ì´í…œ - ì œì¡° ì„±ê³µëœ ì•„ì´í…œì´ í«ë¨¹ì´ê°€ ë˜ëŠ” ì´ìŠˆ
 		self.__UpdateCantMouseEvent()
 
-	# MT-818 [GF] ¾ÆÀÌÅÛ - Á¦Á¶ ¼º°øµÈ ¾ÆÀÌÅÛÀÌ Æê¸ÔÀÌ°¡ µÇ´Â ÀÌ½´
+	# MT-818 [GF] ì•„ì´í…œ - ì œì¡° ì„±ê³µëœ ì•„ì´í…œì´ í«ë¨¹ì´ê°€ ë˜ëŠ” ì´ìŠˆ
 	def __UpdateCantMouseEvent(self):
 		if not self.inven:
 			return
@@ -595,7 +595,7 @@ class CubeWindow(ui.ScriptWindow):
 		min_range = invenPage * playerm2g2.INVENTORY_PAGE_SIZE
 		max_range = (invenPage + 1) * playerm2g2.INVENTORY_PAGE_SIZE
 
-		for slotPos, invenPos in self.cubeItemInfo.items():
+		for slotPos, invenPos in list(self.cubeItemInfo.items()):
 			inven_slot_pos = invenPos
 			if min_range <= inven_slot_pos < max_range:
 				inven_slot_pos = inven_slot_pos - min_range
@@ -623,7 +623,7 @@ class CubeWindow(ui.ScriptWindow):
 		min_range = invenPage * playerm2g2.INVENTORY_PAGE_SIZE
 		max_range = (invenPage + 1) * playerm2g2.INVENTORY_PAGE_SIZE
 
-		for slotPos, invenPos in self.cubeItemInfo.items():
+		for slotPos, invenPos in list(self.cubeItemInfo.items()):
 			inven_slot_pos = invenPos
 			if min_range <= inven_slot_pos < max_range:
 				inven_slot_pos = inven_slot_pos - min_range

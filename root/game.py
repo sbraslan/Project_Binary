@@ -297,7 +297,12 @@ class GameWindow(ui.ScriptWindow):
 		if app.ENABLE_MINI_GAME_YUTNORI:
 			app.YutnoriCreate()
 
+		import dbg
+		dbg.TraceError("BOOTTRACE: BEFORE SendEnterGamePacket")
+
 		m2netm2g.SendEnterGamePacket()
+
+		dbg.TraceError("BOOTTRACE: AFTER SendEnterGamePacket")
 
 		if app.ENABLE_MYSHOP_DECO:
 			app.MyShopDecoBGCreate()
@@ -579,13 +584,13 @@ class GameWindow(ui.ScriptWindow):
 				#m2netm2g.SendChatPacket("/user_horse_ride")
 				if app.ENABLE_PREMIUM_PRIVATE_SHOP:
 					if not uiPrivateShopBuilder.IsBuildingPrivateShop() or not uiPrivateShopEditor.IsEditingOfflineShop():
-						for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
+						for i in range(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
 							if playerm2g2.GetItemIndex(i) in (71114, 71116, 71118, 71120):
 								m2netm2g.SendItemUsePacket(i)
 								break
 				else:
 					if not uiPrivateShopBuilder.IsBuildingPrivateShop():
-						for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
+						for i in range(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
 							if playerm2g2.GetItemIndex(i) in (71114, 71116, 71118, 71120):
 								m2netm2g.SendItemUsePacket(i)
 								break
@@ -866,7 +871,7 @@ class GameWindow(ui.ScriptWindow):
 			nextPKMode = 0
 
 		m2netm2g.SendChatPacket("/PKMode " + str(nextPKMode))
-		print "/PKMode " + str(nextPKMode)
+		print(("/PKMode " + str(nextPKMode)))
 
 	def OnChangePKMode(self):
 		if self.interface:
@@ -875,7 +880,7 @@ class GameWindow(ui.ScriptWindow):
 		try:
 			self.__NotifyError(localeInfo.OPTION_PVPMODE_MESSAGE_DICT[playerm2g2.GetPKMode()])
 		except KeyError:
-			print "UNKNOWN PVPMode[%d]" % (playerm2g2.GetPKMode())
+			print(("UNKNOWN PVPMode[%d]" % (playerm2g2.GetPKMode())))
 
 		#if constInfo.PVPMODE_TEST_ENABLE:
 			#curPKMode = playerm2g2.GetPKMode()
@@ -1238,7 +1243,7 @@ class GameWindow(ui.ScriptWindow):
 		self.interface.RecvWhisper(name)
 
 	def OnRecvWhisperError(self, mode, name, line):
-		if localeInfo.WHISPER_ERROR.has_key(mode):
+		if mode in localeInfo.WHISPER_ERROR:
 			chatm2g.AppendWhisper(chatm2g.WHISPER_TYPE_SYSTEM, name, localeInfo.WHISPER_ERROR[mode](name))
 		else:
 			chatm2g.AppendWhisper(chatm2g.WHISPER_TYPE_SYSTEM, name, "Whisper Unknown Error(mode=%d, name=%s)" % (mode, name))
@@ -1327,10 +1332,10 @@ class GameWindow(ui.ScriptWindow):
 	# END_OF_MINING
 
 	def OnCannotUseSkill(self, vid, type):
-		if localeInfo.USE_SKILL_ERROR_TAIL_DICT.has_key(type):
+		if type in localeInfo.USE_SKILL_ERROR_TAIL_DICT:
 			textTail.RegisterInfoTail(vid, localeInfo.USE_SKILL_ERROR_TAIL_DICT[type])
 
-		if localeInfo.USE_SKILL_ERROR_CHAT_DICT.has_key(type):
+		if type in localeInfo.USE_SKILL_ERROR_CHAT_DICT:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.USE_SKILL_ERROR_CHAT_DICT[type])
 
 	def	OnCannotShotError(self, vid, type):
@@ -2270,13 +2275,13 @@ class GameWindow(ui.ScriptWindow):
 				return True
 
 			sockets = 0
-			for i in xrange(5):
+			for i in range(5):
 				if playerm2g2.GetItemAttribute(itemSlotPos, i) != (0, 0):
 					sockets+=1
 			if sockets >= 3:
 				return True
 
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				if playerm2g2.GetItemMetinSocket(itemSlotPos, i ) not in (0, 1, constInfo.ERROR_METIN_STONE):
 					return True
 
@@ -2574,7 +2579,7 @@ class GameWindow(ui.ScriptWindow):
 			requestCount = 5
 			modCount = resultCount % requestCount
 			splitCount = resultCount / requestCount
-			for i in xrange(splitCount):
+			for i in range(splitCount):
 				#print("/cube r_info %d %d" % (i * requestCount, requestCount))
 				m2netm2g.SendChatPacket("/cube r_info %d %d" % (i * requestCount, requestCount))
 
@@ -3051,7 +3056,7 @@ class GameWindow(ui.ScriptWindow):
 			serverCommandList["UpdateRoomTime"] = self.UpdateRoomTime
 
 		self.serverCommander=stringCommander.Analyzer()
-		for serverCommandItem in serverCommandList.items():
+		for serverCommandItem in list(serverCommandList.items()):
 			self.serverCommander.SAFE_RegisterCallBack(
 				serverCommandItem[0], serverCommandItem[1]
 			)
@@ -3518,7 +3523,7 @@ class GameWindow(ui.ScriptWindow):
 
 			self.indexXMasBoom += 1
 
-			for i in xrange(boomCount):
+			for i in range(boomCount):
 				self.__XMasBoom_Boom()
 
 	def __XMasBoom_Boom(self):
@@ -3541,7 +3546,7 @@ class GameWindow(ui.ScriptWindow):
 
 				self.indexXMasSoul += 1
 
-				for i in xrange(soulCount):
+				for i in range(soulCount):
 					self.__XMasSoul_Soul()
 
 		def __XMasSoul_Soul(self):
@@ -3887,19 +3892,19 @@ class GameWindow(ui.ScriptWindow):
 
 			for curItem in curList:
 				if isUpgradeable:
-					if curItem.has_key("vnum_list") and curItem["vnum_list"][0] / 10 * 10 == itemVnum / 10 * 10:
+					if "vnum_list" in curItem and curItem["vnum_list"][0] / 10 * 10 == itemVnum / 10 * 10:
 						if not (itemVnum in curItem["vnum_list"]):
 							curItem["vnum_list"].append(itemVnum)
 						return
 				elif isMetin:
-					if curItem.has_key("vnum_list"):
+					if "vnum_list" in curItem:
 						baseVnum = curItem["vnum_list"][0]
-					if curItem.has_key("vnum_list") and (baseVnum - baseVnum%1000) == (itemVnum - itemVnum%1000):
+					if "vnum_list" in curItem and (baseVnum - baseVnum%1000) == (itemVnum - itemVnum%1000):
 						if not (itemVnum in curItem["vnum_list"]):
 							curItem["vnum_list"].append(itemVnum)
 						return
 				else:
-					if curItem.has_key("vnum") and curItem["vnum"] == itemVnum and curItem["count"] == itemCount:
+					if "vnum" in curItem and curItem["vnum"] == itemVnum and curItem["count"] == itemCount:
 						return
 
 			if isUpgradeable or isMetin:
@@ -4246,7 +4251,7 @@ class GameWindow(ui.ScriptWindow):
 				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["ticket_buy_time"] = str(buytime)
 				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["ticket_state"] = int(state)
 				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["win_numbers"] = int(winnumbers)
-				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["ticket_win_money"] = long(money)
+				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["ticket_win_money"] = int(money)
 			else:
 				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["ticket_id"] = 0
 				constInfo.lotto_ticket_data["ticket_%s" % tSlot]["ticket_numbers"] = [0, 0, 0, 0]
@@ -4261,23 +4266,23 @@ class GameWindow(ui.ScriptWindow):
 			is_append = 0
 			const_data = constInfo.lottery_ranklist_jackpot_data
 
-			for i in xrange(len(const_data)):
+			for i in range(len(const_data)):
 				if const_data[i]["lottoID"] == lottoID:
 					is_append = 1
 
 			if is_append == 0:
-				const_data[len(const_data)]={"playername" : str(playername), "lottoID" : int(lottoID), "money" : long(money), "date" : str(date)}
+				const_data[len(const_data)]={"playername" : str(playername), "lottoID" : int(lottoID), "money" : int(money), "date" : str(date)}
 
 		def BINARY_LotterySetRanklistMoneyData(self, playername, level, empire, money):
 			is_append = 0
 			const_data = constInfo.lottery_ranklist_money_data
 
-			for i in xrange(len(const_data)):
+			for i in range(len(const_data)):
 				if const_data[i]["playername"] == playername:
 					is_append = 1
 
 			if is_append == 0:
-				const_data[len(const_data)]={"playername" : str(playername), "level" : int(level), "empire" : int(empire), "money" : long(money)}
+				const_data[len(const_data)]={"playername" : str(playername), "level" : int(level), "empire" : int(empire), "money" : int(money)}
 
 	if app.ENABLE_WORLD_BOSS:
 		def __WorldbossRanking(self, input):

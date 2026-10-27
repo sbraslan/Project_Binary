@@ -140,28 +140,28 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 					if i == 5:
 						yPos += 10
 
-				## º¯¿ß
+				## ÏàúÏúÑ
 				RankingSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", 23, yPos)
 				RankingSlotImage.SetAlpha(0)
 				RankingSlot = ui.MakeTextLine(RankingSlotImage)
 				self.Children.append(RankingSlotImage)
 				self.Children.append(RankingSlot)
 
-				## ±ÊµÂ∏Ì
+				## Í∏∏ÎìúÎ™Ö
 				GuildNameImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_04.sub", 77, yPos)
 				GuildNameImage.SetAlpha(0)
 				GuildNameSlot = ui.MakeTextLine(GuildNameImage)
 				self.Children.append(GuildNameImage)
 				self.Children.append(GuildNameSlot)
 
-				## ¬¸ø©¿Œø¯
+				## Ï∞∏Ïó¨Ïù∏Ïõê
 				MemberCountSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", 205, yPos)
 				MemberCountSlotImage.SetAlpha(0)
 				MemberCountSlot = ui.MakeTextLine(MemberCountSlotImage)
 				self.Children.append(MemberCountSlotImage)
 				self.Children.append(MemberCountSlot)
 			
-				## ≈¨∏ÆæÓ Ω√∞£
+				## ÌÅ¥Î¶¨Ïñ¥ ÏãúÍ∞Ñ
 				ClearTimeSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", 270, yPos)
 				ClearTimeSlotImage.SetAlpha(0)
 				ClearTimeSlot = ui.MakeTextLine(ClearTimeSlotImage)
@@ -182,7 +182,7 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 					self.MyResultSlotList.append(MemberCountSlot)
 					self.MyResultSlotList.append(ClearTimeSlot)
 
-				## ∞·∞˙ ∏Ò∑œ πˆ∆∞
+				## Í≤∞Í≥º Î™©Î°ù Î≤ÑÌäº
 				itemSlotButtonImage = ui.MakeButton(self, 21, yPos, "", "d:/ymir work/ui/game/guild/dragonlairranking/", "ranking_list_button01.sub", "ranking_list_button02.sub", "ranking_list_button02.sub")
 				itemSlotButtonImage.Show()
 				itemSlotButtonImage.Disable()
@@ -212,7 +212,7 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 						self.ResultButtonRankList.append(RankingRoundImage)
 				
 
-				## æ∆∂¯ ∆˜¡ˆº« ∫Ø∞Ê
+				## ÏïÑÎûç Ìè¨ÏßÄÏÖò Î≥ÄÍ≤Ω
 				if localeInfo.IsARABIC():
 					RankingSlotImage.SetPosition(self.GetWidth() - (37 + 25), yPos)
 					GuildNameImage.SetPosition(self.GetWidth() - (160 + 25), yPos)
@@ -229,7 +229,7 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 	def RefreshGuildDragonLairRanking(self,type):
 
 		self.AllClear()
-		for line, ResultSlotList in self.ResultSlotList.items():
+		for line, ResultSlotList in list(self.ResultSlotList.items()):
 			nowindex = line + self.NowStartLineNumber
 			if nowindex >= guild.GetDragonLairRankingShowCount() :
 				break
@@ -257,7 +257,7 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 				if guild.GetGuildName() == guildname:
 					self.ResultButtonList[line].Down()
 
-		## ¿⁄Ω≈±ÊµÂ ¡§∫∏ √§øÏ±‚.
+		## ÏûêÏã†Í∏∏Îìú Ï†ïÎ≥¥ Ï±ÑÏö∞Í∏∞.
 		if guild.IsGuildEnable():
 			if guild.IsDragonLairClearGuild(type):
 				(ranking, membercount,min,sec) = guild.GetMyDragonLairRanking(type)
@@ -275,7 +275,7 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 				self.MyResultSlotList[self.SLOT_CLEARTIME].SetText("-")
 
 		if not app.ENABLE_GUILD_DRAGONLAIR_PARTY_SYSTEM:	
-			## Ω∫≈©∑—πŸ ¥ŸΩ√ ºº∆√
+			## Ïä§ÌÅ¨Î°§Î∞î Îã§Ïãú ÏÑ∏ÌåÖ
 			self.ScrollBar.SetMiddleBarSize(float(self.MAX_LINE_COUNT) / float(self.CheckNowItemCount()))
 		
 	def GetClearTimeStr(self, min, sec):
@@ -289,7 +289,7 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 		return strcleartime
 		
 	def AllClear(self):
-		for line, ResultSlotList in self.ResultSlotList.items():
+		for line, ResultSlotList in list(self.ResultSlotList.items()):
 			ResultSlotList[self.SLOT_RANKING].SetText("")
 			ResultSlotList[self.SLOT_GUILDNAME].SetText("")
 			ResultSlotList[self.SLOT_MEMBERCOUNT].SetText("")
@@ -329,4 +329,3 @@ class GuildDragonLairRankingDialog(ui.ScriptWindow):
 	def OnPressEscapeKey(self):
 		self.Close()
 		return True
- 

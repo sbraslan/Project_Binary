@@ -80,4 +80,3 @@ class MainWindow(ui.ScriptWindow):
 		
 		return text
 		
-		

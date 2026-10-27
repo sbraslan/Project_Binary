@@ -41,7 +41,7 @@ class AutoWindow(ui.ScriptWindow):
 		self.AutoAllClearButton = None
 		self.AutoToolTipButton = None
 		self.AutoToolTip = None
-		for i in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+		for i in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 			self.autoslotindex[i] = 0
 
 		for i in range(playerm2g2.AUTO_POSITINO_SLOT_START,playerm2g2.AUTO_POSITINO_SLOT_MAX):
@@ -128,7 +128,7 @@ class AutoWindow(ui.ScriptWindow):
 			self.AutoAllClearButton = self.GetChild("AutoAllClearButton")
 			self.AutoAllClearButton.SetEvent(ui.__mem_func__(self.AutoAllClear))
 
-			for x in xrange(self.AUTO_COOLTIME_MAX):
+			for x in range(self.AUTO_COOLTIME_MAX):
 				childname = "editline" + str(x)
 				self.timeeditlist[x] = self.GetChild(childname)
 				self.timeeditlist[x].SetEscapeEvent(ui.__mem_func__(self.Close))
@@ -166,7 +166,7 @@ class AutoWindow(ui.ScriptWindow):
 		if self.GetAutoStartonoff() == False:
 			playerm2g2.ClearAutoSKillSlot()
 			self.RefreshAutoSkillSlot()
-			for i in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+			for i in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 				self.autoslotindex[i] = 0
 
 	def AutoPositionClear(self):
@@ -181,7 +181,7 @@ class AutoWindow(ui.ScriptWindow):
 			playerm2g2.ClearAutoAllSlot()
 			self.RefreshAutoSkillSlot()
 			self.RefreshAutoPositionSlot()
-			for i in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+			for i in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 				self.autoslotindex[i] = 0
 			for i in range(playerm2g2.AUTO_POSITINO_SLOT_START,playerm2g2.AUTO_POSITINO_SLOT_MAX):
 				self.autoslotindex[i] = 0
@@ -208,7 +208,7 @@ class AutoWindow(ui.ScriptWindow):
 			if onoff == 1:
 				if playerm2g2.CanStartAuto() == False:
 					return
-				for i in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+				for i in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 					cooltime = self.timeeditlist[i].GetText()
 					cooltime = self.CheckCooltimeText(cooltime)
 					cooltime = playerm2g2.CheckSkillSlotCoolTime(i,self.autoslotindex[i],int(cooltime))
@@ -327,7 +327,7 @@ class AutoWindow(ui.ScriptWindow):
 		index = 0
 
 		if count > 0:
-			for slotindex in xrange(count):
+			for slotindex in range(count):
 				slotID = int(str(veriTokenler[index]))
 				slotCD = int(str(veriTokenler[index+1]))
 				if slotID != 0:
@@ -345,7 +345,7 @@ class AutoWindow(ui.ScriptWindow):
 		self.RefreshAutoSkillSlot()
 
 	def SlotKontrol(self):
-		for i in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+		for i in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 			cooltime = self.timeeditlist[i].GetText()
 			cooltime = self.CheckCooltimeText(cooltime)
 			cooltime = playerm2g2.CheckSkillSlotCoolTime(i,self.autoslotindex[i],int(cooltime))
@@ -372,7 +372,7 @@ class AutoWindow(ui.ScriptWindow):
 
 		output_AutoSystemFile = old_open('UserData/'+chr.GetName(), 'w')
 
-		for slotindex in xrange(playerm2g2.AUTO_POSITINO_SLOT_MAX):
+		for slotindex in range(playerm2g2.AUTO_POSITINO_SLOT_MAX):
 			iPos = playerm2g2.GetAutoSlotIndex(slotindex)
 			if iPos != 0:
 				linestr = str(iPos) + '\n'
@@ -394,7 +394,7 @@ class AutoWindow(ui.ScriptWindow):
 		self.EditLineKillFocus()
 
 	def EditLineKillFocus(self):
-		for x in xrange(self.AUTO_COOLTIME_MAX):
+		for x in range(self.AUTO_COOLTIME_MAX):
 			self.timeeditlist[x].KillFocus()
 
 	def Destroy(self):
@@ -409,7 +409,7 @@ class AutoWindow(ui.ScriptWindow):
 
 	def OnDeactivateSkill(self, slotindex):
 		if self.isOpen:
-			for i in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+			for i in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 				(Position) = playerm2g2.GetAutoSlotIndex(i)
 				if slotindex == Position:
 					self.autoslot.DeactivateSlot(i)
@@ -479,7 +479,7 @@ class AutoWindow(ui.ScriptWindow):
 			# self.ReadAutoInfo()
 
 	def RefreshAutoSkillSlot(self):
-		for slotindex in xrange(playerm2g2.AUTO_SKILL_SLOT_MAX):
+		for slotindex in range(playerm2g2.AUTO_SKILL_SLOT_MAX):
 			Position = playerm2g2.GetAutoSlotIndex(slotindex)
 
 			if Position == 0:

@@ -100,7 +100,7 @@ if app.ENABLE_VIEW_EQUIP_RENEWAL:
 		def RefreshSlot(self):
 			equipmentDict = self.wndEquipment.itemDataDict
 			for i in [11, 12, 13, 14, 15, 16, 17, 18]:
-				if equipmentDict.has_key(i):
+				if i in equipmentDict:
 					self.wndCostumeEquipmentSlot.SetItemSlot(i, equipmentDict[i][0], equipmentDict[i][1])
 
 class EquipmentDialog(ui.ScriptWindow):

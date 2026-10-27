@@ -60,7 +60,7 @@ def Suffle(src):
 		items = [item for item in src]
 
 		itemCount = len(items)
-		for oldPos in xrange(itemCount):
+		for oldPos in range(itemCount):
 			newPos = app.GetRandom(0, itemCount-1)
 			items[newPos], items[oldPos] = items[oldPos], items[newPos]
 
@@ -503,13 +503,13 @@ class LoginWindow(ui.ScriptWindow):
 
 		#print "---------------------------------------------------------------------------- CLOSE LOGIN WINDOW "
 		#
-		# selectMusic¿Ã æ¯¿∏∏È BGM¿Ã ≤˜±‚π«∑Œ µŒ∞≥ ¥Ÿ √º≈©«—¥Ÿ.
+		# selectMusicÏù¥ ÏóÜÏúºÎ©¥ BGMÏù¥ ÎÅäÍ∏∞ÎØÄÎ°ú ÎëêÍ∞ú Îã§ Ï≤¥ÌÅ¨ÌïúÎã§.
 		#
 		if musicInfo.loginMusic != "" and musicInfo.selectMusic != "":
 			snd.FadeOutMusic("BGM/"+musicInfo.loginMusic)
 
-		## NOTE : idEditLineøÕ pwdEditLine¿∫ ¿Ã∫•∆Æ∞° º≠∑Œ ø¨∞· µ«æÓ¿÷æÓº≠
-		##        Event∏¶ ∞≠¡¶∑Œ √ ±‚»≠ «ÿ¡÷æÓæﬂ∏∏ «’¥œ¥Ÿ - [levites]
+		## NOTE : idEditLineÏôÄ pwdEditLineÏùÄ Ïù¥Î≤§Ìä∏Í∞Ä ÏÑúÎ°ú Ïó∞Í≤∞ ÎêòÏñ¥ÏûàÏñ¥ÏÑú
+		##        EventÎ•º Í∞ïÏ†úÎ°ú Ï¥àÍ∏∞Ìôî Ìï¥Ï£ºÏñ¥ÏïºÎßå Ìï©ÎãàÎã§ - [levites]
 		self.idEditLine.SetTabEvent(0)
 		self.idEditLine.SetReturnEvent(0)
 		self.pwdEditLine.SetReturnEvent(0)
@@ -552,7 +552,7 @@ class LoginWindow(ui.ScriptWindow):
 
 			# VIRTUAL_KEYBOARD_BUG_FIX
 			if self.virtualKeyboard:
-				for keyIndex in xrange(0, VIRTUAL_KEYBOARD_NUM_KEYS+1):
+				for keyIndex in range(0, VIRTUAL_KEYBOARD_NUM_KEYS+1):
 					key = self.GetChild2("key_%d" % keyIndex)
 					if key:
 						key.SetEvent(None)
@@ -582,7 +582,7 @@ class LoginWindow(ui.ScriptWindow):
 			file=old_open("channel.inf", "w")
 			file.write("%d %d %d" % (self.__GetServerID(), self.__GetChannelID(), self.__GetRegionID()))
 		except:
-			print "LoginWindow.__SaveChannelInfo - SaveError"
+			print("LoginWindow.__SaveChannelInfo - SaveError")
 
 	def __LoadChannelInfo(self):
 		try:
@@ -601,7 +601,7 @@ class LoginWindow(ui.ScriptWindow):
 				return regionID, selServerID, selChannelID
 
 		except:
-			print "LoginWindow.__LoadChannelInfo - OpenError"
+			print("LoginWindow.__LoadChannelInfo - OpenError")
 			return -1, -1, -1
 
 	def __ExitGame(self):
@@ -613,11 +613,11 @@ class LoginWindow(ui.ScriptWindow):
 
 	def SetPasswordEditLineFocus(self):
 		if constInfo.ENABLE_CLEAN_DATA_IF_FAIL_LOGIN:
-			if self.idEditLine != None: #0000862: [M2EU] ∑Œ±◊¿Œ√¢ ∆Àæ˜ ø°∑Ø: ¡æ∑·Ω√ ∏’¿˙ None º≥¡§µ 
+			if self.idEditLine != None: #0000862: [M2EU] Î°úÍ∑∏Ïù∏Ï∞Ω ÌåùÏóÖ ÏóêÎü¨: Ï¢ÖÎ£åÏãú Î®ºÏ†Ä None ÏÑ§Ï†ïÎê®
 				self.idEditLine.SetText("")
-				self.idEditLine.SetFocus() #0000685: [M2EU] æ∆¿Ãµ/∫Òπ–π¯»£ ¿Ø√ﬂ ∞°¥… πˆ±◊ ºˆ¡§: π´¡∂∞« æ∆¿Ãµ∑Œ ∆˜ƒøΩ∫∞° ∞°∞‘ ∏∏µÁ¥Ÿ
+				self.idEditLine.SetFocus() #0000685: [M2EU] ÏïÑÏù¥Îîî/ÎπÑÎ∞ÄÎ≤àÌò∏ Ïú†Ï∂î Í∞ÄÎä• Î≤ÑÍ∑∏ ÏàòÏ†ï: Î¨¥Ï°∞Í±¥ ÏïÑÏù¥ÎîîÎ°ú Ìè¨Ïª§Ïä§Í∞Ä Í∞ÄÍ≤å ÎßåÎì†Îã§
 
-			if self.pwdEditLine != None: #0000862: [M2EU] ∑Œ±◊¿Œ√¢ ∆Àæ˜ ø°∑Ø: ¡æ∑·Ω√ ∏’¿˙ None º≥¡§µ 
+			if self.pwdEditLine != None: #0000862: [M2EU] Î°úÍ∑∏Ïù∏Ï∞Ω ÌåùÏóÖ ÏóêÎü¨: Ï¢ÖÎ£åÏãú Î®ºÏ†Ä None ÏÑ§Ï†ïÎê®
 				self.pwdEditLine.SetText("")
 		else:
 			if self.pwdEditLine != None:
@@ -677,7 +677,7 @@ class LoginWindow(ui.ScriptWindow):
 				loginFailureMsg = localeInfo.LOGIN_FAILURE_UNKNOWN  + error
 
 
-		#0000685: [M2EU] æ∆¿Ãµ/∫Òπ–π¯»£ ¿Ø√ﬂ ∞°¥… πˆ±◊ ºˆ¡§: π´¡∂∞« ∆–Ω∫øˆµÂ∑Œ ∆˜ƒøΩ∫∞° ∞°∞‘ ∏∏µÁ¥Ÿ
+		#0000685: [M2EU] ÏïÑÏù¥Îîî/ÎπÑÎ∞ÄÎ≤àÌò∏ Ïú†Ï∂î Í∞ÄÎä• Î≤ÑÍ∑∏ ÏàòÏ†ï: Î¨¥Ï°∞Í±¥ Ìå®Ïä§ÏõåÎìúÎ°ú Ìè¨Ïª§Ïä§Í∞Ä Í∞ÄÍ≤å ÎßåÎì†Îã§
 		loginFailureFunc=self.loginFailureFuncDict.get(error, self.SetPasswordEditLineFocus)
 
 		if app.loggined:
@@ -750,7 +750,7 @@ class LoginWindow(ui.ScriptWindow):
 
 				self.save_info = {}
 				self.CreateConfig()
-				for i in xrange(1,9):
+				for i in range(1,9):
 					self.save_info["save_name_%d"%i] = GetObject("NameSave_%d"%i)
 					self.save_info["button_login_%d"%i] = GetObject("LoginButton_%d"%i)
 					self.save_info["button_login_%d"%i].SetEvent(self.FuncSaveButton,i)
@@ -920,7 +920,7 @@ class LoginWindow(ui.ScriptWindow):
 			path = ["UserData", "autosave"]
 			if not os.path.exists(os.getcwd() + os.sep + path[0] + os.sep + path[1]):
 				os.makedirs(os.getcwd() + os.sep + path[0] + os.sep + path[1])
-				for x in xrange(1,9):
+				for x in range(1,9):
 					file = open('UserData/autosave/login'+str(x),'w+')
 					with open('UserData/autosave/login'+str(x), 'w') as f:
 						f.write("id:\npw:")
@@ -952,7 +952,7 @@ class LoginWindow(ui.ScriptWindow):
 			self.__accdata()
 
 		def __accdata(self):
-			for i in xrange(1,9):
+			for i in range(1,9):
 				fo = old_open("UserData/autosave/login"+str(i), "r")
 				liste = fo.readlines()
 				ID = liste[0].replace("id:","").replace("\n","")
@@ -1090,7 +1090,7 @@ class LoginWindow(ui.ScriptWindow):
 					key.ButtonText.SetFontColor(0, 0, 0)
 					keyIndex += 1
 
-			for keyIndex in xrange(keyIndex, VIRTUAL_KEYBOARD_NUM_KEYS+1):
+			for keyIndex in range(keyIndex, VIRTUAL_KEYBOARD_NUM_KEYS+1):
 				key = self.GetChild2("key_%d" % keyIndex)
 				if key:
 					key.SetEvent(lambda x=' ': self.__VirtualKeyboard_PressKey(x))
@@ -1167,14 +1167,14 @@ class LoginWindow(ui.ScriptWindow):
 				app.LANGUAGE_TR : { "button" : self.langFlagTR }
 			}
 
-			for lang in self.languageButtons.keys():
+			for lang in list(self.languageButtons.keys()):
 				button = self.languageButtons[lang]["button"]
 				button.SetUp()
 
 			self.languageButtons[self.__GetCurLanguageKey()]["button"].Down()
 
 		def __GetCurLanguageKey(self):
-			for key in LOCALE_LANG_DICT.keys():
+			for key in list(LOCALE_LANG_DICT.keys()):
 				localeName = LOCALE_LANG_DICT[key]["locale"]
 				if app.GetLocaleName() == localeName:
 					return key
@@ -1218,7 +1218,7 @@ class LoginWindow(ui.ScriptWindow):
 			serverID = self.__GetServerID()
 			channelID = self.__GetChannelID()
 
-			if (serverInfo.REGION_DICT.has_key(regionID)) and (serverInfo.REGION_DICT[regionID].has_key(serverID)):
+			if (regionID in serverInfo.REGION_DICT) and (serverID in serverInfo.REGION_DICT[regionID]):
 				try:
 					channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
 				except KeyError:
@@ -1230,11 +1230,11 @@ class LoginWindow(ui.ScriptWindow):
 					self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_CHANNEL)
 					return
 
-				# ªÛ≈¬∞° CLOSED∏È∞˙ ∞∞¿∏∏È ¡¯¿‘ ±›¡ˆ
+				# ÏÉÅÌÉúÍ∞Ä CLOSEDÎ©¥Í≥º Í∞ôÏúºÎ©¥ ÏßÑÏûÖ Í∏àÏßÄ
 				tokens = serverInfo.REGION_DICT[regionID][serverID].get("state", "NONE").split("|")
 				is_server_closed = False
 
-				for idx in xrange(len(tokens)):
+				for idx in range(len(tokens)):
 					if tokens[idx].strip() == "CLOSE":
 						is_server_closed = True
 
@@ -1242,7 +1242,7 @@ class LoginWindow(ui.ScriptWindow):
 					self.PopupNotifyMessage(localeInfo.SERVER_NOTIFY_CLOSED)
 					return
 
-				# ªÛ≈¬∞° FULL ∞˙ ∞∞¿∏∏È ¡¯¿‘ ±›¡ˆ
+				# ÏÉÅÌÉúÍ∞Ä FULL Í≥º Í∞ôÏúºÎ©¥ ÏßÑÏûÖ Í∏àÏßÄ
 				if state == serverInfo.STATE_DICT[len(serverInfo.STATE_DICT)-1]:
 					self.PopupNotifyMessage(localeInfo.CHANNEL_NOTIFY_FULL)
 					return
@@ -1317,7 +1317,7 @@ class LoginWindow(ui.ScriptWindow):
 		try:
 			matched = False
 
-			for k, v in serverInfo.REGION_DICT[0].iteritems():
+			for k, v in list(serverInfo.REGION_DICT[0].items()):
 				if v["name"] == server_name:
 					account_addr = serverInfo.REGION_AUTH_SERVER_DICT[0][k]["ip"]
 					account_port = serverInfo.REGION_AUTH_SERVER_DICT[0][k]["port"]
@@ -1333,7 +1333,7 @@ class LoginWindow(ui.ScriptWindow):
 					if app.ENABLE_MOVE_CHANNEL:
 						m2netm2g.ClearServerInfo()
 						channelMax = len(v["channel"])
-						for i in xrange(1, channelMax+1):
+						for i in range(1, channelMax+1):
 							_channelName = v["channel"][i]["name"]
 							m2netm2g.SetChannelName(i, _channelName.strip())
 
@@ -1397,7 +1397,7 @@ class LoginWindow(ui.ScriptWindow):
 
 		code	= self.GetChild("RunupMatrixCode")
 
-		code.SetText("".join(["[%c,%c]" % (quiz[i], quiz[i+1]) for i in xrange(0, len(quiz), 2)]))
+		code.SetText("".join(["[%c,%c]" % (quiz[i], quiz[i+1]) for i in range(0, len(quiz), 2)]))
 
 		self.stream.popupWindow.Close()
 		self.serverBoard.Hide()
@@ -1411,7 +1411,7 @@ class LoginWindow(ui.ScriptWindow):
 	def __OnClickMatrixAnswerOK(self):
 		answer = self.matrixAnswerInput.GetText()
 
-		print "matrix_quiz.ok"
+		print("matrix_quiz.ok")
 		m2netm2g.SendRunupMatrixCardPacket(answer)
 		self.matrixQuizBoard.Hide()
 
@@ -1421,7 +1421,7 @@ class LoginWindow(ui.ScriptWindow):
 			localeInfo.UI_CANCEL)
 
 	def __OnClickMatrixAnswerCancel(self):
-		print "matrix_quiz.cancel"
+		print("matrix_quiz.cancel")
 
 		if self.matrixQuizBoard:
 			self.matrixQuizBoard.Hide()
@@ -1463,7 +1463,7 @@ class LoginWindow(ui.ScriptWindow):
 	def __OnClickNEWCIBNPasspodAnswerOK(self):
 		answer = self.passpodAnswerInput.GetText()
 
-		print "passpod.ok"
+		print("passpod.ok")
 		m2netm2g.SendNEWCIBNPasspodAnswerPacket(answer)
 		self.passpodAnswerInput.SetText("")
 		self.passpodBoard.Hide()
@@ -1474,7 +1474,7 @@ class LoginWindow(ui.ScriptWindow):
 			localeInfo.UI_CANCEL)
 
 	def __OnClickNEWCIBNPasspodAnswerCancel(self):
-		print "passpod.cancel"
+		print("passpod.cancel")
 
 		if self.passpodBoard:
 			self.passpodBoard.Hide()
@@ -1503,9 +1503,9 @@ class LoginWindow(ui.ScriptWindow):
 		self.stream.popupWindow.Close()
 
 		# CHINA_MATRIX_CARD_BUG_FIX
-		## A~Z ±Ó¡ˆ 26 ¿Ã≥ª¿« ∞™¿Ã µÈæÓ¿÷æÓæﬂ∏∏ «—¥Ÿ.
-		## Python Exception Log ø°º≠ ±◊ ¿ÃªÛ¿« ∞™¿Ã µÈæÓ¿÷æÓº≠ ø°∑Ø πÊ¡ˆ
-		## «Âµ• ø÷ «—±π¬  ∑Œ±◊ø°º≠ ¿Ã∞‘ »∞øÎµ«¥¬¡ˆ¥¬ ∏∏£∞⁄¿Ω
+		## A~Z ÍπåÏßÄ 26 Ïù¥ÎÇ¥Ïùò Í∞íÏù¥ Îì§Ïñ¥ÏûàÏñ¥ÏïºÎßå ÌïúÎã§.
+		## Python Exception Log ÏóêÏÑú Í∑∏ Ïù¥ÏÉÅÏùò Í∞íÏù¥ Îì§Ïñ¥ÏûàÏñ¥ÏÑú ÏóêÎü¨ Î∞©ÏßÄ
+		## ÌóåÎç∞ Ïôú ÌïúÍµ≠Ï™Ω Î°úÍ∑∏ÏóêÏÑú Ïù¥Í≤å ÌôúÏö©ÎêòÎäîÏßÄÎäî Î™®Î•¥Í≤†Ïùå
 		row1 = min(30, row1)
 		row2 = min(30, row2)
 		row3 = min(30, row3)
@@ -1595,7 +1595,7 @@ class LoginWindow(ui.ScriptWindow):
 			return -1
 
 		retServerIndex = 0
-		for eachServerID, regionDataDict in regionDict.items():
+		for eachServerID, regionDataDict in list(regionDict.items()):
 			if eachServerID == targetServerID:
 				return retServerIndex
 
@@ -1614,8 +1614,8 @@ class LoginWindow(ui.ScriptWindow):
 		serverIndex = self.__ServerIDToServerIndex(loadRegionID, loadServerID)
 		channelIndex = self.__ChannelIDToChannelIndex(loadChannelID)
 
-		# Ω≈±‘¿Ø¿˙ º≠πˆ º±≈√ ∑Œ¡˜.
-		if app.ENABLE_SERVER_SELECT_RENEWAL and serverIndex == -1: # º±≈√µ» º≠πˆ∞° æ¯¿ª ∂ß Ω≈±‘¿Ø¿˙∂Û∞Ì ∆«¥‹
+		# Ïã†Í∑úÏú†Ï†Ä ÏÑúÎ≤Ñ ÏÑ†ÌÉù Î°úÏßÅ.
+		if app.ENABLE_SERVER_SELECT_RENEWAL and serverIndex == -1: # ÏÑ†ÌÉùÎêú ÏÑúÎ≤ÑÍ∞Ä ÏóÜÏùÑ Îïå Ïã†Í∑úÏú†Ï†ÄÎùºÍ≥† ÌåêÎã®
 			newIdx = serverInfo.SERVER_STATE_DICT.get("NEW", 0)
 			specialIdx = serverInfo.SERVER_STATE_DICT.get("SPECIAL", 0)
 			closeIdx = serverInfo.SERVER_STATE_DICT.get("CLOSE", 0)
@@ -1623,14 +1623,14 @@ class LoginWindow(ui.ScriptWindow):
 			serverSelect2nd = -1;
 			serverSelect3rd = -1;
 
-			for idx in xrange(self.serverList.GetItemCount()):
+			for idx in range(self.serverList.GetItemCount()):
 				(state, state2) = self.serverList.GetState(idx)
-				if state == newIdx or state2 == newIdx: # 1º¯¿ß∑Œ NEW∏¶ º±≈√«—¥Ÿ.
+				if state == newIdx or state2 == newIdx: # 1ÏàúÏúÑÎ°ú NEWÎ•º ÏÑ†ÌÉùÌïúÎã§.
 					serverSelect1st = idx
 					break
-				elif serverSelect2nd == -1 and (state == specialIdx or state2 == specialIdx): # 2º¯¿ß∑Œ SPECIAL∏¶ º±≈√«—¥Ÿ.
+				elif serverSelect2nd == -1 and (state == specialIdx or state2 == specialIdx): # 2ÏàúÏúÑÎ°ú SPECIALÎ•º ÏÑ†ÌÉùÌïúÎã§.
 					serverSelect2nd = idx
-				elif serverSelect3rd == -1 and (state != closeIdx and state2 != closeIdx): # 3º¯¿ß ¡¢º”∞°¥…«— º≠πˆ ¡ﬂ √÷ªÛ¿ß.
+				elif serverSelect3rd == -1 and (state != closeIdx and state2 != closeIdx): # 3ÏàúÏúÑ Ï†ëÏÜçÍ∞ÄÎä•Ìïú ÏÑúÎ≤Ñ Ï§ë ÏµúÏÉÅÏúÑ.
 					serverSelect3rd = idx
 
 			if serverSelect1st != -1:
@@ -1665,7 +1665,7 @@ class LoginWindow(ui.ScriptWindow):
 			if channelIndex >= 0:
 				self.channelList.SelectItem(channelIndex)
 
-		## Show/Hide ƒ⁄µÂø° πÆ¡¶∞° ¿÷æÓº≠ ¿”Ω√ - [levites]
+		## Show/Hide ÏΩîÎìúÏóê Î¨∏Ï†úÍ∞Ä ÏûàÏñ¥ÏÑú ÏûÑÏãú - [levites]
 		self.serverBoard.SetPosition(self.xServerBoard, self.yServerBoard)
 		self.serverBoard.Show()
 		self.connectBoard.Hide()
@@ -1746,7 +1746,7 @@ class LoginWindow(ui.ScriptWindow):
 	def __RefreshServerList(self):
 		regionID = self.__GetRegionID()
 
-		if not serverInfo.REGION_DICT.has_key(regionID):
+		if regionID not in serverInfo.REGION_DICT:
 			return
 
 		self.serverList.ClearItem()
@@ -1756,7 +1756,7 @@ class LoginWindow(ui.ScriptWindow):
 		# SEVER_LIST_BUG_FIX
 		visible_index = 1
 		if app.ENABLE_SERVER_SELECT_RENEWAL:
-			for id, regionDataDict in regionDict.items():
+			for id, regionDataDict in list(regionDict.items()):
 				name = regionDataDict.get("name", "noname")
 				state = 0
 				state2 = 0
@@ -1773,13 +1773,13 @@ class LoginWindow(ui.ScriptWindow):
 				except:
 					server_id = visible_index
 
-				self.serverList.InsertItem(id, "  %02d. %s" % (int(server_id), name), state, state2)	# º≠πˆ¿« ªÛ≈¬ ¥Î«— ∞™ º≥¡§.
-				#self.serverList.InsertItem(id, "  %s" % (name), state, state2)	# º≠πˆ¿« ªÛ≈¬ ¥Î«— ∞™ º≥¡§.
+				self.serverList.InsertItem(id, "  %02d. %s" % (int(server_id), name), state, state2)	# ÏÑúÎ≤ÑÏùò ÏÉÅÌÉú ÎåÄÌïú Í∞í ÏÑ§Ï†ï.
+				#self.serverList.InsertItem(id, "  %s" % (name), state, state2)	# ÏÑúÎ≤ÑÏùò ÏÉÅÌÉú ÎåÄÌïú Í∞í ÏÑ§Ï†ï.
 
 				visible_index += 1
 
 		else:
-			for id, regionDataDict in regionDict.items():
+			for id, regionDataDict in list(regionDict.items()):
 				name = regionDataDict.get("name", "noname")
 
 				try:
@@ -1805,12 +1805,12 @@ class LoginWindow(ui.ScriptWindow):
 		try:
 			channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
 		except:
-			print " __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)
+			print((" __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)))
 			return
 
 		ServerStateChecker.Initialize();
 		ServerStateChecker.SetAuth(serverInfo.REGION_AUTH_SERVER_DICT[regionID][serverID]["ip"], serverInfo.REGION_AUTH_SERVER_DICT[regionID][serverID]["port"])
-		for id, channelDataDict in channelDict.items():
+		for id, channelDataDict in list(channelDict.items()):
 			key=channelDataDict["key"]
 			ip=channelDataDict["ip"]
 			udp_port=channelDataDict["udp_port"]
@@ -1829,10 +1829,10 @@ class LoginWindow(ui.ScriptWindow):
 		try:
 			channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
 		except:
-			print " __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)
+			print((" __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)))
 			return
 
-		for channelID, channelDataDict in channelDict.items():
+		for channelID, channelDataDict in list(channelDict.items()):
 			channelName = channelDataDict["name"]
 			channelState = channelDataDict["state"]
 			if app.ENABLE_SERVER_SELECT_RENEWAL:
@@ -1855,7 +1855,7 @@ class LoginWindow(ui.ScriptWindow):
 			try:
 				channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
 			except:
-				print " __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)
+				print((" __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)))
 				return
 
 			if bakChannelID>len(channelDict):
@@ -1871,7 +1871,7 @@ class LoginWindow(ui.ScriptWindow):
 				secondMostID = 0
 				secondMost = 0
 
-				for channelID, channelDataDict in channelDict.items():
+				for channelID, channelDataDict in list(channelDict.items()):
 					channelState = serverInfo.STATE_REVERSE_DICT.get(channelDataDict["state"], 0)
 
 					if mostID == 0:
@@ -1894,7 +1894,7 @@ class LoginWindow(ui.ScriptWindow):
 				AvailableChannelID = 0
 				BusyChannelID = 0
 
-				for channelID, channelDataDict in channelDict.items():
+				for channelID, channelDataDict in list(channelDict.items()):
 					channelState = channelDataDict["state"]
 
 					if AvailableChannelID == 0 and channelState == serverInfo.STATE_DICT[1]:
@@ -1903,7 +1903,7 @@ class LoginWindow(ui.ScriptWindow):
 					if BusyChannelID == 0 and channelState == serverInfo.STATE_DICT[2]:
 						BusyChannelID = channelID
 
-					# ªÛ≈¬∞° FULL¿Ã≥™ OFFLINE¿Ã∏È ¥Ÿ∏• √§≥Œ¿ª º±≈√«œµµ∑œ «‘
+					# ÏÉÅÌÉúÍ∞Ä FULLÏù¥ÎÇò OFFLINEÏù¥Î©¥ Îã§Î•∏ Ï±ÑÎÑêÏùÑ ÏÑ†ÌÉùÌïòÎèÑÎ°ù Ìï®
 					if bakChannelID == channelID and (channelState == serverInfo.STATE_DICT[0] or channelState == serverInfo.STATE_DICT[3]):
 						bakChannelID = 0
 
@@ -1950,7 +1950,7 @@ class LoginWindow(ui.ScriptWindow):
 			exception.Abort(localeInfo.CHANNEL_NOT_FIND_INFO)
 
 	def __OnClickExitServerButton(self):
-		print "exit server"
+		print("exit server")
 		self.__OpenLoginBoard()
 
 		if IsFullBackImage():
@@ -1962,11 +1962,11 @@ class LoginWindow(ui.ScriptWindow):
 		regionID = self.__GetRegionID()
 		serverID = self.__GetServerID()
 
-		if (not serverInfo.REGION_DICT.has_key(regionID)):
+		if (regionID not in serverInfo.REGION_DICT):
 			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_REGION)
 			return
 
-		if (not serverInfo.REGION_DICT[regionID].has_key(serverID)):
+		if (serverID not in serverInfo.REGION_DICT[regionID]):
 			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_SERVER)
 			return
 
@@ -1987,11 +1987,11 @@ class LoginWindow(ui.ScriptWindow):
 		serverID = self.__GetServerID()
 		channelID = self.__GetChannelID()
 
-		if (not serverInfo.REGION_DICT.has_key(regionID)):
+		if (regionID not in serverInfo.REGION_DICT):
 			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_REGION)
 			return
 
-		if (not serverInfo.REGION_DICT[regionID].has_key(serverID)):
+		if (serverID not in serverInfo.REGION_DICT[regionID]):
 			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_SERVER)
 			return
 
@@ -2010,21 +2010,21 @@ class LoginWindow(ui.ScriptWindow):
 			tokens = serverInfo.REGION_DICT[regionID][serverID].get("state", "NONE").split("|")
 			is_server_closed = False
 
-			for idx in xrange(len(tokens)):
+			for idx in range(len(tokens)):
 				if tokens[idx].strip() == "CLOSE":
 					is_server_closed = True
 
-			# ªÛ≈¬∞° CLOSED∏È ¡¯¿‘ ±›¡ˆ
+			# ÏÉÅÌÉúÍ∞Ä CLOSEDÎ©¥ ÏßÑÏûÖ Í∏àÏßÄ
 			if is_server_closed == True:
 				self.PopupNotifyMessage(localeInfo.SERVER_NOTIFY_CLOSED)
 				return
 
-			# ªÛ≈¬∞° FULL ∞˙ ∞∞¿∏∏È ¡¯¿‘ ±›¡ˆ
+			# ÏÉÅÌÉúÍ∞Ä FULL Í≥º Í∞ôÏúºÎ©¥ ÏßÑÏûÖ Í∏àÏßÄ
 			if state == serverInfo.STATE_DICT[len(serverInfo.STATE_DICT)-1]:
 				self.PopupNotifyMessage(localeInfo.CHANNEL_NOTIFY_FULL)
 				return
 		else:
-			# ªÛ≈¬∞° FULL ∞˙ ∞∞¿∏∏È ¡¯¿‘ ±›¡ˆ
+			# ÏÉÅÌÉúÍ∞Ä FULL Í≥º Í∞ôÏúºÎ©¥ ÏßÑÏûÖ Í∏àÏßÄ
 			if state == serverInfo.STATE_DICT[3]:
 				self.PopupNotifyMessage(localeInfo.CHANNEL_NOTIFY_FULL)
 				return
@@ -2036,20 +2036,20 @@ class LoginWindow(ui.ScriptWindow):
 			channelName = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["name"]
 			addrKey = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["key"]
 
-			if "√µ∏∂ º≠πˆ" == serverName:
+			if "Ï≤úÎßà ÏÑúÎ≤Ñ" == serverName:
 				app.ForceSetLocale("ymir", "locale/country/ymir")
-			elif "ƒËµµ º≠πˆ" == serverName:
+			elif "ÏæåÎèÑ ÏÑúÎ≤Ñ" == serverName:
 				app.ForceSetLocale("we_korea", "locale/country/we_korea")
 
 		except:
-			print " ERROR __OnClickSelectServerButton(%d, %d, %d)" % (regionID, serverID, channelID)
+			print((" ERROR __OnClickSelectServerButton(%d, %d, %d)" % (regionID, serverID, channelID)))
 			serverName = localeInfo.CHANNEL_EMPTY_SERVER
 			channelName = localeInfo.CHANNEL_NORMAL % channelID
 
 		if app.ENABLE_MOVE_CHANNEL:
 			m2netm2g.ClearServerInfo()
 			channelMax = len(serverInfo.REGION_DICT[regionID][serverID]["channel"])
-			for i in xrange(1, channelMax+1):
+			for i in range(1, channelMax+1):
 				_channelName = serverInfo.REGION_DICT[regionID][serverID]["channel"][i]["name"]
 				m2netm2g.SetChannelName(i, _channelName.strip())
 
@@ -2067,7 +2067,7 @@ class LoginWindow(ui.ScriptWindow):
 			tcp_port = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["tcp_port"]
 		except:
 			import exception
-			exception.Abort("LoginWindow.__OnClickSelectServerButton - º≠πˆ º±≈√ Ω«∆–")
+			exception.Abort("LoginWindow.__OnClickSelectServerButton - ÏÑúÎ≤Ñ ÏÑ†ÌÉù Ïã§Ìå®")
 
 		try:
 			account_ip = serverInfo.REGION_AUTH_SERVER_DICT[regionID][serverID]["ip"]
@@ -2087,7 +2087,7 @@ class LoginWindow(ui.ScriptWindow):
 
 		except:
 			import exception
-			exception.Abort("LoginWindow.__OnClickSelectServerButton - ∏∂≈© ¡§∫∏ æ¯¿Ω")
+			exception.Abort("LoginWindow.__OnClickSelectServerButton - ÎßàÌÅ¨ Ï†ïÎ≥¥ ÏóÜÏùå")
 
 
 		if app.GetLoginType() == app.LOGIN_TYPE_NONE:

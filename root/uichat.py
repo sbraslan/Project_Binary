@@ -28,7 +28,7 @@ def InsertChatInputSetWindow(wnd):
 	chatInputSetList.append(wnd)
 def RefreshChatMode():
 	global chatInputSetList
-	map(lambda wnd:wnd.OnRefreshChatMode(), chatInputSetList)
+	list([wnd.OnRefreshChatMode() for wnd in chatInputSetList])
 def DestroyChatInputSetWindow():
 	global chatInputSetList
 	chatInputSetList = []
@@ -116,10 +116,10 @@ if app.ENABLE_CHAT_SETTINGS:
 
 		try:
 			file = open(PLAYER_FILE, "w+")
-			for key, data in cacheChat.items():
+			for key, data in list(cacheChat.items()):
 				data = cacheChat[key]
 				text = ""
-				for x in xrange(OPTION_MAX):
+				for x in range(OPTION_MAX):
 					text+=str(data[x])+"#"
 				file.write(text+"\n")
 			file.close()
@@ -139,7 +139,7 @@ if app.ENABLE_CHAT_SETTINGS:
 
 	def RemoveChat(index):
 		global cacheChat
-		if cacheChat.has_key(index):
+		if index in cacheChat:
 			del cacheChat[index]
 			SaveChatData()
 
@@ -160,7 +160,7 @@ if app.ENABLE_CHAT_SETTINGS:
 						LoadChatEmpty()
 					else:
 						list = [1] * OPTION_MAX
-						for j in xrange(len(lineSplit)-1):
+						for j in range(len(lineSplit)-1):
 							if j == 0:
 								list[j] = str(lineSplit[j])
 							elif j == OPTION_SET_NAME_TAB:
@@ -185,7 +185,7 @@ class ChatModeButton(ui.Window):
 
 	def __init__(self):
 		ui.Window.__init__(self)
-		self.state = None
+		self.state = self.BUTTON_STATE_UP
 		self.buttonText = None
 		self.event = None
 		self.SetWindowName("ChatModeButton")
@@ -378,7 +378,7 @@ class ChatLine(ui.EditLine):
 				chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.CHAT_BLOCK_COMMAND)
 				return
 
-			for x in xrange(len(stringCommander.strings)):
+			for x in range(len(stringCommander.strings)):
 				if(text.find(stringCommander.strings[x]) != -1):
 					return
 
@@ -523,7 +523,7 @@ class ChatLine(ui.EditLine):
 		textLen = len(text)
 		n = text.find("@", idx)
 		isResult = True
-		for i in xrange(n+1, n+5) :
+		for i in range(n+1, n+5) :
 			if i == textLen :
 				return False
 
@@ -939,7 +939,7 @@ class ChatWindow(ui.Window):
 			CHAT_COLOR_DICT.update({chatm2g.CHAT_TYPE_ITEM_INFO : colorInfo.CHAT_RGB_INFO,})
 			CHAT_COLOR_DICT.update({chatm2g.CHAT_TYPE_MONEY_INFO : colorInfo.CHAT_RGB_INFO,})
 
-		for colorItem in CHAT_COLOR_DICT.items():
+		for colorItem in list(CHAT_COLOR_DICT.items()):
 			type=colorItem[0]
 			rgb=colorItem[1]
 			chatm2g.SetChatColor(type, rgb[0], rgb[1], rgb[2])
@@ -953,7 +953,7 @@ class ChatWindow(ui.Window):
 			self.chatLoby = []
 			self.btnChatLobyCreate = None
 			self.btnChatSettingOption = None
-			for key, data in self.ChatLog.items():
+			for key, data in list(self.ChatLog.items()):
 				data.Close(True)
 				data.Destroy()
 
@@ -1065,14 +1065,14 @@ class ChatWindow(ui.Window):
 				return
 
 			kCheck = {}
-			for key, data in cacheChat.items():
+			for key, data in list(cacheChat.items()):
 				number = int(data[0])
 
 				kCheck[number] = True
 
 			emptyLine = -1
-			for key in xrange(1, 10):
-				if kCheck.has_key(key) or self.ChatLog.has_key(key):
+			for key in range(1, 10):
+				if key in kCheck or key in self.ChatLog:
 					continue
 
 				emptyLine = key
@@ -1116,10 +1116,10 @@ class ChatWindow(ui.Window):
 			for i in CHAT_MODE_INDEX:
 				chatm2g.DisableChatMode(self.chatID, i)
 
-			if self.wndChatSettingOption.cacheDict.has_key(self.chatIndex):
+			if self.chatIndex in self.wndChatSettingOption.cacheDict:
 				dataChat = self.wndChatSettingOption.cacheDict[self.chatIndex]
 
-				for key, data in OPTION_CHECKBOX_MODE.items():
+				for key, data in list(OPTION_CHECKBOX_MODE.items()):
 					if dataChat[key] > 0:
 						for chatIndex in data[0]:
 							chatm2g.EnableChatMode(self.chatID, chatIndex)
@@ -1141,7 +1141,7 @@ class ChatWindow(ui.Window):
 			self.chatLoby = []
 
 		def RemoveChat(self, chatIndex):
-			if self.wndChatSettingOption.cacheDict.has_key(chatIndex):
+			if chatIndex in self.wndChatSettingOption.cacheDict:
 				del self.wndChatSettingOption.cacheDict[chatIndex]
 			RemoveChat(chatIndex)
 			self.LoadChatLoby()
@@ -1149,7 +1149,7 @@ class ChatWindow(ui.Window):
 			#chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, str(chatIndex))
 
 		def GetKeyByID(self, id):
-			for key, data in cacheChat.items():
+			for key, data in list(cacheChat.items()):
 				if data[0] == id:
 					return key
 
@@ -1164,7 +1164,7 @@ class ChatWindow(ui.Window):
 
 			# sort
 			newList = []
-			for key, data in cacheChat.items():
+			for key, data in list(cacheChat.items()):
 				newList.append(int(data[0]))
 
 			newList.sort(reverse = False)
@@ -1219,7 +1219,7 @@ class ChatWindow(ui.Window):
 				button.SetToggleDownEvent(self.SelectLobyButton, indexForX, button.key)
 
 		def OnLogChat(self, index):
-			if not self.ChatLog.has_key(index):
+			if index not in self.ChatLog:
 				newLog = ChatLogWindowNew()
 				newLog.Open(index)
 				self.ChatLog[index] = newLog
@@ -1809,7 +1809,7 @@ if app.ENABLE_CHAT_SETTINGS:
 
 				(xPos,yPos) = self.GetChild("onoff_button").GetLocalPosition()
 				CHATTING_PATH = "d:/ymir work/ui/chat/"
-				for j in xrange(3):
+				for j in range(3):
 					realIndex = 2 - j
 
 					if localeInfo.IsARABIC():
@@ -1907,8 +1907,8 @@ if app.ENABLE_CHAT_SETTINGS:
 				interface.wndChat.UpdateChat()
 
 		def CheckCacheDict(self, chatIndex):
-			if not self.cacheDict.has_key(chatIndex):
-				if cacheChat.has_key(chatIndex):
+			if chatIndex not in self.cacheDict:
+				if chatIndex in cacheChat:
 					self.cacheDict[chatIndex] = cacheChat[chatIndex]
 				else:
 					return False
@@ -1949,7 +1949,7 @@ if app.ENABLE_CHAT_SETTINGS:
 				self.GetChild("tab_name_value").SetText("")
 				self.GetChild("tab_name_value").SetInfoMessage(dataChat[OPTION_SET_NAME_TAB])
 
-			for index, data in cacheChat.iteritems():
+			for index, data in list(cacheChat.items()):
 				if index == 0 and data[0] == "0":
 					self.children["listCombo"].InsertItem(index, uiScriptLocale.CHATTING_SETTING_TALKING)
 				else:
@@ -1986,14 +1986,14 @@ if app.ENABLE_CHAT_SETTINGS:
 				7: "Ro",
 			}
 
-			for j in xrange(3):
+			for j in range(3):
 				alreadyHaveLang.append(dataChat[j+OPTION_CHECKBOX_FLAG_DE])
 
-			for j in xrange(3):
+			for j in range(3):
 				langIndex = dataChat[j+OPTION_CHECKBOX_FLAG_DE]
 				self.children["langCombo%d"%j].ClearItem()
 				self.children["langCombo%d"%j].SetCurrentItem(langData[langIndex])
-				for index, data in langData.iteritems():
+				for index, data in list(langData.items()):
 					if index != 0:
 						if index in alreadyHaveLang:
 							continue
@@ -2238,7 +2238,7 @@ if app.ENABLE_CHAT_SETTINGS:
 			for i in CHAT_MODE_INDEX:
 				chatm2g.DisableChatMode(self.chatID, i)
 			dataChat = self.backupData
-			for key, data in OPTION_CHECKBOX_MODE.items():
+			for key, data in list(OPTION_CHECKBOX_MODE.items()):
 				if dataChat[key] > 0:
 					for chatIndex in data[0]:
 						chatm2g.EnableChatMode(self.chatID, chatIndex)
@@ -2257,7 +2257,7 @@ if app.ENABLE_CHAT_SETTINGS:
 						chatm2g.EnableCountryMode(self.chatID, j)
 
 		def Open(self, chatIndex = -1):
-			if cacheChat.has_key(chatIndex):
+			if chatIndex in cacheChat:
 				global GLOBAL_CHAT_INDEX
 				GLOBAL_CHAT_INDEX+=1
 				self.chatID = chatm2g.CreateChatSet(GLOBAL_CHAT_INDEX)

@@ -269,7 +269,7 @@ class BattleFieldWindow(ui.ScriptWindow):
 			if stateKey!=tabKey:
 				tabButton.SetUp()
 
-		for tabValue in self.tabDict.itervalues():
+		for tabValue in self.tabDict.values():
 			tabValue.Hide()
 
 		self.tabDict[stateKey].Show()
@@ -337,7 +337,7 @@ class BattleFieldWindow(ui.ScriptWindow):
 			self.ResutlSlotCoverList[i][0].Hide()
 
 	def __MakeResultSlotUI(self, yPos):
-		## º¯¿ß
+		## ÏàúÏúÑ
 		RankingSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", self.rankPosX , yPos)
 		RankingSlotImage.SetAlpha(0)
 		if localeInfo.IsARABIC():
@@ -346,7 +346,7 @@ class BattleFieldWindow(ui.ScriptWindow):
 		self.Children.append(RankingSlotImage)
 		self.Children.append(RankingSlot)
 
-		## ¿Ã∏ß
+		## Ïù¥Î¶Ñ
 		NameImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_04.sub", self.rankNameX , yPos)
 		NameImage.SetAlpha(0)
 		if localeInfo.IsARABIC():
@@ -355,7 +355,7 @@ class BattleFieldWindow(ui.ScriptWindow):
 		self.Children.append(NameImage)
 		self.Children.append(NameSlot)
 		
-		## ±π∞°
+		## Íµ≠Í∞Ä
 		EmpireSlotImage = ui.MakeImageBox(self, self.M2EMPIREICON[0], self.rankEmpireX , yPos+2)
 		EmpireSlotImage.SetAlpha(1)
 		if localeInfo.IsARABIC():
@@ -363,7 +363,7 @@ class BattleFieldWindow(ui.ScriptWindow):
 		self.Children.append(EmpireSlotImage)
 		#self.Children.append(EmpireSlot)
 
-		## ±‚∑œ
+		## Í∏∞Î°ù
 		RecordSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", self.rankRecordX , yPos)
 		RecordSlotImage.SetAlpha(0)
 		if localeInfo.IsARABIC():

@@ -408,7 +408,7 @@ if app.ENABLE_SUNG_MAHI_TOWER:
 			self.minimapBG.Show()
 
 			roomLevelPos = [[17, 18], [47, 12], [88, 18]]
-			for index in xrange(3):
+			for index in range(3):
 				roomLevel = ui.ImageBox()
 				roomLevel.SetParent(self)
 				roomLevel.LoadImage("d:/ymir work/ui/game/sungmahee_tower/{}stage_clear_icon.sub".format(index + 1))
@@ -519,7 +519,7 @@ if app.ENABLE_SUNG_MAHI_TOWER:
 			for roomIndex in self.roomLevel:
 				roomIndex.Hide()
 
-			for index in xrange(int(level)):
+			for index in range(int(level)):
 				self.roomLevel[index].Show()
 
 			#since it's completing a stage, reset the gauge
@@ -777,7 +777,7 @@ class MiniMap(ui.ScriptWindow):
 		self.mapName=mapName
 		self.AtlasWindow.SetMapName(mapName)
 
-		if self.CANNOT_SEE_INFO_MAP_DICT.has_key(mapName):
+		if mapName in self.CANNOT_SEE_INFO_MAP_DICT:
 			self.canSeeInfo = False
 			self.HideMiniMap()
 			self.tooltipMiniMapOpen.SetText(localeInfo.MINIMAP_CANNOT_SEE)

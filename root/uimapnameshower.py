@@ -100,8 +100,8 @@ class MapNameShower(ui.ExpandedImageBox):
 			return 7
 		return	0
 	def ShowMapName(self, mapName, x, y):
-		if not self.MAP_NAME_IMAGE.has_key(mapName):
-			print " [ERROR] - There is no map name image", mapName
+		if mapName not in self.MAP_NAME_IMAGE:
+			print((" [ERROR] - There is no map name image", mapName))
 			return
 
 		try:
@@ -121,10 +121,10 @@ class MapNameShower(ui.ExpandedImageBox):
 			self.floorImage.SetPosition(100, 80)
 			self.floorImage.SetAlpha(0.0)
 			self.floorImage.Show()
-			# ¸ÊÀÌ¸§ (ex: ¾Æ±Íµ¿±¼) ÀÌ¹ÌÁö ·Îµù & Ç¥½Ã
+			# ë§µì´ë¦„ (ex: ì•„ê·€ë™êµ´) ì´ë¯¸ì§€ ë¡œë”© & í‘œì‹œ
 			try:
 				floor = self.__GetDevilTowerFloor(x, y)
-				print x, y, floor
+				print((x, y, floor))
 				self.floorImage.LoadImage(LOCALE_PATH+"devil1_%df.tga" % floor)
 			except RuntimeError:
 				self.SetPosition(0, 80)
@@ -141,10 +141,10 @@ class MapNameShower(ui.ExpandedImageBox):
 			self.floorImage.SetAlpha(0.0)
 			self.floorImage.Show()
 
-			# ¸ÊÀÌ¸§ (ex: ¾Æ±Íµ¿±¼) ÀÌ¹ÌÁö ·Îµù & Ç¥½Ã
+			# ë§µì´ë¦„ (ex: ì•„ê·€ë™êµ´) ì´ë¯¸ì§€ ë¡œë”© & í‘œì‹œ
 			try:
 				floor = self.__GetDevilBase(x, y)
-				print x, y, floor
+				print((x, y, floor))
 				self.floorImage.LoadImage(LOCALE_PATH+"devil1_%df.tga" % floor)
 			except RuntimeError:
 				self.SetPosition(0, 80)
@@ -159,11 +159,11 @@ class MapNameShower(ui.ExpandedImageBox):
 				self.objectiveImage.Show()
 
 
-				# Ãşº° ¸ñÇ¥ ÀÌ¹ÌÁö ·Îµù & Ç¥½Ã
-				# ´øÀüÀº ÇöÀç ¸îÃşÀÎÁö ¾Ë¾Æ¿À´Â ºÎºĞ ¶§¹®¿¡ ÇÏµåÄÚµùÀ» ÇÇÇÏ±â°¡ Èûµé´Ù...
+				# ì¸µë³„ ëª©í‘œ ì´ë¯¸ì§€ ë¡œë”© & í‘œì‹œ
+				# ë˜ì „ì€ í˜„ì¬ ëª‡ì¸µì¸ì§€ ì•Œì•„ì˜¤ëŠ” ë¶€ë¶„ ë•Œë¬¸ì— í•˜ë“œì½”ë”©ì„ í”¼í•˜ê¸°ê°€ í˜ë“¤ë‹¤...
 				try:
 					floor = self.__GetDevilBase(x, y)
-					print x, y, floor
+					print((x, y, floor))
 					self.objectiveImage.LoadImage(LOCALE_PATH + mapName + "/obj_%02df.tga" % floor)
 				except RuntimeError:
 					self.SetPosition(0, 80)

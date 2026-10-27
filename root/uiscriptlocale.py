@@ -32,7 +32,7 @@ def LoadLocaleFile(srcFileName, localeDict):
 			localeDict[tokens[0]] = tokens[1]
 
 		else:
-			print len(tokens), lines.index(line), line
+			print((len(tokens), lines.index(line), line))
 
 name = app.GetLocalePath()
 EMPIRE_PATH = "%s/ui/empire/" % (name)

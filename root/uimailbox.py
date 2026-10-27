@@ -17,23 +17,23 @@ import mail
 
 from _weakref import proxy
 WORD_MAX = 0xffff
-MAILBOX_MAX_DISTANCE = 1000 # ¿ìÆíÇÔ npc ¿ÍÀÇ Ã¼Å© °Å¸®(¾ÆÀÌÅÛÀ» »ç¿ëÇÏÁö ¾Ê¾Ò´Ù¸é ÀÌ °Å¸® ÀÌ»ó ¸Ö¾îÁö°Ô µÇ¸é Ã¢ÀÌ ²¨Áü)
+MAILBOX_MAX_DISTANCE = 1000 # ìš°í¸í•¨ npc ì™€ì˜ ì²´í¬ ê±°ë¦¬(ì•„ì´í…œì„ ì‚¬ìš©í•˜ì§€ ì•Šì•˜ë‹¤ë©´ ì´ ê±°ë¦¬ ì´ìƒ ë©€ì–´ì§€ê²Œ ë˜ë©´ ì°½ì´ êº¼ì§)
 
-# ¿ìÆíÇÔ ÆíÁö ±¸ºĞ
-DIVISION_EMPTY	= 0		# ºó ¿ìÆí
-DIVISION_POST	= 1		# ÀÏ¹İ ¿ìÆí
-DIVISION_ITEM	= 2		# ¾ÆÀÌÅÛ or won or yang ÀÌ Ã·ºÎµÈ ¿ìÆí
-DIVISION_GM		= 3		# GM ÀÌ º¸³½ ¿ìÆí
+# ìš°í¸í•¨ í¸ì§€ êµ¬ë¶„
+DIVISION_EMPTY	= 0		# ë¹ˆ ìš°í¸
+DIVISION_POST	= 1		# ì¼ë°˜ ìš°í¸
+DIVISION_ITEM	= 2		# ì•„ì´í…œ or won or yang ì´ ì²¨ë¶€ëœ ìš°í¸
+DIVISION_GM		= 3		# GM ì´ ë³´ë‚¸ ìš°í¸
 
-POST_MAX		= 9		# ÇÑ¹ø¿¡ ³ëÃâµÉ ¿ìÆí MAX
-TITLE_MAX_LEN	= 25	# ¿ìÆíÇÔ Å¬¸¯½Ã Á¦¸ñ MAX LEN
+POST_MAX		= 9		# í•œë²ˆì— ë…¸ì¶œë  ìš°í¸ MAX
+TITLE_MAX_LEN	= 25	# ìš°í¸í•¨ í´ë¦­ì‹œ ì œëª© MAX LEN
 
-POST_WRITE_LIMIT_LEVEL		= 20	# ¹ß¼ÛÇÏ±â ·¹º§ Á¦ÇÑ	
-FRIEND_SELECT_UI_SHOW_MAX	= 10	# Ä£±¸ ¸®½ºÆ® SHOW MAX
+POST_WRITE_LIMIT_LEVEL		= 20	# ë°œì†¡í•˜ê¸° ë ˆë²¨ ì œí•œ	
+FRIEND_SELECT_UI_SHOW_MAX	= 10	# ì¹œêµ¬ ë¦¬ìŠ¤íŠ¸ SHOW MAX
 
-MAX_YANG		= 9998999	# º¸³¾ ¼ö ÀÖ´Â yang MAX
-MAX_CHEQUE		= 99		# º¸³¾ ¼ö ÀÖ´Â won MAX
-POST_WRITE_COST	= 1000		# ¿ìÆí º¸³¾¶§ ¼Òºñ ºñ¿ë
+MAX_YANG		= 9998999	# ë³´ë‚¼ ìˆ˜ ìˆëŠ” yang MAX
+MAX_CHEQUE		= 99		# ë³´ë‚¼ ìˆ˜ ìˆëŠ” won MAX
+POST_WRITE_COST	= 1000		# ìš°í¸ ë³´ë‚¼ë•Œ ì†Œë¹„ ë¹„ìš©
 
 POST_ICON_PATH	= "d:/ymir work/ui/game/mailbox/mailbox_icon_post.sub"
 ITEM_ICON_PATH	= "d:/ymir work/ui/game/mailbox/mailbox_icon_item.sub"
@@ -209,7 +209,7 @@ class Post:
 		if DIVISION_EMPTY == self.cur_icon_type:
 			return
 			
-		apply( self.click_func, [self.button_index, self.data_index] )
+		self.click_func(*[self.button_index, self.data_index])
 		
 	def SetDataIndex(self, data_index):
 		self.data_index = data_index
@@ -493,17 +493,17 @@ class PostRead(ui.ScriptWindow):
 		
 	def __ClickDeleteButton(self):		
 		is_get_items = False
-		# ¹ŞÀ» ¾ÆÀÌÅÛÀÌ ÀÖ´ÂÁö?
+		# ë°›ì„ ì•„ì´í…œì´ ìˆëŠ”ì§€?
 		if -1 != self.item_index:
 			is_get_items = True			
-		# ¹ŞÀ» yang ÀÌ ÀÖ´ÂÁö?
+		# ë°›ì„ yang ì´ ìˆëŠ”ì§€?
 		if self.yang > 0:
 			is_get_items = True			
-		# ¹ŞÀ» won ÀÌ ÀÖ´ÂÁö?
+		# ë°›ì„ won ì´ ìˆëŠ”ì§€?
 		if self.won > 0:
 			is_get_items = True
 			
-		# ¹ŞÀ» ¹°Ç°ÀÌ ÀÖ´Ù.
+		# ë°›ì„ ë¬¼í’ˆì´ ìˆë‹¤.
 		if True == is_get_items:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_DELETE_FAIL_EXIST_ITEMS)
 			return
@@ -536,23 +536,23 @@ class PostRead(ui.ScriptWindow):
 			return
 		
 		if True == messenger.IsBlockFriendByName( self.from_text.GetText() ):
-			print "Â÷´ÜÇÑ »ç¶÷ÀÇ ¿ìÆíÀº ¹ŞÀ» ¼ö ¾ø´Ù."
+			print("ì°¨ë‹¨í•œ ì‚¬ëŒì˜ ìš°í¸ì€ ë°›ì„ ìˆ˜ ì—†ë‹¤.")
 			return
 		
 		is_get_items = False
-		# ¹ŞÀ» ¾ÆÀÌÅÛÀÌ ÀÖ´ÂÁö?
+		# ë°›ì„ ì•„ì´í…œì´ ìˆëŠ”ì§€?
 		if -1 != self.item_index:
 			is_get_items = True			
-		# ¹ŞÀ» yang ÀÌ ÀÖ´ÂÁö?
+		# ë°›ì„ yang ì´ ìˆëŠ”ì§€?
 		if self.yang > 0:
 			is_get_items = True			
-		# ¹ŞÀ» won ÀÌ ÀÖ´ÂÁö?
+		# ë°›ì„ won ì´ ìˆëŠ”ì§€?
 		if self.won > 0:
 			is_get_items = True
 			
-		# ¹ŞÀ» ¹°Ç°ÀÌ ¾ø´Ù.
+		# ë°›ì„ ë¬¼í’ˆì´ ì—†ë‹¤.
 		if False == is_get_items:
-			print "¹ŞÀ» ¹°Ç°ÀÌ ¾ø´Ù."
+			print("ë°›ì„ ë¬¼í’ˆì´ ì—†ë‹¤.")
 			return			
 			
 		if self.get_items_question_dlg:
@@ -971,7 +971,7 @@ class PostWrite(ui.ScriptWindow):
 		
 		##
 		create_count = FRIEND_SELECT_UI_SHOW_MAX
-		for i in xrange( FRIEND_SELECT_UI_SHOW_MAX ):
+		for i in range( FRIEND_SELECT_UI_SHOW_MAX ):
 			## image
 			img = ui.ImageBox()
 			img.SetParent( self.friend_select_img_window )
@@ -1042,7 +1042,7 @@ class PostWrite(ui.ScriptWindow):
 		if not self.friend_select_scroll:
 			return
 		
-		for i in xrange( FRIEND_SELECT_UI_SHOW_MAX ):
+		for i in range( FRIEND_SELECT_UI_SHOW_MAX ):
 			self.friend_img_list[i].Hide()		## image
 			self.friend_text_list[i].Hide()		## text
 			self.friend_window_list[i].Hide()	## click area
@@ -1053,7 +1053,7 @@ class PostWrite(ui.ScriptWindow):
 		view_count							= FRIEND_SELECT_UI_SHOW_MAX if friend_list_len > FRIEND_SELECT_UI_SHOW_MAX else friend_list_len
 		self.friend_select_window_height	= 0
 		
-		for i in xrange( view_count ):
+		for i in range( view_count ):
 			if 1 == view_count:
 				self.friend_img_list[i].LoadImage( "d:/ymir work/ui/game/mailbox/friend_list_pattern_only.sub" )						
 			elif i == 0:
@@ -1220,7 +1220,7 @@ class PostWrite(ui.ScriptWindow):
 	def __RefreshFriendListText(self):
 		self.ScrollPos = int(self.friend_select_scroll.GetPos() * self.Diff)
 		
-		for i in xrange(FRIEND_SELECT_UI_SHOW_MAX):
+		for i in range(FRIEND_SELECT_UI_SHOW_MAX):
 			idx = i + self.ScrollPos
 		
 			text = self.friend_text_list[i]
@@ -1314,8 +1314,8 @@ class PostWrite(ui.ScriptWindow):
 		
 		
 	## Item Slot Event
-	## ÀÎº¥ -> post item
-	## slot ¿¡ ¾ÆÀÌÅÛÀ» ¼¼ÆÃÇØÁØ´Ù
+	## ì¸ë²¤ -> post item
+	## slot ì— ì•„ì´í…œì„ ì„¸íŒ…í•´ì¤€ë‹¤
 	def SelectEmptySlot(self, selectedSlotPos):
 		if not self.item_slot:
 			return		
@@ -1338,7 +1338,7 @@ class PostWrite(ui.ScriptWindow):
 				
 		mouseModule.mouseController.DeattachObject()
 		
-		## ÀÎº¥Åä¸®, ¿ëÈ¥¼®ÀÎº¥ÀÇ ¾ÆÀÌÅÛ¸¸ °¡´ÉÇÏ´Ù
+		## ì¸ë²¤í† ë¦¬, ìš©í˜¼ì„ì¸ë²¤ì˜ ì•„ì´í…œë§Œ ê°€ëŠ¥í•˜ë‹¤
 		if not attachedSlotType in [playerm2g2.SLOT_TYPE_INVENTORY, playerm2g2.SLOT_TYPE_DRAGON_SOUL_INVENTORY]:
 			return
 			
@@ -1347,7 +1347,7 @@ class PostWrite(ui.ScriptWindow):
 			window_type = playerm2g2.DRAGON_SOUL_INVENTORY
 			
 		if True == self.CantPostItemSlot( attachedSlotPos, window_type ):
-			# µî·ÏÇÒ ¼ö ¾ø´Â ¾ÆÀÌÅÛ ÀÔ´Ï´Ù
+			# ë“±ë¡í•  ìˆ˜ ì—†ëŠ” ì•„ì´í…œ ì…ë‹ˆë‹¤
 			return
 						
 		item_count = playerm2g2.GetItemCount( window_type, attachedSlotPos )
@@ -1361,14 +1361,14 @@ class PostWrite(ui.ScriptWindow):
 		self.item_slot.SetItemSlot(0, attachedItemIndex, attachedItemCount)
 		self.item_slot.RefreshSlot()
 		
-		for i in xrange(height, 3):
+		for i in range(height, 3):
 			self.render_box_list[i].Show()			
 			
 		self.is_attach_item		= True
 		self.send_item_window	= window_type
 		self.send_item_pos		= attachedSlotPos		
 		
-	## slot ¿¡ ¾ÆÀÌÅÛÀ» Á¦°ÅÇØ ÁØ´Ù
+	## slot ì— ì•„ì´í…œì„ ì œê±°í•´ ì¤€ë‹¤
 	def SelectItemSlot(self):
 		self.__ClearSlotItem()
 	def UseItemSlot(self):
@@ -1390,7 +1390,7 @@ class PostWrite(ui.ScriptWindow):
 		self.item_slot.SetItemSlot(0, 0)
 		self.item_slot.RefreshSlot()
 		
-		for i in xrange(3):
+		for i in range(3):
 			self.render_box_list[i].Hide()
 			
 		self.is_attach_item				= False
@@ -1517,9 +1517,9 @@ class PostWrite(ui.ScriptWindow):
 			
 	def PostWriteConfirmResult(self, result):
 		if mail.POST_WRITE_FAIL == result:
-			# ¼­¹öÀÇ ÀÌÀ¯·Î ½ÇÆĞ
+			# ì„œë²„ì˜ ì´ìœ ë¡œ ì‹¤íŒ¨
 			return
-		## Ä³¸¯ÅÍ È®ÀÎÇÔ.
+		## ìºë¦­í„° í™•ì¸í•¨.
 		elif mail.POST_WRITE_OK == result:
 			self.to_name = self.to_editline.GetText()
 			self.is_name_checked		= True
@@ -1533,54 +1533,54 @@ class PostWrite(ui.ScriptWindow):
 				self.message_editline.KillFocus()
 			if self.title_editline:
 				self.title_editline.SetFocus()
-		## À¯È¿ÇÏÁö ¾ÊÀº ÄÉ¸¯ÅÍ ÀÌ¸§
+		## ìœ íš¨í•˜ì§€ ì•Šì€ ì¼€ë¦­í„° ì´ë¦„
 		elif mail.POST_WRITE_INVALID_NAME == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FAIL)
-		## »ó´ë¹æÀ» Â÷´ÜÇÔ
+		## ìƒëŒ€ë°©ì„ ì°¨ë‹¨í•¨
 		elif mail.POST_WRITE_TARGET_BLOCKED == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FAIL)
-		## »ó´ë¹æÀÌ ³ª¸¦ Â÷´ÜÇÔ
+		## ìƒëŒ€ë°©ì´ ë‚˜ë¥¼ ì°¨ë‹¨í•¨
 		elif mail.POST_WRITE_BLOCKED_ME == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FAIL)
-		## »ó´ë¹æÀÇ ¿ìÆíÇÔÀÌ °¡µæÂ÷ ÀÖÀ½
+		## ìƒëŒ€ë°©ì˜ ìš°í¸í•¨ì´ ê°€ë“ì°¨ ìˆìŒ
 		elif mail.POST_WRITE_FULL_MAILBOX == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FULL_MAILBOX)
 		
 	def PostWriteResult(self, result):
 		if mail.POST_WRITE_FAIL == result:
-			#print "¼­¹öÀÇ ÀÌÀ¯·Î ½ÇÆĞ"
+			#print "ì„œë²„ì˜ ì´ìœ ë¡œ ì‹¤íŒ¨"
 			pass
-		## Ä³¸¯ÅÍ È®ÀÎÇÔ.
+		## ìºë¦­í„° í™•ì¸í•¨.
 		elif mail.POST_WRITE_OK == result:
 			pass
-		## À¯È¿ÇÏÁö ¾ÊÀº ÄÉ¸¯ÅÍ ÀÌ¸§
+		## ìœ íš¨í•˜ì§€ ì•Šì€ ì¼€ë¦­í„° ì´ë¦„
 		elif mail.POST_WRITE_INVALID_NAME == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FAIL)
-		## »ó´ë¹æÀ» Â÷´ÜÇÔ
+		## ìƒëŒ€ë°©ì„ ì°¨ë‹¨í•¨
 		elif mail.POST_WRITE_TARGET_BLOCKED == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FAIL)
-		## »ó´ë¹æÀÌ ³ª¸¦ Â÷´ÜÇÔ
+		## ìƒëŒ€ë°©ì´ ë‚˜ë¥¼ ì°¨ë‹¨í•¨
 		elif mail.POST_WRITE_BLOCKED_ME == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FAIL)
-		## »ó´ë¹æÀÇ ¿ìÆíÇÔÀÌ °¡µæÂ÷ ÀÖÀ½
+		## ìƒëŒ€ë°©ì˜ ìš°í¸í•¨ì´ ê°€ë“ì°¨ ìˆìŒ
 		elif mail.POST_WRITE_FULL_MAILBOX == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_CONFIRM_FULL_MAILBOX)
-		## Á¦¸ñÀÌ ¿Ç¹Ù¸£Áö ¾Ê´Ù
+		## ì œëª©ì´ ì˜³ë°”ë¥´ì§€ ì•Šë‹¤
 		elif mail.POST_WRITE_WRONG_TITLE == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_WRONG_TITLE)
-		## º¸³»´Â yang ÀÌ ºÎÁ·ÇÏ´Ù.
+		## ë³´ë‚´ëŠ” yang ì´ ë¶€ì¡±í•˜ë‹¤.
 		elif mail.POST_WRITE_YANG_NOT_ENOUGHT == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_MONEY_NOT_ENOUGHT)
-		## º¸³»´Â won ÀÌ ºÎÁ·ÇÏ´Ù.
+		## ë³´ë‚´ëŠ” won ì´ ë¶€ì¡±í•˜ë‹¤.
 		elif mail.POST_WRITE_WON_NOT_ENOUGHT == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_MONEY_NOT_ENOUGHT)
-		## ³»¿ëÀÌ ¿Ç¹Ù¸£Áö ¾Ê´Ù.
+		## ë‚´ìš©ì´ ì˜³ë°”ë¥´ì§€ ì•Šë‹¤.
 		elif mail.POST_WRITE_WRONG_MESSAGE == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_WRONG_MESSAGE)
-		## º¸³»´Â item ÀÌ ¿Ç¹Ù¸£Áö ¾Ê´Ù.
+		## ë³´ë‚´ëŠ” item ì´ ì˜³ë°”ë¥´ì§€ ì•Šë‹¤.
 		elif mail.POST_WRITE_WRONG_ITEM == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_WRONG_ITEM)
-		## ·¹º§ÀÌ ºÎÁ·ÇÏ´Ù
+		## ë ˆë²¨ì´ ë¶€ì¡±í•˜ë‹¤
 		elif mail.POST_WRITE_LEVEL_NOT_ENOUGHT == result:
 			chatm2g.AppendChat( chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_LEVEL_LIMIT )
 			
@@ -1789,10 +1789,10 @@ class MailBox(ui.ScriptWindow):
 			self.Close()
 		
 	def __CreatePostList(self):
-		for button_index in xrange( POST_MAX ):
+		for button_index in range( POST_MAX ):
 			self.post_list.append( Post( button_index, self.post_list_window, self.__ClickPost ) )
 		
-	# ¸ğµÎ »èÁ¦ ¹öÆ°ÀÇ ±â´ÉÀº ¹°Ç¬À¸·Î ¿Â ¿ìÆíÀÌ ¾Æ´Ñ ´Ü¼ø ¿ìÆí¸¸ »èÁ¦ÇÒ ¼ö ÀÖ´Â ¹öÆ°	
+	# ëª¨ë‘ ì‚­ì œ ë²„íŠ¼ì˜ ê¸°ëŠ¥ì€ ë¬¼í‘¼ìœ¼ë¡œ ì˜¨ ìš°í¸ì´ ì•„ë‹Œ ë‹¨ìˆœ ìš°í¸ë§Œ ì‚­ì œí•  ìˆ˜ ìˆëŠ” ë²„íŠ¼	
 	def __ClickAllDeleteButton(self):
 		if not self.post_data_dict:
 			self.__OpenPostAllDeleteFailPopupDlg()
@@ -1803,17 +1803,17 @@ class MailBox(ui.ScriptWindow):
 		
 		is_send_post_all_delete = False
 		
-		for data in self.post_data_dict.values():
+		for data in list(self.post_data_dict.values()):
 			(index, send_time, delete_time, title, is_gm_post, is_item_exist, is_confirm) = data
 			if False == is_item_exist:
 				is_send_post_all_delete = True
 				break
 				
-		# »èÁ¦ °¡´ÉÇÑ ¿ìÆíÀÌ ÀÖÀ»¶§ Áú¹®Ã¢À» ¶ç¿î´Ù
+		# ì‚­ì œ ê°€ëŠ¥í•œ ìš°í¸ì´ ìˆì„ë•Œ ì§ˆë¬¸ì°½ì„ ë„ìš´ë‹¤
 		if True == is_send_post_all_delete:
 			self.__OpenPostAllDeleteQuestionDlg()
 		else:
-			print "»èÁ¦ °¡´ÉÇÑ ¿ìÆíÀÌ ¾øÀ½"
+			print("ì‚­ì œ ê°€ëŠ¥í•œ ìš°í¸ì´ ì—†ìŒ")
 			
 	def __OpenPostAllDeleteQuestionDlg(self):	
 		if self.all_delete_question_dlg:
@@ -1862,16 +1862,16 @@ class MailBox(ui.ScriptWindow):
 			self.__OpenAllGetItemsFailPopup()
 			return
 			
-		# ¹ŞÀ» ¼ö ÀÖ´Â ¾ÆÀÌÅÛÀÌ ÀÖ´ÂÁö °Ë»ç ÇØ¾ß ÇÔ.
+		# ë°›ì„ ìˆ˜ ìˆëŠ” ì•„ì´í…œì´ ìˆëŠ”ì§€ ê²€ì‚¬ í•´ì•¼ í•¨.
 		is_send_post_all_get_items = False
 		
-		for data in self.post_data_dict.values():
+		for data in list(self.post_data_dict.values()):
 			(index, send_time, delete_time, title, is_gm_post, is_item_exist, is_confirm) = data
 			if True == is_item_exist:
 				is_send_post_all_get_items = True
 				break
 			
-		# ¹ŞÀ» ¼ö ÀÖ´Â ¿ìÆíÀÌ ÀÖÀ»¶§ Áú¹®Ã¢À» ¶ç¿î´Ù
+		# ë°›ì„ ìˆ˜ ìˆëŠ” ìš°í¸ì´ ìˆì„ë•Œ ì§ˆë¬¸ì°½ì„ ë„ìš´ë‹¤
 		if True == is_send_post_all_get_items:
 			self.__OpenPostAllGetItemsQuestionDlg()
 		else:
@@ -1923,7 +1923,7 @@ class MailBox(ui.ScriptWindow):
 		
 		(index, send_time, delete_time, title, is_gm_post, is_item_exist, is_confirm) = self.post_data_dict[data_index]
 		
-		## Ãß°¡ data °¡ ¾ø´Ù¸é ¼­¹ö·ÎºÎÅÍ Á¤º¸¸¦ ¿äÃ»ÇØ¾ß ÇÔ.
+		## ì¶”ê°€ data ê°€ ì—†ë‹¤ë©´ ì„œë²„ë¡œë¶€í„° ì •ë³´ë¥¼ ìš”ì²­í•´ì•¼ í•¨.
 		if not data_index in self.post_add_data_dict:
 			m2netm2g.RequestPostAddData( button_index, data_index )
 			return
@@ -1954,7 +1954,7 @@ class MailBox(ui.ScriptWindow):
 			
 		mailbox_gm_button_visible = False
 		
-		for key, data in self.post_data_dict.items():
+		for key, data in list(self.post_data_dict.items()):
 			(index, send_time, delete_time, title, is_gm_post, is_item_exist, is_confirm) = data
 			
 			if True == is_gm_post and False == is_confirm:
@@ -1983,7 +1983,7 @@ class MailBox(ui.ScriptWindow):
 		if None == self.post_data_dict:
 			return
 		
-		max_page = int( math.ceil( len(self.post_data_dict) / float(POST_MAX) ) )	# ¿Ã¸²Ã³¸®
+		max_page = int( math.ceil( len(self.post_data_dict) / float(POST_MAX) ) )	# ì˜¬ë¦¼ì²˜ë¦¬
 		
 		if self.cur_page + 1 < max_page:
 			self.cur_page = self.cur_page + 1
@@ -1998,7 +1998,7 @@ class MailBox(ui.ScriptWindow):
 		if len(self.post_list) != POST_MAX:
 			return
 		
-		for i in xrange( POST_MAX ):
+		for i in range( POST_MAX ):
 			self.post_list[i].Clear()
 			self.post_list[i].Show()
 			
@@ -2008,7 +2008,7 @@ class MailBox(ui.ScriptWindow):
 		cur_page_dict = { k:v for i, (k,v) in enumerate( self.post_data_dict.items() ) if i >= (self.cur_page * POST_MAX) and i < ((self.cur_page+1) * POST_MAX) }
 		
 		button_index = 0		
-		for data_index, data in cur_page_dict.items():
+		for data_index, data in list(cur_page_dict.items()):
 			if button_index >= POST_MAX:
 				break
 				
@@ -2031,7 +2031,7 @@ class MailBox(ui.ScriptWindow):
 				
 		
 	def __RefreshPostButton(self, index):
-		for i in xrange( POST_MAX ):
+		for i in range( POST_MAX ):
 			if index == i:
 				self.active_button_index = index
 				self.post_list[i].SetDisable()
@@ -2040,7 +2040,7 @@ class MailBox(ui.ScriptWindow):
 				
 	def __AllPostButtonEnable(self):
 		self.active_button_index = -1
-		for i in xrange( POST_MAX ):
+		for i in range( POST_MAX ):
 			self.post_list[i].SetEnable()
 			
 	def __CreatePostReadWindow(self):
@@ -2061,7 +2061,7 @@ class MailBox(ui.ScriptWindow):
 			self.post_write.SetItemToolTip( self.tooltipItem )
 			
 	def __ClickPostWriteButton(self):
-		# ¿ìÆí¾²±â´Â 20·¹º§ ÀÌ»óºÎÅÍ °¡´ÉÇÏ´Ù
+		# ìš°í¸ì“°ê¸°ëŠ” 20ë ˆë²¨ ì´ìƒë¶€í„° ê°€ëŠ¥í•˜ë‹¤
 		if playerm2g2.GetStatus(playerm2g2.LEVEL) < POST_WRITE_LIMIT_LEVEL:
 			chatm2g.AppendChat( chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_WRITE_LEVEL_LIMIT )
 			return
@@ -2077,8 +2077,8 @@ class MailBox(ui.ScriptWindow):
 				self.post_read.Clear()
 				self.post_read.Close()
 		
-	# ¿ìÆí ¾ÆÀÌÅÛ, yang, won ¹Ş±â¿¡ ¼º°ø
-	# Á¤º¸¸¦ °»½ÅÇØÁØ´Ù.
+	# ìš°í¸ ì•„ì´í…œ, yang, won ë°›ê¸°ì— ì„±ê³µ
+	# ì •ë³´ë¥¼ ê°±ì‹ í•´ì¤€ë‹¤.
 	def __PostGetItemsSuccess(self, data_index):
 		
 		if data_index in self.post_data_dict:
@@ -2102,10 +2102,10 @@ class MailBox(ui.ScriptWindow):
 	def __PostGetItemsFail(self, result):
 		
 		if mail.POST_GET_ITEMS_FAIL == result:
-			#print "¼­¹ö ÀÌÀ¯·Î ½ÇÆĞ"
+			#print "ì„œë²„ ì´ìœ ë¡œ ì‹¤íŒ¨"
 			pass
 		elif mail.POST_GET_ITEMS_NONE == result:
-			#print "¹ŞÀ» ¹°Ç°ÀÌ ¾ø´Ù."
+			#print "ë°›ì„ ë¬¼í’ˆì´ ì—†ë‹¤."
 			pass
 		elif mail.POST_GET_ITEMS_NOT_ENOUGHT_INVENTORY == result:
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_GET_ITEMS_NOT_ENOUGHT_INVENTORY)
@@ -2115,12 +2115,12 @@ class MailBox(ui.ScriptWindow):
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MAILBOX_POST_GET_ITEMS_WON_OVERFLOW)
 		elif mail.POST_GET_ITEMS_FAIL_BLOCK_CHAR == result:
 			pass
-			#print "Â÷´ÜÇÑ »ç¶÷ÀÇ ¿ìÆíÀº ¹ŞÀ» ¼ö ¾ø´Ù."
-			#print "³»°¡ º¸³½»ç¶÷ ¾ÆÀÌµğ¸¦ Â÷´ÜÇÑ °æ¿ì ¹ŞÀ» ¼ö ¾ø´Ù."
+			#print "ì°¨ë‹¨í•œ ì‚¬ëŒì˜ ìš°í¸ì€ ë°›ì„ ìˆ˜ ì—†ë‹¤."
+			#print "ë‚´ê°€ ë³´ë‚¸ì‚¬ëŒ ì•„ì´ë””ë¥¼ ì°¨ë‹¨í•œ ê²½ìš° ë°›ì„ ìˆ˜ ì—†ë‹¤."
 			
 			
-	# ¿ìÆí »èÁ¦¿¡ ¼º°ø
-	# Á¤º¸¸¦ °»½ÅÇØÁØ´Ù
+	# ìš°í¸ ì‚­ì œì— ì„±ê³µ
+	# ì •ë³´ë¥¼ ê°±ì‹ í•´ì¤€ë‹¤
 	def __PostDeleteSuccess(self, data_index):		
 		if data_index in self.post_data_dict:
 			del self.post_data_dict[data_index]
@@ -2148,7 +2148,7 @@ class MailBox(ui.ScriptWindow):
 			
 		index_list = []
 		
-		for key, data in self.post_data_dict.items():
+		for key, data in list(self.post_data_dict.items()):
 			(index, send_time, delete_time, title, is_gm_post, is_item_exist, is_confirm) = data
 			if False == is_item_exist:
 				index_list.append( key )
@@ -2207,23 +2207,23 @@ class MailBox(ui.ScriptWindow):
 	def __PostAllGetItemsFail(self, result):
 		
 		if mail.POST_ALL_GET_ITEMS_FAIL == result:
-			print "POST_ALL_GET_ITEMS_FAIL"
+			print("POST_ALL_GET_ITEMS_FAIL")
 			return
 		elif mail.POST_ALL_GET_ITEMS_OK == result:
 			#print "POST_ALL_GET_ITEMS_OK"
 			return
 		elif mail.POST_ALL_GET_ITEMS_EMPTY == result:
-			print "POST_ALL_GET_ITEMS_EMPTY"
+			print("POST_ALL_GET_ITEMS_EMPTY")
 			return
 		elif mail.POST_ALL_GET_ITEMS_FAIL_DONT_EXIST == result:
-			print "POST_ALL_GET_ITEMS_FAIL_DONT_EXIST"
+			print("POST_ALL_GET_ITEMS_FAIL_DONT_EXIST")
 			return 
 		elif mail.POST_ALL_GET_ITEMS_FAIL_CANT_GET == result:
-			print "POST_ALL_GET_ITEMS_FAIL_CANT_GET"
+			print("POST_ALL_GET_ITEMS_FAIL_CANT_GET")
 			return
 			
-	# ¿ìÆí ¾ÆÀÌÅÛ, yang, won ¹Ş±â¿¡ ¼º°ø
-	# Á¤º¸¸¦ °»½ÅÇØÁØ´Ù.
+	# ìš°í¸ ì•„ì´í…œ, yang, won ë°›ê¸°ì— ì„±ê³µ
+	# ì •ë³´ë¥¼ ê°±ì‹ í•´ì¤€ë‹¤.
 	def __PostGetItemsSuccessNoRefresh(self, data_index):
 		
 		if data_index in self.post_data_dict:

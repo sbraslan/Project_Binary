@@ -238,7 +238,7 @@ class InputDialog(ui.ScriptWindow):
 	def SetNumberMode(self):
 		self.inputValue.SetNumberMode()
 
-	#MT-679 ∞≥¿Œ ªÛ¡° ≈∏¿Ã∆≤¿« CodePage ¿ÃΩ¥
+	#MT-679 Í∞úÏù∏ ÏÉÅÏ†ê ÌÉÄÏù¥ÌãÄÏùò CodePage Ïù¥Ïäà
 	def SetUseCodePage(self, bUse = True):
 		self.inputValue.SetUseCodePage(bUse)
 
@@ -770,7 +770,7 @@ if app.ENABLE_DESTROY_SYSTEM:
 			self.titleName.Show()
 
 			self.slotList = []
-			for i in xrange(3):
+			for i in range(3):
 				slot = ui.ImageBox()
 				slot.LoadImage("d:/ymir work/ui/public/slot_base.sub")
 				slot.SetParent(self)
@@ -783,11 +783,11 @@ if app.ENABLE_DESTROY_SYSTEM:
 
 			try:
 				if self.window_type == "inv":
-					metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.INVENTORY, slot, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.INVENTORY, slot, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 				elif self.window_type == "shop":
-					metinSlot = [shop.GetItemMetinSocket(slot, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSlot = [shop.GetItemMetinSocket(slot, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 				elif self.window_type == "ds":
-					metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.DRAGON_SOUL_INVENTORY, slot, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.DRAGON_SOUL_INVENTORY, slot, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 			except:
 				pass
 
@@ -839,7 +839,7 @@ if app.ENABLE_DESTROY_SYSTEM:
 			self.board.SetSize(260, 110 + 32*ySlotCount + newHeight)
 			self.textLine.SetPosition(0, 44)
 
-			for i in xrange(min(3, ySlotCount)):
+			for i in range(min(3, ySlotCount)):
 				if localeInfo.IsARABIC():
 					self.slotList[i].SetPosition(-36, 30 + ySlotCount*32 - i*32)
 				else:

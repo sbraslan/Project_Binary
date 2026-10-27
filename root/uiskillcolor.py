@@ -11,15 +11,21 @@ import uiToolTip
 import skill
 import uiCommon
 import sys
-import ConfigParser
+import _io
+import os
+import configparser
 import chr
 
 SAVE_SKILL_COLOR = 3
 
 def cfgGet(notused, line):
-	config = ConfigParser.RawConfigParser()
+	config = configparser.RawConfigParser()
 	configFile = 'UserData/skill_color/'+chr.GetName()
-	config.read(configFile)
+	try:
+		with _io.open(configFile, 'r', encoding='utf-8') as configfile:
+			config.read_file(configfile)
+	except (IOError, OSError):
+		return ""
 
 	if not config or not config.has_section('SKILL_COLOR'):
 		return ""
@@ -30,12 +36,14 @@ def cfgGet(notused, line):
 	return config.get('SKILL_COLOR', line)
 
 def cfgSet(notused, line, text):
-	config = ConfigParser.RawConfigParser()
+	config = configparser.RawConfigParser()
 	config.add_section('SKILL_COLOR')
 
 	config.set('SKILL_COLOR', line, text)
 
-	with open('UserData/skill_color/'+chr.GetName(), 'wb') as configfile:
+	os.makedirs('UserData/skill_color', exist_ok=True)
+
+	with _io.open('UserData/skill_color/'+chr.GetName(), 'w', encoding='utf-8') as configfile:
 		config.write(configfile)
 
 COLOR_PRESET_SELECT_UI_SHOW_MAX = 10
@@ -357,14 +365,14 @@ class SkillColorWindow(ui.ScriptWindow):
 			if self.bg2ColorPresetWindow:
 				self.bg2ColorPresetWindow.SetSize(131, self.colorPresetWindowHeight)
 
-			for button in self.colorPresetDict.values():
+			for button in list(self.colorPresetDict.values()):
 				button.Show()
 		else:
 			self.colorPresetListOpen = False
 			if self.bg2ColorPresetWindow:
 				self.bg2ColorPresetWindow.SetSize(131, 0)
 
-			for button in self.colorPresetDict.values():
+			for button in list(self.colorPresetDict.values()):
 				button.Hide()
 
 	def __CreateColorPresetButton(self):
@@ -382,7 +390,7 @@ class SkillColorWindow(ui.ScriptWindow):
 		dictLen = len(colorPresetList)
 		self.colorPresetWindowHeight = dictLen * buttonHeight
 
-		for i in xrange(min(COLOR_PRESET_SELECT_UI_SHOW_MAX, dictLen)):
+		for i in range(min(COLOR_PRESET_SELECT_UI_SHOW_MAX, dictLen)):
 			key = i
 			button = ui.Button()
 			button.SetParent(self.bg2ColorPresetWindow)
@@ -416,7 +424,7 @@ class SkillColorWindow(ui.ScriptWindow):
 		self.bg2MouseOverImage.SetParent(self.bg2ColorPresetWindow)
 
 	def OnClickColorPreset(self, index):
-		for button in self.colorPresetDict.values():
+		for button in list(self.colorPresetDict.values()):
 			button.Hide()
 
 		self.__ColorPresetWindow(False)

@@ -373,7 +373,7 @@ class ExchangeDialog(ui.ScriptWindow):
 			itemIndex = playerm2g2.GetItemIndex(slotIndex)
 
 			if itemIndex:
-				if playerm2g2.GetItemSealDate(playerm2g2.INVENTORY, slotIndex) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP: #∫¿¿Œæ∆¿Ã≈€ ∞…∑Ø≥ø.
+				if playerm2g2.GetItemSealDate(playerm2g2.INVENTORY, slotIndex) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP: #Î¥âÏù∏ÏïÑÏù¥ÌÖú Í±∏Îü¨ÎÉÑ.
 					return True
 				return playerm2g2.IsAntiFlagBySlot(slotIndex, item.ANTIFLAG_GIVE)
 			return False

@@ -1118,7 +1118,7 @@ class CatchKingGamePage(ui.ScriptWindow):
 			checkPos.append(cardPos - 5 - 1)
 			checkPos.append(cardPos + 5 - 1)
 			
-		for i in xrange(len(self.gameCardList)):
+		for i in range(len(self.gameCardList)):
 			if i in checkPos:
 				self.gameCardList[i].ShowFiveNearEffect(endFunc, rowType, cardPos, cardValue, keepFieldCard, destroyHandCard, getReward, isFiveNear)
 

@@ -33,13 +33,13 @@ def LoadMouseButtonSettings():
 	tokens = old_open("mouse.cfg", "r").read().split()
 
 	if len(tokens) != 2:
-		raise RuntimeError, "MOUSE_SETTINGS_FILE_ERROR"
+		raise RuntimeError("MOUSE_SETTINGS_FILE_ERROR")
 
 	MOUSE_SETTINGS[0] = int(tokens[0])
 	MOUSE_SETTINGS[1] = int(tokens[1])
 
 def unsigned32(n):
-	return n & 0xFFFFFFFFL
+	return n & 0xFFFFFFFF
 
 #-------------------Giftbox Begin------------------------------
 
@@ -158,7 +158,7 @@ class EnergyBar(ui.ScriptWindow):
 	def RefreshStatus(self):
 		pointEnergy = playerm2g2.GetStatus (playerm2g2.ENERGY)
 		leftTimeEnergy = playerm2g2.GetStatus (playerm2g2.ENERGY_END_TIME) - app.GetGlobalTimeStamp()
-		# Ãæ±âÈ¯ Áö¼Ó ½Ã°£ = 2½Ã°£.
+		# ì¶©ê¸°í™˜ ì§€ì† ì‹œê°„ = 2ì‹œê°„.
 		self.SetEnergy (pointEnergy, leftTimeEnergy, 7200)
 
 	def SetEnergy (self, point, leftTime, maxTime):
@@ -433,18 +433,18 @@ class ExpandedTaskBar(ui.ScriptWindow):
 			if not ExpandedTaskBar.BUTTON_HUNTING in self.exclusion_list:
 				button_order.append( ExpandedTaskBar.BUTTON_HUNTING )
 
-		## ºÎ¸ð window ÀÇ position À» ´Ù½Ã °è»ê
-		total_count = len( button_order )	# Á¤·ÄÇÒ ÃÑ °³¼ö
-		quotient	= total_count /2		# ¸ò
-		remainder	= total_count % 2		# ³ª¸ÓÁö
+		## ë¶€ëª¨ window ì˜ position ì„ ë‹¤ì‹œ ê³„ì‚°
+		total_count = len( button_order )	# ì •ë ¬í•  ì´ ê°œìˆ˜
+		quotient	= total_count /2		# ëª«
+		remainder	= total_count % 2		# ë‚˜ë¨¸ì§€
 
 		window_x = (wndMgr.GetScreenWidth()/2 + 33) + (-36 * quotient )
-		if 0 == remainder: ## Â¦¼öÀÏ¶§´Â Ãß°¡ À§Ä¡ Á¶Á¤À» ÇØÁØ´Ù
+		if 0 == remainder: ## ì§ìˆ˜ì¼ë•ŒëŠ” ì¶”ê°€ ìœ„ì¹˜ ì¡°ì •ì„ í•´ì¤€ë‹¤
 			window_x = window_x + 18
 		window_y = wndMgr.GetScreenHeight() - 74
 		self.SetPosition( window_x, window_y )
 
-		## ¹öÆ°µéÀÇ À§Ä¡¸¦ ´Ù½Ã °è»êÇÑ´Ù.
+		## ë²„íŠ¼ë“¤ì˜ ìœ„ì¹˜ë¥¼ ë‹¤ì‹œ ê³„ì‚°í•œë‹¤.
 		pos_x = 0
 		pos_y = 0
 		for key in button_order:
@@ -457,7 +457,7 @@ class ExpandedTaskBar(ui.ScriptWindow):
 
 	def SetTop(self):
 		super(ExpandedTaskBar, self).SetTop()
-		for button in self.toggleButtonDict.values():
+		for button in list(self.toggleButtonDict.values()):
 			button.SetTop()
 
 	def Show(self):
@@ -615,12 +615,12 @@ class TaskBar(ui.ScriptWindow):
 			self.SetSkillSlotNew(slotNumber, skillIndex, skillGrade, skillLevel)
 			self.SetSlotCountNew(slotNumber, skillGrade, skillLevel)
 
-			## NOTE : CoolTime Ã¼Å©
+			## NOTE : CoolTime ì²´í¬
 			if playerm2g2.IsSkillCoolTime(skillSlotNumber):
 				(coolTime, elapsedTime) = playerm2g2.GetSkillCoolTime(skillSlotNumber)
 				self.SetSlotCoolTime(slotNumber, coolTime, elapsedTime)
 
-			## NOTE : Activate µÇ¾î ÀÖ´Ù¸é ¾ÆÀÌÄÜµµ ¾÷µ¥ÀÌÆ®
+			## NOTE : Activate ë˜ì–´ ìžˆë‹¤ë©´ ì•„ì´ì½˜ë„ ì—…ë°ì´íŠ¸
 			if playerm2g2.IsSkillActive(skillSlotNumber):
 				self.ActivateSlot(slotNumber)
 
@@ -726,7 +726,7 @@ class TaskBar(ui.ScriptWindow):
 		toggleButtonDict[TaskBar.BUTTON_MESSENGER]=self.GetChild("MessengerButton")
 		toggleButtonDict[TaskBar.BUTTON_SYSTEM]=self.GetChild("SystemButton")
 
-		# ChatButton, ExpandButton µÑ Áß ÇÏ³ª´Â ¹Ýµå½Ã Á¸ÀçÇÑ´Ù.
+		# ChatButton, ExpandButton ë‘˜ ì¤‘ í•˜ë‚˜ëŠ” ë°˜ë“œì‹œ ì¡´ìž¬í•œë‹¤.
 		try:
 			toggleButtonDict[TaskBar.BUTTON_CHAT]=self.GetChild("ChatButton")
 		except:
@@ -753,7 +753,7 @@ class TaskBar(ui.ScriptWindow):
 			exp.SetSize(0, 0)
 
 		if app.ENABLE_YOHARA_SYSTEM:
-			for i in xrange(4):
+			for i in range(4):
 				self.GetChild("EXPGauge_%02d" % (i+1)).Hide()
 
 			newExpGauge = []
@@ -765,7 +765,7 @@ class TaskBar(ui.ScriptWindow):
 			for newExp in newExpGauge:
 				newExp.SetSize(0, 0)
 
-			for i in xrange(4):
+			for i in range(4):
 				self.GetChild("NewExpGauge_%02d" % (i+1)).Hide()
 
 		self.quickPageNumImageBox=self.GetChild("QuickPageNumber")
@@ -824,7 +824,7 @@ class TaskBar(ui.ScriptWindow):
 			self.rampageGauge2 = self.GetChild("RampageGauge2")
 			self.rampageGauge2.OnMouseOverOut = ui.__mem_func__(self.__RampageGauge_OverOut)
 			self.rampageGauge2.OnMouseLeftButtonUp = ui.__mem_func__(self.__RampageGauge_Click)
-			print "[DEBUG]: constInfo.IN_GAME_SHOP_ENABLE / self.rampageGauge1",constInfo.IN_GAME_SHOP_ENABLE, self.rampageGauge1
+			print(("[DEBUG]: constInfo.IN_GAME_SHOP_ENABLE / self.rampageGauge1",constInfo.IN_GAME_SHOP_ENABLE, self.rampageGauge1))
 			self.__RampageGauge_OverOut()
 
 		self.hpGauge = self.GetChild("HPGauge")
@@ -848,17 +848,17 @@ class TaskBar(ui.ScriptWindow):
 		self.RefreshQuickSlot()
 
 	def __RampageGauge_OverIn(self):
-		print "rampage_over_in"
+		print("rampage_over_in")
 		self.rampageGauge2.Show()
 		self.rampageGauge1.Hide()
 
 	def __RampageGauge_OverOut(self):
-		print "rampage_over_out"
+		print("rampage_over_out")
 		self.rampageGauge2.Hide()
 		self.rampageGauge1.Show()
 
 	def __RampageGauge_Click(self):
-		print "rampage_up"
+		print("rampage_up")
 		m2netm2g.SendChatPacket("/in_game_mall")
 		# gift icon hide when click mall icon
 		self.wndGiftBox.Hide()
@@ -868,7 +868,7 @@ class TaskBar(ui.ScriptWindow):
 			LoadMouseButtonSettings()
 			(mouseLeftButtonEvent, mouseRightButtonEvent) = GetMouseButtonSettings()
 			if not self.__IsInSafeMouseButtonSettingRange(mouseLeftButtonEvent) or not self.__IsInSafeMouseButtonSettingRange(mouseRightButtonEvent):
-					raise RuntimeError, "INVALID_MOUSE_BUTTON_SETTINGS"
+					raise RuntimeError("INVALID_MOUSE_BUTTON_SETTINGS")
 		except:
 			InitMouseButtonSettings(self.EVENT_AUTO, self.EVENT_CAMERA)
 			(mouseLeftButtonEvent, mouseRightButtonEvent) = GetMouseButtonSettings()
@@ -1028,18 +1028,17 @@ class TaskBar(ui.ScriptWindow):
 		curPoint = max(curPoint, 0)
 		maxPoint = max(maxPoint, 0)
 
-		quarterPoint = maxPoint / 4
+		quarterPoint = maxPoint // 4
 		FullCount = 0
 
 		if 0 != quarterPoint:
-			FullCount = min(4, curPoint / quarterPoint)
-
+			FullCount = min(4, curPoint // quarterPoint)
 		if app.ENABLE_YOHARA_SYSTEM and playerm2g2.GetStatus(playerm2g2.CONQUEROR_LEVEL) > 0:
-			for i in xrange(4):
+			for i in range(4):
 				self.expGauge[i].Hide()
 				self.newExpGauge[i].Hide()
 
-			for i in xrange(FullCount):
+			for i in range(FullCount):
 				self.newExpGauge[i].SetRenderingRect(0.0, 0.0, 0.0, 0.0)
 				self.newExpGauge[i].Show()
 
@@ -1050,12 +1049,12 @@ class TaskBar(ui.ScriptWindow):
 					self.newExpGauge[FullCount].Show()
 					self.expGauge[FullCount].Hide()
 		else:
-			for i in xrange(4):
+			for i in range(4):
 				self.expGauge[i].Hide()
 				if app.ENABLE_YOHARA_SYSTEM:
 					self.newExpGauge[i].Hide()
 
-			for i in xrange(FullCount):
+			for i in range(FullCount):
 				self.expGauge[i].SetRenderingRect(0.0, 0.0, 0.0, 0.0)
 				self.expGauge[i].Show()
 
@@ -1081,7 +1080,7 @@ class TaskBar(ui.ScriptWindow):
 
 		startNumber = 0
 		for slot in self.quickslot:
-			for i in xrange(4):
+			for i in range(4):
 				slotNumber = i+startNumber
 				slot.DeactivateSlot(slotNumber)
 
@@ -1100,7 +1099,7 @@ class TaskBar(ui.ScriptWindow):
 						itemCount = 0
 
 					if constInfo.IS_AUTO_POTION(itemIndex):
-						metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+						metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 
 						if 0 != int(metinSocket[0]):
 							slot.ActivateSlot(slotNumber)
@@ -1118,7 +1117,7 @@ class TaskBar(ui.ScriptWindow):
 
 					if app.ENABLE_SOUL_SYSTEM:
 						if item.IsSoulItem( itemIndex ):
-							metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+							metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 
 							if 0 != int(metinSocket[1]):
 								slot.ActivateSlot(slotNumber)
@@ -1127,7 +1126,7 @@ class TaskBar(ui.ScriptWindow):
 
 					if app.ENABLE_ACTIVE_PET_EFFECT:
 						if item.ITEM_TYPE_PET == item.GetItemType() and item.PET_PAY == item.GetItemSubType():
-							metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]	
+							metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]	
 
 							if 0 != metinSocket[1]:
 								slot.ActivateSlot(slotNumber)
@@ -1143,7 +1142,7 @@ class TaskBar(ui.ScriptWindow):
 						itemCount = 0
 
 					if constInfo.IS_AUTO_POTION(itemIndex):
-						metinSocket = [playerm2g2.GetItemMetinSocket(Position, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+						metinSocket = [playerm2g2.GetItemMetinSocket(Position, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 
 						if 0 != int(metinSocket[0]):
 							slot.ActivateSlot(slotNumber)
@@ -1160,7 +1159,7 @@ class TaskBar(ui.ScriptWindow):
 
 					if app.ENABLE_SOUL_SYSTEM:
 						if item.IsSoulItem(itemIndex):
-							metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+							metinSocket = [playerm2g2.GetItemMetinSocket(window, Position, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 
 							if 0 != int(metinSocket[1]):
 								slot.ActivateSlot(slotNumber)
@@ -1271,7 +1270,7 @@ class TaskBar(ui.ScriptWindow):
 
 		## Quick Slot
 		for slotWindow in self.quickslot:
-			for i in xrange(QUICK_SLOT_SLOT_COUNT):
+			for i in range(QUICK_SLOT_SLOT_COUNT):
 				(Type, Position) = playerm2g2.GetLocalQuickSlot(slotIndex)
 
 				if Type == playerm2g2.SLOT_TYPE_SKILL:
@@ -1290,7 +1289,7 @@ class TaskBar(ui.ScriptWindow):
 
 		## Quick Slot
 		for slotWindow in self.quickslot:
-			for i in xrange(4):
+			for i in range(4):
 				(Type, Position) = playerm2g2.GetLocalQuickSlot(slotIndex)
 
 				if Type == playerm2g2.SLOT_TYPE_SKILL:
@@ -1309,7 +1308,7 @@ class TaskBar(ui.ScriptWindow):
 
 		## Quick Slot
 		for slotWindow in self.quickslot:
-			for i in xrange(4):
+			for i in range(4):
 				(Type, Position) = playerm2g2.GetLocalQuickSlot(slotIndex)
 
 				if Type == playerm2g2.SLOT_TYPE_SKILL:
@@ -1422,7 +1421,7 @@ class TaskBar(ui.ScriptWindow):
 
 			getSkillIndex=playerm2g2.GetSkillIndex
 			getSkillLevel=playerm2g2.GetSkillLevel
-			for i in xrange(PAGE_SLOT_COUNT):
+			for i in range(PAGE_SLOT_COUNT):
 
 				skillIndex = getSkillIndex(startNumber+i)
 				skillLevel = getSkillLevel(startNumber+i)

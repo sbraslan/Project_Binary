@@ -180,7 +180,7 @@ class FishEventGamePage(ui.ScriptWindow):
 		self.useCount = 0
 
 		self.scoreTextEffect = None
-		self.scoreEffects = [ None for effect in xrange(3)]
+		self.scoreEffects = [ None for effect in range(3)]
 
 		self.popupReward = None
 		self.rewardVnum = 0
@@ -233,7 +233,7 @@ class FishEventGamePage(ui.ScriptWindow):
 			self.useCountText = self.GetChild("use_count_text")
 			self.useCountText.SetText(str(self.useCount))
 
-			for i in xrange(len(self.scoreEffects)):
+			for i in range(len(self.scoreEffects)):
 				self.scoreEffects[i] = self.GetChild("score_completion_effect%d" % int(i + 1))
 				self.scoreEffects[i].SetScale(1.2, 1.2)
 				self.scoreEffects[i].Hide()
@@ -271,12 +271,12 @@ class FishEventGamePage(ui.ScriptWindow):
 		self.SetTop()
 		mouseModule.mouseController.DeattachObjectPostProcess()
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE * playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE * playerm2g2.INVENTORY_PAGE_COUNT):
 			if playerm2g2.GetItemIndex(i) == ITEM_FISH_EVENT_BOX_SPECIAL:
 				self.__AddFishEventSlot(SPECIAL_TYPE, i)
 				break
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE * playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE * playerm2g2.INVENTORY_PAGE_COUNT):
 			if playerm2g2.GetItemIndex(i) == ITEM_FISH_EVENT_BOX:
 				self.__AddFishEventSlot(NORMAL_TYPE, i)
 				break
@@ -470,7 +470,7 @@ class FishEventGamePage(ui.ScriptWindow):
 		if shape in positionInfo:
 			self.gridSlot.SetCoverButton(pos, shapeImage, shapeImage, shapeImage, shapeImage, False, False)
 			self.gridSlot.SetAlwaysRenderCoverButton(pos)
-			for i in xrange(len(positionInfo[shape])):
+			for i in range(len(positionInfo[shape])):
 				#self.gridSlot.SetSlot(pos + positionInfo[shape][i], 1, 1, 1, 0)
 				self.gridSlot.SetFishSlot(pos + positionInfo[shape][i], 1, 1, 1, 0)
 
@@ -685,7 +685,7 @@ class FishEventGamePage(ui.ScriptWindow):
 		if self.useCountText:
 			self.useCountText.SetText(str(self.useCount))
 
-		for slotPos in xrange(self.gridSlot.GetSlotCount()):
+		for slotPos in range(self.gridSlot.GetSlotCount()):
 			self.gridSlot.DeleteCoverButton(slotPos)
 			self.gridSlot.ClearSlot(slotPos)
 		self.gridSlot.RefreshSlot()

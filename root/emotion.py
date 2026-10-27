@@ -194,7 +194,7 @@ def __RegisterSharedEmotionAnis(mode, path):
 	chrmgrm2g.SetPathName(path)
 	chrmgrm2g.RegisterMotionMode(mode)
 
-	for key, val in ANI_DICT.items():
+	for key, val in list(ANI_DICT.items()):
 		if app.ENABLE_12ZI:
 			chrmgrm2g.RegisterCacheMotionData(mode, key, val)
 		else:
@@ -219,6 +219,6 @@ def RegisterEmotionAnis(path):
 		chrmgrm2g.RegisterMotionData(chr.MOTION_MODE_WEDDING_DRESS, chr.MOTION_RUN, "walk.msa")
 
 def RegisterEmotionIcons():
-	for key, val in ICON_DICT.items():
+	for key, val in list(ICON_DICT.items()):
 		playerm2g2.RegisterEmotionIcon(key, val)
 

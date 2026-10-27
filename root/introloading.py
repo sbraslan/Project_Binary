@@ -34,6 +34,8 @@ import uiSystem
 import uiOption
 import uiRestart
 ####################################
+import dbg
+dbg.TraceError("BOOTTRACE: INTROLOADING FILE LOADED")
 
 class LoadingWindow(ui.ScriptWindow):
 	def __init__(self, stream):
@@ -101,7 +103,7 @@ class LoadingWindow(ui.ScriptWindow):
 			self.loadingImage.LoadImage(imgFileName)
 
 		except:
-			print "LoadingWindow.Open.LoadImage - %s File Load Error" % (imgFileName)
+			print(("LoadingWindow.Open.LoadImage - %s File Load Error" % (imgFileName)))
 			self.loadingImage.Hide()
 
 		width = float(wndMgr.GetScreenWidth()) / float(self.loadingImage.GetWidth())
@@ -169,6 +171,7 @@ class LoadingWindow(ui.ScriptWindow):
 		self.__StartGame()
 
 	def LoadData(self, playerX, playerY):
+		dbg.TraceError("BOOTTRACE: LoadData BEGIN")
 		background.Destroy()
 		self.playerX=playerX
 		self.playerY=playerY
@@ -199,13 +202,13 @@ class LoadingWindow(ui.ScriptWindow):
 			(100, ui.__mem_func__(self.__StartGame)),
 		]
 		if app.ENABLE_WOLFMAN_CHARACTER:
-			self.loadStepList+=[(100, ui.__mem_func__(self.__LoadWolfman)),]
+			self.loadStepList += [(85, ui.__mem_func__(self.__LoadWolfman)),]
 
 		tmpLoadStepList = tuple(zip(*self.loadStepList))[0]
 		for progress in range(tmpLoadStepList[0], tmpLoadStepList[-1] + 1):
 			if progress not in tmpLoadStepList:
 				self.loadStepList.append((progress, lambda: None))
-		self.loadStepList.sort()
+		self.loadStepList.sort(key=lambda step: step[0])
 
 		self.__SetProgress(0)
 		#self.__SetNext(self.__LoadMap)
@@ -213,6 +216,9 @@ class LoadingWindow(ui.ScriptWindow):
 	def OnUpdate(self):
 		if len(self.loadStepList)>0:
 			(progress, runFunc)=self.loadStepList[0]
+
+			import dbg
+			dbg.TraceError("BOOTTRACE: STEP %d BEGIN" % progress)
 
 			try:
 				runFunc()
@@ -231,8 +237,9 @@ class LoadingWindow(ui.ScriptWindow):
 				#os.system("errorlog.exe")
 
 				app.Exit()
-
 				return
+
+			dbg.TraceError("BOOTTRACE: STEP %d END" % progress)
 
 			self.loadStepList.pop(0)
 
@@ -257,7 +264,7 @@ class LoadingWindow(ui.ScriptWindow):
 		playerSettingModule.RegisterSkill(race, group, empire)
 
 	def __RegisterTitleName(self):
-		for i in xrange(len(localeInfo.TITLE_NAME_LIST)):
+		for i in range(len(localeInfo.TITLE_NAME_LIST)):
 			chrmgrm2g.RegisterTitleName(i, localeInfo.TITLE_NAME_LIST[i])
 
 	def __RegisterColor(self):
@@ -282,7 +289,7 @@ class LoadingWindow(ui.ScriptWindow):
 		NAME_COLOR_DICT.update({chrmgrm2g.NAMECOLOR_METIN : colorInfo.CHR_NAME_RGB_METIN,})
 		NAME_COLOR_DICT.update({chrmgrm2g.NAMECOLOR_BOSS : colorInfo.CHR_NAME_RGB_BOSS,})
 
-		for name, rgb in NAME_COLOR_DICT.items():
+		for name, rgb in list(NAME_COLOR_DICT.items()):
 			chrmgrm2g.RegisterNameColor(name, rgb[0], rgb[1], rgb[2])
 
 		## Title
@@ -339,10 +346,19 @@ class LoadingWindow(ui.ScriptWindow):
 
 	# GUILD_BUILDING
 	def __LoadGuildBuilding(self):
-		playerSettingModule.LoadGuildBuildingList(localeInfo.GUILD_BUILDING_LIST_TXT)
+		# GUILD BUILDING PY315 TEMP BYPASS
+		try:
+			playerSettingModule.LoadGuildBuildingList(localeInfo.GUILD_BUILDING_LIST_TXT)
+		except:
+			import traceback
+			dbg.TraceError("GUILD BUILDING LOAD FAILED")
+			dbg.TraceError(traceback.format_exc())
 	# END_OF_GUILD_BUILDING
 
 	def __StartGame(self):
+		import dbg
+		dbg.TraceError("BOOTTRACE: introLoading.__StartGame BEGIN")
+
 		background.SetViewDistanceSet(background.DISTANCE0, 25600)
 		"""
 		background.SetViewDistanceSet(background.DISTANCE1, 19200)
@@ -354,4 +370,6 @@ class LoadingWindow(ui.ScriptWindow):
 
 		app.SetGlobalCenterPosition(self.playerX, self.playerY)
 
+		dbg.TraceError("BOOTTRACE: calling m2netm2g.StartGame")
 		m2netm2g.StartGame()
+		dbg.TraceError("BOOTTRACE: introLoading.__StartGame END")

@@ -90,7 +90,7 @@ class LotteryWindow(ui.ScriptWindow):
 			self.GetChild("info_button").SetEvent(self.OpenInfoBoard)
 			self.JackpotText = self.GetChild("jackpot_slot_text")
 
-			for i in xrange (1, 4):
+			for i in range (1, 4):
 				self.GetChild("bg_lottopaper_active_%s" % str(i)).Hide()
 				self.GetChild("bg_lottopaper_win_%s" % str(i)).Hide()
 				self.GetChild("bg_lottopaper_win_jackpot_%s" % str(i)).Hide()
@@ -152,7 +152,7 @@ class LotteryWindow(ui.ScriptWindow):
 
 	def RefreshLottoTicketInfo(self):
 		self.NumberGrids = [ [ ] , [ ] , [ ] ]
-		for i in xrange(1, 4):
+		for i in range(1, 4):
 			grids_row = i-1
 			#if constInfo.lotto_ticket_data["ticket_%s" % i]["ticket_id"] != 0:
 			self.NumberGrids[grids_row].append(0)
@@ -161,7 +161,7 @@ class LotteryWindow(ui.ScriptWindow):
 			self.GetChild("bg_lottopaper_win_%s" % i).Hide()
 			self.GetChild("bg_lottopaper_win_jackpot_%s" % i).Hide()
 
-			for a in xrange(1, 31):
+			for a in range(1, 31):
 				if i == 1:
 					self.NumberGrids[grids_row].append(self.GetChild("number_slot1_%s" % a))
 				if i == 2:
@@ -175,12 +175,12 @@ class LotteryWindow(ui.ScriptWindow):
 
 			if constInfo.lotto_ticket_data["ticket_%s" % i]["ticket_id"] != 0:
 				self.GetChild("bg_lottopaper_active_%s" % str(i)).Show()
-				for b in xrange(0, 4):
+				for b in range(0, 4):
 					self.NumberGrids[grids_row][constInfo.lotto_ticket_data["ticket_%s" % i]["ticket_numbers"][b]].SetCheckNumber(True)
 					
-					for c in xrange(0, len(constInfo.lotto_number_infos)):
+					for c in range(0, len(constInfo.lotto_number_infos)):
 						if constInfo.lotto_number_infos[c]["lotto_id"] == constInfo.lotto_ticket_data["ticket_%s" % i]["ticket_for_lottoid"]:
-							for d in xrange(0, 4):
+							for d in range(0, 4):
 								if self.NumberGrids[grids_row][constInfo.lotto_number_infos[c]["numbers"][d]] != 0 and constInfo.lotto_ticket_data["ticket_%s" % i]["ticket_numbers"][b] != constInfo.lotto_number_infos[c]["numbers"][d]:
 									self.NumberGrids[grids_row][constInfo.lotto_number_infos[c]["numbers"][d]].SetLottoNumber(True)
 								if constInfo.lotto_ticket_data["ticket_%s" % i]["ticket_numbers"][b] == constInfo.lotto_number_infos[c]["numbers"][d]:
@@ -290,7 +290,7 @@ class AddTicketWindow(ui.ScriptWindow):
 
 	def __del__(self):
 		constInfo.lottery_new_ticket_numbers = [ ]
-		for i in xrange(1, 31):
+		for i in range(1, 31):
 			self.GetChild("number_slot_%s" % i).SetCheckStatus(False)
 
 		ui.ScriptWindow.__del__(self)
@@ -298,7 +298,7 @@ class AddTicketWindow(ui.ScriptWindow):
 	def Show(self, value = 0):
 		if value != constInfo.lottery_new_ticket_slot:
 			constInfo.lottery_new_ticket_numbers = [ ]
-			for i in xrange(1, 31):
+			for i in range(1, 31):
 				self.GetChild("number_slot_%s" % i).SetCheckStatus(False)
 
 		self.GetChild("board").SetTitleName(uiScriptLocale.LOTTO_NEW_TICKET_WINDOW_TITLE % value)
@@ -307,14 +307,14 @@ class AddTicketWindow(ui.ScriptWindow):
 
 	def Close(self):
 		constInfo.lottery_new_ticket_numbers = [ ]
-		for i in xrange(1, 31):
+		for i in range(1, 31):
 			self.GetChild("number_slot_%s" % i).SetCheckStatus(False)
 
 		self.Hide()
 
 	def Destroy(self):
 		constInfo.lottery_new_ticket_numbers = [ ]
-		for i in xrange(1, 31):
+		for i in range(1, 31):
 			self.GetChild("number_slot_%s" % i).SetCheckStatus(False)
 
 		ui.ScriptWindow.__del__(self)
@@ -340,7 +340,7 @@ class AddTicketWindow(ui.ScriptWindow):
 
 	def DiceRandom(self):
 		constInfo.lottery_new_ticket_numbers = [ ]
-		for i in xrange(1, 31):
+		for i in range(1, 31):
 			self.GetChild("number_slot_%s" % i).SetCheckStatus(False)
 
 		number_1 = app.GetRandom(1, 30)
@@ -368,7 +368,7 @@ class AddTicketWindow(ui.ScriptWindow):
 		constInfo.lottery_new_ticket_numbers.append(int(number_4))
 
 	def ClearNumbers(self):
-		for i in xrange(1, 31):
+		for i in range(1, 31):
 			self.GetChild("number_slot_%s" % i).SetCheckStatus(False)
 		constInfo.lottery_new_ticket_numbers = [ ]
 
@@ -478,7 +478,7 @@ class LottoLastNumbersWindow(ui.ScriptWindow):
 		else:
 			self.ScrollBar.Hide()
 
-		for i in xrange(start_range, end_range):
+		for i in range(start_range, end_range):
 			pos = i - start_range
 			yPos = 40 + pos * 140
 

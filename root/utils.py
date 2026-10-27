@@ -1,3 +1,6 @@
+# METIN2_PY315_SANDBOX_V1
+import app
+
 class Sandbox(object):
 	# DO NOT REMOVE ANY ENTRY OF WHITE LIST
 	# THIS ENTIES ARE USED FOR Sandbox.
@@ -22,7 +25,7 @@ class Sandbox(object):
 
 		for allowed_module_name in self.allowed_modules:
 			try:
-				exec 'import {0}'.format(allowed_module_name)
+				__import__(allowed_module_name)
 			except:
 				# Just now, pass the exception.
 				# (filename could not use this module)
@@ -37,7 +40,7 @@ class Sandbox(object):
 		# set current imported modules None
 		if self.prevent_imported_modules:
 			import types
-			for k, v in old_modules.items():
+			for k, v in list(old_modules.items()):
 				if type(v) == types.ModuleType:
 					if not (k in self.WHITE_LIST or k in self.allowed_modules):
 						sys.modules[k] = None
@@ -54,16 +57,17 @@ class Sandbox(object):
 				f = open(filename, 'rb')
 				data = f.read()
 				code = compile(data, filename, 'exec')
-			exec code in dic
-		except Exception, e:
+			exec(code, dic)
+		except Exception as e:
 			old_modules['dbg'].TraceError("UISCRIPT_LOAD_ERROR: %s [filename %s]" % (str(e), filename)) # @fixme004 (sys.stderr.write to dbg.TraceError)
+			raise
 		finally:
 			# Restore original settings.
 			#sys.modules = old_modules# <- This is not effective. I don't know why, but I guess some where got old sys.modules reference and access old one.
-			for k, v in sys.modules.items():
+			for k, v in list(sys.modules.items()):
 				if not k in old_modules:
 					del sys.modules[k]
-			for k, v in old_modules.items():
+			for k, v in list(old_modules.items()):
 				sys.modules[k] = v
 
 			sys.path = old_path

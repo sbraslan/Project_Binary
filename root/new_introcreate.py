@@ -418,7 +418,7 @@ class CreateCharacterWindow(ui.Window):
 		self.statpoint = None
 		self.curGauge  = None
 
-		for i in xrange(self.LEN_JOBLIST * 2 - 1):
+		for i in range(self.LEN_JOBLIST * 2 - 1):
 			chr.DeleteInstance(i)
 
 		self.stream = None
@@ -494,7 +494,7 @@ class CreateCharacterWindow(ui.Window):
 		self.editCharacterName.SetFocus()
 		self.editCharacterName.Enable()
 
-		for i in xrange(2) :
+		for i in range(2) :
 			self.genderButtonList[i].Enable()
 			self.shapeButtonList[i].Enable()
 
@@ -505,7 +505,7 @@ class CreateCharacterWindow(ui.Window):
 		self.btnCancel.Disable()
 		self.editCharacterName.Disable()
 
-		for i in xrange(2) :
+		for i in range(2) :
 			self.genderButtonList[i].Disable()
 			self.shapeButtonList[i].Disable()
 
@@ -581,7 +581,7 @@ class CreateCharacterWindow(ui.Window):
 		self.JobSex[self.job_id] = self.gender
 		self.race = self.M2_CONST_ID[self.job_id][self.gender]
 
-		for i in xrange(self.LEN_JOBLIST) :
+		for i in range(self.LEN_JOBLIST) :
 			if self.job_id == i :
 				self.SelectBtnFaceList[i].LoadImage(self.RACE_FACE_PATH[self.race] + "1.sub")
 			else :
@@ -623,11 +623,11 @@ class CreateCharacterWindow(ui.Window):
 			float(self.statpoint[3])/statSummary,
 		]
 
-		for i in xrange(self.LEN_STATPOINT):
+		for i in range(self.LEN_STATPOINT):
 			self.statValue[i].SetText(str(self.statpoint[i]))
 
 	def ResetStat(self):
-		for i in xrange(self.LEN_STATPOINT) :
+		for i in range(self.LEN_STATPOINT) :
 			self.statpoint[i] = self.M2STATPOINT[self.job_id][i]
 			self.RefreshStat()
 
@@ -738,7 +738,7 @@ class CreateCharacterWindow(ui.Window):
 			self.JobList[self.job_id].Down()
 			self.OverOutToolTip()
 		else :
-			print " New_introSelect.py ::EventProgress : FALSE"
+			print(" New_introSelect.py ::EventProgress : FALSE")
 
 	def OverInToolTip(self, arg) :
 		arglen = len(str(arg))
@@ -768,13 +768,13 @@ class CreateCharacterWindow(ui.Window):
 		event.UpdateEventSet(self.descIndex, xposEventSet+7, -(yposEventSet+7))
 		self.descriptionBox.SetIndex(self.descIndex)
 
-		for i in xrange(len(self.NameList)):
+		for i in range(len(self.NameList)):
 			if self.job_id == i	: 
 				self.NameList[i].SetAlpha(1)
 			else :
 				self.NameList[i].SetAlpha(0)
 
-		for i in xrange(self.LEN_STATPOINT):
+		for i in range(self.LEN_STATPOINT):
 			self.GaugeList[i].SetPercentage(self.curGauge[i], 1.0)
 
 		if self.MotionStart and self.createSuccess and app.GetTime() - self.MotionTime >= 2.0 :

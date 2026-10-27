@@ -47,7 +47,7 @@ class ItemToolTipImageBox(ui.ImageBox):
 	def OnMouseOverIn(self):
 		if self.toolTip:
 			self.toolTip.SetTop()
-			print self.itemvnum
+			print((self.itemvnum))
 			self.toolTip.SetItemToolTip(self.itemvnum)
 			self.toolTip.Show()
 
@@ -145,7 +145,7 @@ class QuestCurtain(ui.Window):
 
 		self.CurtainMode = 0
 
-		self.lastclock = time.clock()
+		self.lastclock = time.perf_counter()
 
 	def __del__(self):
 		ui.Window.__del__(self)
@@ -158,11 +158,11 @@ class QuestCurtain(ui.Window):
 		self.TopBar.SetPosition(0, -self.BarHeight-1)
 		self.BottomBar.SetPosition(0, wndMgr.GetScreenHeight()+1)
 		for OnDoneEvent in QuestCurtain.OnDoneEventList:
-			apply(OnDoneEvent,(self,))
+			OnDoneEvent(*(self,))
 		QuestCurtain.OnDoneEventList = []
 
 	def OnUpdate(self):
-		dt = time.clock() - self.lastclock
+		dt = time.perf_counter() - self.lastclock
 		if self.CurtainMode>0:
 			self.TopBar.SetPosition(0, int(self.TopBar.GetGlobalPosition()[1]+dt*self.CURTAIN_SPEED))
 			self.BottomBar.SetPosition(0, int(self.BottomBar.GetGlobalPosition()[1]-dt*self.CURTAIN_SPEED))
@@ -179,7 +179,7 @@ class QuestCurtain(ui.Window):
 				self.BottomBar.SetPosition(0,wndMgr.GetScreenHeight()+1)
 				self.Close()
 
-		self.lastclock = time.clock()
+		self.lastclock = time.perf_counter()
 
 class EventCurtain(ui.Bar):
 
@@ -506,7 +506,7 @@ class QuestDialog(ui.ScriptWindow):
 
 	def AddOnCloseEvent(self,f):
 		if self.OnCloseEvent:
-			self.OnCloseEvent = lambda z=[self.OnCloseEvent, f]:map(apply,z)
+			self.OnCloseEvent = lambda z=[self.OnCloseEvent, f]: [func() for func in z]
 		else:
 			self.OnCloseEvent = f
 
@@ -572,7 +572,7 @@ class QuestDialog(ui.ScriptWindow):
 		if not self.board:
 			return
 
-		self.btnAnswer = [self.MakeEachButton(i) for i in xrange (n)]
+		self.btnAnswer = [self.MakeEachButton(i) for i in range (n)]
 			
 		import localeInfo
 		self.prevbutton = self.MakeNextPrevPageButton()
@@ -658,7 +658,7 @@ class QuestDialog(ui.ScriptWindow):
 		self.prevbutton = None
 		self.CloseSelf()	
 
-	def AppendQuestion(self, name, idx):  # idx´Â 0ºÎÅÍ ½ÃÀÛÇÔ. PythonEventManager.cpp line 881 Âü°í. by ±èÁØÈ£
+	def AppendQuestion(self, name, idx):  # idxëŠ” 0ë¶€í„° ì‹œì‘í•¨. PythonEventManager.cpp line 881 ì°¸ê³ . by ê¹€ì¤€í˜¸
 		if not self.btnAnswer:
 			return
 
@@ -709,7 +709,7 @@ class QuestDialog(ui.ScriptWindow):
 	# QUEST_INPUT
 	def OnKeyDown(self, key):
 		if self.btnAnswer == None:
-			## ¼±ÅÃ¹®ÀÌ ¾ø°í '´ÙÀ½', 'È®ÀÎ' µîÀÇ ÀÏ¹æ ¹öÆ°¸¸ ÀÖ´Â °æ¿ì¿¡ ´ëÇÑ Ã³¸®
+			## ì„ íƒë¬¸ì´ ì—†ê³  'ë‹¤ìŒ', 'í™•ì¸' ë“±ì˜ ì¼ë°© ë²„íŠ¼ë§Œ ìˆëŠ” ê²½ìš°ì— ëŒ€í•œ ì²˜ë¦¬
 			if None != self.btnNext:
 				if app.DIK_RETURN == key:
 					self.OnPressEscapeKey()
@@ -753,28 +753,28 @@ class QuestDialog(ui.ScriptWindow):
 		return True
 
 	def OnPressEscapeKey(self):
-		# ESCÅ°°¡ ´­¸° °æ¿ì "´ÙÀ½" ¹öÆ°À» ´©¸¥ °Í°ú °°Àº È¿°ú¸¦ ³»µµ·Ï ÇÔ.
+		# ESCí‚¤ê°€ ëˆŒë¦° ê²½ìš° "ë‹¤ìŒ" ë²„íŠ¼ì„ ëˆ„ë¥¸ ê²ƒê³¼ ê°™ì€ íš¨ê³¼ë¥¼ ë‚´ë„ë¡ í•¨.
 		if None != self.btnNext:
-		    ##Äù½ºÆ®¹®ÀÚµéÀÌ ÀüºÎ´Ù ³ª¿ÔÀ»°æ¿ìÀÇ ESC¹öÆ°
+		    ##í€˜ìŠ¤íŠ¸ë¬¸ìë“¤ì´ ì „ë¶€ë‹¤ ë‚˜ì™”ì„ê²½ìš°ì˜ ESCë²„íŠ¼
 			if event.BUTTON_TYPE_CANCEL == self.nextButtonType:
 				event.SelectAnswer(self.descIndex, 254)
 				self.CloseSelf()
-			## ¾Æ¹« ÀÛ¾÷À» ÇÏÁö ¾ÊÀ»¶§
+			## ì•„ë¬´ ì‘ì—…ì„ í•˜ì§€ ì•Šì„ë•Œ
 			elif event.BUTTON_TYPE_DONE == self.nextButtonType:
 				event.SelectAnswer(self.descIndex, 254)
 				self.CloseSelf()
-			## ¿£ÅÍ³ª ´ÙÀ½È­¸éÀ¸·Î ³Ñ¾î°¡·Á°í ÇÒ°æ¿ì 
+			## ì—”í„°ë‚˜ ë‹¤ìŒí™”ë©´ìœ¼ë¡œ ë„˜ì–´ê°€ë ¤ê³  í• ê²½ìš° 
 			elif event.BUTTON_TYPE_NEXT == self.nextButtonType:
 				event.SelectAnswer(self.descIndex, 254)
 				self.CloseSelf()
 		else:
-		## µµÁß¿¡ ²¨¹ö¸®°Å³ª, ESC¹öÆ°ÀÌ ³ª¿ÓÀ»°æ¿ì
-		    ## NPC°¡ ¾Æ´Ñ Äù½ºÆ® Ã¢À» ´­·¶À»¶§, questbuttonÀº NPC¸¦ ´­·¶À»¶§¸¸ È°¼ºÈ­ 
-		    ## Äù½ºÆ® ¹öÆ°ÀÌ 0ÀÌ¶ó´Â ¼Ò¸®´Â NPC¸¦ Å¬¸¯Çß´Ù´Â ¸»ÀÌ ¾Æ´Ô
+		## ë„ì¤‘ì— êº¼ë²„ë¦¬ê±°ë‚˜, ESCë²„íŠ¼ì´ ë‚˜ì™“ì„ê²½ìš°
+		    ## NPCê°€ ì•„ë‹Œ í€˜ìŠ¤íŠ¸ ì°½ì„ ëˆŒë €ì„ë•Œ, questbuttonì€ NPCë¥¼ ëˆŒë €ì„ë•Œë§Œ í™œì„±í™” 
+		    ## í€˜ìŠ¤íŠ¸ ë²„íŠ¼ì´ 0ì´ë¼ëŠ” ì†Œë¦¬ëŠ” NPCë¥¼ í´ë¦­í–ˆë‹¤ëŠ” ë§ì´ ì•„ë‹˜
 			if entire_questbutton_number == 0 :
 				event.SelectAnswer(self.descIndex, entire_questpage_number )
 			else :
-			    ## NPC¸¦ ´­·¶À»¶§, 
+			    ## NPCë¥¼ ëˆŒë €ì„ë•Œ, 
 				event.SelectAnswer(self.descIndex, entire_questbutton_number -1 )
 											    
 			self.nextbutton = None
@@ -918,7 +918,7 @@ class QuestDialog(ui.ScriptWindow):
 
 			import grpText
 			lineCount = grpText.GetSplitingTextLineCount(tempDesc, 25)
-			for i in xrange(lineCount):
+			for i in range(lineCount):
 				desc += grpText.GetSplitingTextLine(tempDesc, 25, i) + "/"
 
 			desc = desc[:-1]

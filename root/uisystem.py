@@ -257,7 +257,7 @@ if app.ENABLE_MOVE_CHANNEL:
 			self.CloseBtn.SetText( localeInfo.MOVE_CHANNEL_CANCEL )
 			self.CloseBtn.SetEvent(ui.__mem_func__(self.Close))
 
-			for i in xrange(cnt):
+			for i in range(cnt):
 				btn = ui.MakeButton(self.ChildBoard, 8, 6 + i*28, "", "d:/ymir work/ui/game/myshop_deco/", "select_btn_01.sub", "select_btn_02.sub", "select_btn_03.sub")
 				btn.SetText(m2netm2g.GetChannelName(i+1))
 				btn.SetEvent(ui.__mem_func__(self.__SelectChannel), i+1)

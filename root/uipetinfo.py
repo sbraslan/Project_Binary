@@ -34,7 +34,7 @@ FEED_WINDOW_X_SIZE = 3
 FEED_WINDOW_Y_SIZE = 3
 
 def unsigned32(n):
-	return n & 0xFFFFFFFFL
+	return n & 0xFFFFFFFF
 
 #Pet mini info window
 class PetMiniInfomationWindow(ui.ScriptWindow):
@@ -1763,10 +1763,10 @@ class PetInformationWindow(ui.ScriptWindow):
 			if stateKey!=tabKey:
 				tabButton.SetUp()
 
-		for tabValue in self.tabDict.itervalues():
+		for tabValue in self.tabDict.values():
 			tabValue.Hide()
 
-		for pageValue in self.pageDict.itervalues():
+		for pageValue in self.pageDict.values():
 			pageValue.Hide()
 
 		if app.ENABLE_PET_ATTR_DETERMINE:

@@ -118,9 +118,9 @@ class HelpWindow(ui.ScriptWindow):
 		return True
 
 	def __SelectPage(self, pageIndex):
-		for page in self.pages.values():
+		for page in list(self.pages.values()):
 			page.Hide()
-		for btn in self.btnPages.values():
+		for btn in list(self.btnPages.values()):
 			btn.SetUp()
 
 		self.pages[pageIndex].Show()

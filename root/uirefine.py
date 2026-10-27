@@ -140,7 +140,7 @@ class RefineDialog(ui.ScriptWindow):
 						return 0
 					return self.upgradeSuccessPercentage[curGrade]
 
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM+1):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM+1):
 			if 0 == playerm2g2.GetItemMetinSocket(itemSlotIndex, i):
 				break
 
@@ -158,7 +158,7 @@ class RefineDialog(ui.ScriptWindow):
 		itemIndex = playerm2g2.GetItemIndex(targetItemPos)
 		self.toolTip.ClearToolTip()
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(playerm2g2.GetItemMetinSocket(targetItemPos, i))
 		self.toolTip.AddItemData(itemIndex, metinSlot)
 
@@ -245,7 +245,7 @@ class RefineDialogNew(ui.ScriptWindow):
 			import exception
 			exception.Abort("RefineDialog.__LoadScript.BindObject")
 
-		## 936 : °³·® È®·ü Ç¥½Ã ¾ÈÇÔ
+		## 936 : ê°œëŸ‰ í™•ë¥  í‘œì‹œ ì•ˆí•¨
 		##if 936 == app.GetDefaultCodePage():
 		if constInfo.ENABLE_REFINE_PCT:
 			self.successPercentage.Show()
@@ -260,7 +260,7 @@ class RefineDialogNew(ui.ScriptWindow):
 		self.toolTip = toolTip
 
 		self.slotList = []
-		for i in xrange(3):
+		for i in range(3):
 			slot = self.__MakeSlot()
 			slot.SetParent(toolTip)
 			slot.SetWindowVerticalAlignCenter()
@@ -357,11 +357,11 @@ class RefineDialogNew(ui.ScriptWindow):
 
 		self.toolTip.ClearToolTip()
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(playerm2g2.GetItemMetinSocket(targetItemPos, i))
 
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(playerm2g2.GetItemAttribute(targetItemPos, i))
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -369,11 +369,11 @@ class RefineDialogNew(ui.ScriptWindow):
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			apply_random_list = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				apply_random_list.append(playerm2g2.GetItemApplyRandom(targetItemPos, i))
 
 			randomValue = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				randomValue.append(playerm2g2.GetRandomValue(targetItemPos, i))
 
 		if app.ENABLE_SET_ITEM:
@@ -392,7 +392,7 @@ class RefineDialogNew(ui.ScriptWindow):
 		xSlotCount, ySlotCount = item.GetItemSize()
 		for slot in self.slotList:
 			slot.Hide()
-		for i in xrange(min(3, ySlotCount)):
+		for i in range(min(3, ySlotCount)):
 			self.slotList[i].SetPosition(-35, i*32 - (ySlotCount-1)*16)
 			self.slotList[i].Show()
 
@@ -465,7 +465,7 @@ class RefineDialogNew(ui.ScriptWindow):
 			(x, y) = self.titleBar.GetLocalPosition()
 			self.titleBar.SetPosition( newWidth - 15, y )
 
-		## 936 : °³·® È®·ü Ç¥½Ã ¾ÈÇÔ
+		## 936 : ê°œëŸ‰ í™•ë¥  í‘œì‹œ ì•ˆí•¨
 		##if 936 == app.GetDefaultCodePage():
 		newHeight -= 8
 

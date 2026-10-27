@@ -9,8 +9,8 @@ import uiCommon
 import localeInfo
 import chatm2g
 import item
-import systemSetting #±èÁØÈ£
-import playerm2g2 #±èÁØÈ£
+import systemSetting #ê¹€ì¤€í˜¸
+import playerm2g2 #ê¹€ì¤€í˜¸
 import constInfo
 import os
 import app
@@ -102,14 +102,14 @@ else:
 			return 0
 
 def UpdateADBoard():
-	for key in g_privateShopAdvertisementBoardDict.keys():
+	for key in list(g_privateShopAdvertisementBoardDict.keys()):
 		if app.ENABLE_GRAPHIC_ON_OFF and not chr.IsShowPrivateShowBoard(key):
 			g_privateShopAdvertisementBoardDict[key].Hide()
 		else:
 			g_privateShopAdvertisementBoardDict[key].Show()
 
 def DeleteADBoard(vid):
-	if not g_privateShopAdvertisementBoardDict.has_key(vid):
+	if vid not in g_privateShopAdvertisementBoardDict:
 		return
 
 	del g_privateShopAdvertisementBoardDict[vid]
@@ -177,7 +177,7 @@ class PrivateShopAdvertisementBoard(ui.ThinBoard):
 			self.SetPosition(x - self.GetWidth()/2, y - self.GetHeight()/2)
 
 		else:
-			for key in g_privateShopAdvertisementBoardDict.keys():
+			for key in list(g_privateShopAdvertisementBoardDict.keys()):
 				if  playerm2g2.GetMainCharacterIndex() == key:  # Even if the shop balloon is hidden invisible, the player's own shop balloon is made visible. by Joonho Kim
 					g_privateShopAdvertisementBoardDict[key].Show()
 					x, y = chr.GetProjectPosition(playerm2g2.GetMainCharacterIndex(), 220)
@@ -248,7 +248,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 		self.itemSlot.SetOverOutItemEvent(ui.__mem_func__(self.OnOverOutItem))
 
 		if app.ENABLE_MYSHOP_DECO:
-			for i in xrange(len(self.PrvShopTab)):
+			for i in range(len(self.PrvShopTab)):
 				self.PrvShopTab[i].SetEvent(lambda arg=i: self.SetPrivateShopPage(arg))
 
 			self.PrvShopTabRefresh()
@@ -325,10 +325,10 @@ class PrivateShopBuilder(ui.ScriptWindow):
 			setitemVNum=self.itemSlot.SetItemSlot
 			delItem=self.itemSlot.ClearSlot
 
-			for i in xrange(shop.SHOP_SLOT_COUNT):
+			for i in range(shop.SHOP_SLOT_COUNT):
 				idx = self.__GetRealIndex(i)
 
-				if not self.itemStock.has_key(idx):
+				if idx not in self.itemStock:
 					delItem(i)
 					continue
 
@@ -355,9 +355,9 @@ class PrivateShopBuilder(ui.ScriptWindow):
 			setitemVNum=self.itemSlot.SetItemSlot
 			delItem=self.itemSlot.ClearSlot
 
-			for i in xrange(shop.SHOP_SLOT_COUNT):
+			for i in range(shop.SHOP_SLOT_COUNT):
 
-				if not self.itemStock.has_key(i):
+				if i not in self.itemStock:
 					delItem(i)
 					continue
 
@@ -508,7 +508,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 			del self.itemStock[selectedSlotPos]
 
 			if app.ENABLE_CHEQUE_SYSTEM:
-				for i in xrange(len(self.ItemListIdx)) :
+				for i in range(len(self.ItemListIdx)) :
 					if self.ItemListIdx[i] == invenPos :
 						del self.ItemListIdx[i]
 						break
@@ -564,7 +564,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 		if app.ENABLE_MYSHOP_DECO:
 			targetSlotPos = self.__GetRealIndex(targetSlotPos)
 
-		for privatePos, (itemWindowType, itemSlotIndex) in self.itemStock.items():
+		for privatePos, (itemWindowType, itemSlotIndex) in list(self.itemStock.items()):
 			if itemWindowType == attachedInvenType and itemSlotIndex == sourceSlotPos:
 				shop.DelPrivateShopItemStock(itemWindowType, itemSlotIndex)
 				del self.itemStock[privatePos]
@@ -605,7 +605,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 	def CancelInputPrice(self):
 		if app.ENABLE_CHEQUE_SYSTEM:
 			pos = self.priceInputBoard.sourceSlotPos
-			for i in xrange(len(self.ItemListIdx)) :
+			for i in range(len(self.ItemListIdx)) :
 				if self.ItemListIdx[i] == pos :
 					del self.ItemListIdx[i]
 					break
@@ -658,11 +658,11 @@ class PrivateShopBuilder(ui.ScriptWindow):
 		if app.ENABLE_MYSHOP_DECO:
 			if self.tooltipItem:
 				slotIndex = self.__GetRealIndex(slotIndex)
-				if self.itemStock.has_key(slotIndex):
+				if slotIndex in self.itemStock:
 					self.tooltipItem.SetPrivateShopBuilderItem(*self.itemStock[slotIndex] + (slotIndex,))
 		else:
 			if self.tooltipItem:
-				if self.itemStock.has_key(slotIndex):
+				if slotIndex in self.itemStock:
 					self.tooltipItem.SetPrivateShopBuilderItem(*self.itemStock[slotIndex] + (slotIndex,))
 
 	def OnOverOutItem(self):
@@ -726,7 +726,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 			self.IsCashItem = bCashItem
 
 		def GetItemDataSocketValue(self, winType, SlotPos):
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 
 				(limitType, limitValue) = item.GetLimit(i)
 
@@ -882,7 +882,7 @@ if app.ENABLE_MYSHOP_DECO :
 				height = y - self.GetHeight()/2
 				self.SetPosition(width, height-50)
 			else:
-				for key in g_privateShopAdvertisementBoardDict.keys():
+				for key in list(g_privateShopAdvertisementBoardDict.keys()):
 					if  playerm2g2.GetMainCharacterIndex() == key:
 						title_bar = g_privateShopAdvertisementBoardDict[key]
 						title_bar.Show()

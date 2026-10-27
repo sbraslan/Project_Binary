@@ -13,6 +13,7 @@ import snd
 import playerm2g2
 import localeInfo
 import uiScriptLocale
+import importlib
 
 class Console(object):
 	def __init__(self, output):
@@ -55,8 +56,8 @@ class Console(object):
 
 	def ReloadLocale(self):
 		"Reload Locale"
-		reload(localeInfo)
-		reload(uiScriptLocale)
+		importlib.reload(localeInfo)
+		importlib.reload(uiScriptLocale)
 		self.Print("RELOAD LOCALE")
 
 	def ReloadDevel(self):
@@ -64,14 +65,14 @@ class Console(object):
 		import consoleModule
 		import uiGuild
 		import uiInventory
-		reload(uiGuild)
+		importlib.reload(uiGuild)
 		self.Print("ReloadGuild")
-		reload(uiInventory)
+		importlib.reload(uiInventory)
 		self.Print("ReloadInventory")
 
 		if app.ENABLE_EXTEND_INVEN_SYSTEM:
 			import uiNewInventory
-			reload(uiNewInventory)
+			importlib.reload(uiNewInventory)
 			self.Print("ReloadNewInventory")
 
 	def ShowPerformanceInfo(self):
@@ -240,14 +241,14 @@ class Console(object):
 		if (len(self.dirNameList)>iDir):
 			return self.dirNameList[iDir]
 		else:
-			print len(self.dirNameList)
+			print((len(self.dirNameList)))
 			return ""
 
 	def GetFileName(self, iFile):
 		if (len(self.fileNameList)>iFile):
 			return self.fileNameList[iFile]
 		else:
-			print len(self.fileNameList)
+			print((len(self.fileNameList)))
 			return ""
 
 	def	MoveParentPath(self):
@@ -536,7 +537,7 @@ class Console(object):
 		#chr.testSetComboType(int(type))
 
 	def SetSkillGroupFake(self, index):
-		"""Å×½ºÆ® ÄÚµå"""
+		"""í…ŒìŠ¤íŠ¸ ì½”ë“œ"""
 		pass
 		#m2netm2g.SetSkillGroupFake(int(index))
 		#self.Print(" SetSkillGroupFake : %d" % int(index))
@@ -547,27 +548,27 @@ class Console(object):
 
 	def SetCharacterRenderModeTypeAdd(self, color):
 		vid = playerm2g2.GetTargetVID()
-		print " -> SetCharacterRenderModeTypeAdd", vid, color
+		print((" -> SetCharacterRenderModeTypeAdd", vid, color))
 		chr.testSetAddRenderMode(vid, int(color,16))
 
 	def SetCharacterRenderModeTypeMod(self, color):
 		vid = playerm2g2.GetTargetVID()
-		print " -> SetCharacterRenderModeTypeMod", vid, color, int(color,16)
+		print((" -> SetCharacterRenderModeTypeMod", vid, color, int(color,16)))
 		chr.testSetModulateRenderMode(vid, int(color,16))
 
 	def SetCharacterRenderModeTypeAddRGB(self, r, g, b):
 		vid = playerm2g2.GetTargetVID()
-		print " -> SetCharacterRenderModeTypeAddRGB", vid, r, g, b
+		print((" -> SetCharacterRenderModeTypeAddRGB", vid, r, g, b))
 		chr.testSetAddRenderModeRGB(vid, float(r)/255.0, float(g)/255.0, float(b)/255.0)
 
 	def SetCharacterRenderModeTypeModRGB(self, r, g, b):
 		vid = playerm2g2.GetTargetVID()
-		print " -> SetCharacterRenderModeTypeModRGB", vid, r, g, b
+		print((" -> SetCharacterRenderModeTypeModRGB", vid, r, g, b))
 		chr.testSetModulateRenderModeRGB(vid, float(r)/255.0, float(g)/255.0, float(b)/255.0)
 
 	def SetCharacterRenderModeSpecular(self, part, alpha):
 		vid = playerm2g2.GetTargetVID()
-		print " -> SetCharacterRenderModeSpecular", vid, part, alpha
+		print((" -> SetCharacterRenderModeSpecular", vid, part, alpha))
 		chr.testSetSpecularRenderMode(vid, int(part), float(alpha))
 
 	def RestoreCharacterRenderModeType(self):
@@ -747,7 +748,7 @@ class ConsoleWindow(ui.Window):
 		yPosition = (self.height-20) - self.LINE_STEP
 		ItemCount = len(self.TextList)
 
-		for i in xrange(ItemCount):
+		for i in range(ItemCount):
 			TextLine = self.TextList[ItemCount-i-1]
 
 			TextLine.SetPosition(10, yPosition)
@@ -768,7 +769,7 @@ class ConsoleWindow(ui.Window):
 	def CloseWindow(self):
 		self.Hide()
 
-	## NOTE : ÀÌ°÷¿¡¼­ Command¸¦ Ã³¸®ÇÕ´Ï´Ù - [levites]
+	## NOTE : ì´ê³³ì—ì„œ Commandë¥¼ ì²˜ë¦¬í•©ë‹ˆë‹¤ - [levites]
 	def ProcessCommand(self, text):
 
 		if '/' == text[0]:
@@ -784,10 +785,10 @@ class ConsoleWindow(ui.Window):
 
 		sCmd=lstsArg[0]
 
-		if self.functionDict.has_key(sCmd):
+		if sCmd in self.functionDict:
 			try:
 				self.functionDict[sCmd](self.Console, *lstsArg[1:])
-			except Exception, e:
+			except Exception as e:
 				Console.Print(str(e))
 				#self.Console.Print(e)
 				#self.Console.Print(self.functionDict[sCmd].__doc__)
@@ -796,19 +797,19 @@ class ConsoleWindow(ui.Window):
 				try:
 					k = lstsArg[1]
 					v = self.functionDict[k]
-					argcount = v.im_func.func_code.co_argcount - 1 # -1 for self
-					if v.im_func.func_code.co_flags & 4:
+					argcount = v.__func__.__code__.co_argcount - 1 # -1 for self
+					if v.__func__.__code__.co_flags & 4:
 						argcount+=1
-					argnames = v.im_func.func_code.co_varnames[1:argcount+1]
+					argnames = v.__func__.__code__.co_varnames[1:argcount+1]
 					if argcount:
 						Console.Print("%s(%s) : %s" % (k,argcount, v.__doc__))
 						Console.Print("   arg : %s" % argnames)
 					else:
 						Console.Print("%s : %s" % (k,v.__doc__))
 				except:
-					for k,v in self.functionDict.iteritems():
-						argcount = v.im_func.func_code.co_argcount - 1 # -1 for self
-						if v.im_func.func_code.co_flags & 4:
+					for k,v in list(self.functionDict.items()):
+						argcount = v.__func__.__code__.co_argcount - 1 # -1 for self
+						if v.__func__.__code__.co_flags & 4:
 							argcount+=1
 						if argcount:
 							Console.Print("%s(%s) : %s" % (k,argcount, v.__doc__))
@@ -820,7 +821,7 @@ class ConsoleWindow(ui.Window):
 
 				Console.Print("")
 			elif sCmd == '?':
-				list = self.functionDict.keys()
+				list = list(self.functionDict.keys())
 				list.sort()
 				Console.ShowNameList(list)
 			pass
@@ -914,7 +915,7 @@ class ConsoleWindow(ui.Window):
 
 		count = len(self.TextList)
 		if count > self.MAX_LINE_COUNT:
-			for i in xrange(count - self.MAX_LINE_COUNT):
+			for i in range(count - self.MAX_LINE_COUNT):
 				del self.TextList[0]
 
 		self.UpdatePosition()

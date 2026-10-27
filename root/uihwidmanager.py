@@ -148,9 +148,9 @@ class hwidWindow(ui.ScriptWindow):
 		return self.image
 
 	def __HWIDModeBtn(self, mode):
-		for btn in self.hwidModeButtonDict.values():
+		for btn in list(self.hwidModeButtonDict.values()):
 			btn.SetUp()
-		if self.hwidModeButtonDict.has_key(mode):
+		if mode in self.hwidModeButtonDict:
 			self.hwidModeButtonDict[mode].Down()
 
 	def OnUpdate(self):

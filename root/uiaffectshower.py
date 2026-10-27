@@ -18,7 +18,7 @@ mainAffectPotion = {
 	],
 
 	"image" : [
-		("icon/item/5082%d.tga" % (i + 1)) for i in xrange(len("affect"))
+		("icon/item/5082%d.tga" % (i + 1)) for i in range(len("affect"))
 	],
 
 	"desc" : [
@@ -97,9 +97,9 @@ class HorseImage(ui.ExpandedImageBox):
 
 	FILE_DICT = {
 		00 : FILE_PATH+"00.dds",
-		01 : FILE_PATH+"00.dds",
-		02 : FILE_PATH+"00.dds",
-		03 : FILE_PATH+"00.dds",
+		0o1 : FILE_PATH+"00.dds",
+		0o2 : FILE_PATH+"00.dds",
+		0o3 : FILE_PATH+"00.dds",
 		10 : FILE_PATH+"10.dds",
 		11 : FILE_PATH+"11.dds",
 		12 : FILE_PATH+"12.dds",
@@ -140,7 +140,7 @@ class HorseImage(ui.ExpandedImageBox):
 				grade = self.__GetHorseGrade(level)
 				self.__AppendText(localeInfo.LEVEL_LIST[grade])
 			except IndexError:
-				print "HorseImage.SetState(level=%d, health=%d, battery=%d) - Unknown Index" % (level, health, battery)
+				print(("HorseImage.SetState(level=%d, health=%d, battery=%d) - Unknown Index" % (level, health, battery)))
 				return
 
 			try:
@@ -148,7 +148,7 @@ class HorseImage(ui.ExpandedImageBox):
 				if len(healthName)>0:
 					self.__AppendText(healthName)
 			except IndexError:
-				print "HorseImage.SetState(level=%d, health=%d, battery=%d) - Unknown Index" % (level, health, battery)
+				print(("HorseImage.SetState(level=%d, health=%d, battery=%d) - Unknown Index" % (level, health, battery)))
 				return
 
 			if health>0:
@@ -158,12 +158,12 @@ class HorseImage(ui.ExpandedImageBox):
 			try:
 				fileName=self.FILE_DICT[health*10+battery]
 			except KeyError:
-				print "HorseImage.SetState(level=%d, health=%d, battery=%d) - KeyError" % (level, health, battery)
+				print(("HorseImage.SetState(level=%d, health=%d, battery=%d) - KeyError" % (level, health, battery)))
 
 			try:
 				self.LoadImage(fileName)
 			except:
-				print "HorseImage.SetState(level=%d, health=%d, battery=%d) - LoadError %s" % (level, health, battery, fileName)
+				print(("HorseImage.SetState(level=%d, health=%d, battery=%d) - LoadError %s" % (level, health, battery, fileName)))
 
 		self.SetScale(0.7, 0.7)
 
@@ -231,7 +231,7 @@ class AutoPotionImage(ui.ExpandedImageBox):
 		self.__Refresh()
 
 	def __Refresh(self):
-		print "__Refresh"
+		print("__Refresh")
 
 		isActivated, currentAmount, totalAmount, slotIndex = playerm2g2.GetAutoPotionInfo(self.potionType)
 
@@ -249,7 +249,7 @@ class AutoPotionImage(ui.ExpandedImageBox):
 		fmt = self.filePath + "%.2d.dds"
 		fileName = fmt % grade
 
-		print self.potionType, amountPercent, fileName
+		print((self.potionType, amountPercent, fileName))
 
 		try:
 			self.LoadImage(fileName)
@@ -508,7 +508,7 @@ class AffectImage(ui.ExpandedImageBox):
 
 			if type(setitem_effect_dict) is dict:
 				if len(setitem_effect_dict) > 0:
-					for k in setitem_effect_dict.keys():
+					for k in list(setitem_effect_dict.keys()):
 						toolTip += self.tooltipItem.GetAffectString( k, setitem_effect_dict[k] )
 						toolTip += "\\n"
 
@@ -705,7 +705,7 @@ class AffectShower(ui.Window):
 			MALL_DESC_IDX_START+playerm2g2.POINT_MELEE_MAGIC_ATT_BONUS_PER : (localeInfo.TOOLTIP_MALL_ATTBONUS_STATIC, "d:/ymir work/ui/skill/common/affect/att_bonus.sub",),
 	}
 
-	for i in xrange(len(mainAffectPotion["affect"])):
+	for i in range(len(mainAffectPotion["affect"])):
 		AFFECT_DATA_DICT[mainAffectPotion["affect"][i]] = (mainAffectPotion["desc"][i], mainAffectPotion["image"][i])
 
 	if app.ENABLE_DRAGON_SOUL_SYSTEM:
@@ -839,7 +839,7 @@ class AffectShower(ui.Window):
 
 	def ClearAffects(self): ## Removes only skill effects.
 		self.living_affectImageDict={}
-		for key, image in self.affectImageDict.items():
+		for key, image in list(self.affectImageDict.items()):
 			if not image.IsSkillAffect():
 				self.living_affectImageDict[key] = image
 		self.affectImageDict = self.living_affectImageDict
@@ -860,10 +860,10 @@ class AffectShower(ui.Window):
 		else:
 			affect = type
 
-		if self.affectImageDict.has_key(affect):
+		if affect in self.affectImageDict:
 			return
 
-		if not self.AFFECT_DATA_DICT.has_key(affect):
+		if affect not in self.AFFECT_DATA_DICT:
 			return
 
 		if app.ENABLE_AUTO_SYSTEM:
@@ -904,7 +904,7 @@ class AffectShower(ui.Window):
 				description = description(float(value))
 
 		try:
-			print "Add affect %s" % affect
+			print(("Add affect %s" % affect))
 			image = AffectImage()
 			image.SetParent(self)
 			image.LoadImage(filename)
@@ -937,8 +937,8 @@ class AffectShower(ui.Window):
 			image.Show()
 			self.affectImageDict[affect] = image
 			self.__ArrangeImageList()
-		except Exception, e:
-			print "except Aff affect ", e
+		except Exception as e:
+			print(("except Aff affect ", e))
 			pass
 
 	def BINARY_NEW_RemoveAffect(self, type, pointIdx):
@@ -1053,7 +1053,7 @@ class AffectShower(ui.Window):
 			self.__ArrangeImageList()
 
 	def __AppendAffect(self, affect):
-		if self.affectImageDict.has_key(affect):
+		if affect in self.affectImageDict:
 			return
 
 		try:
@@ -1093,7 +1093,7 @@ class AffectShower(ui.Window):
 			self.autoPotionImageHP.Hide()
 		"""
 
-		if not self.affectImageDict.has_key(affect):
+		if affect not in self.affectImageDict:
 			#print "__RemoveAffect %s ( No Affect )" % affect
 			return
 
@@ -1124,11 +1124,11 @@ class AffectShower(ui.Window):
 
 		if app.ENABLE_GROWTH_PET_SYSTEM:
 			tempDict = {}
-			for value in self.petSkillaffectImageDict.values():
+			for value in list(self.petSkillaffectImageDict.values()):
 				tempDict[value[0]] = value[1]
 
 			for value in range(1,4):
-				if tempDict.has_key(value):
+				if value in tempDict:
 					tempDict[value].SetPosition(xPos, 0)
 					xPos += self.IMAGE_STEP
 
@@ -1161,7 +1161,7 @@ class AffectShower(ui.Window):
 			if constInfo.ENABLE_SORT_AFFECTS:
 				AffectCount += 1
 
-		for image in self.affectImageDict.values():
+		for image in list(self.affectImageDict.values()):
 			if constInfo.ENABLE_SORT_AFFECTS:
 				image.SetPosition(xPos, yPos)
 			else:
@@ -1188,7 +1188,7 @@ class AffectShower(ui.Window):
 				#self.lastUpdateTime = app.GetGlobalTime()
 				self.lastUpdateTime = app.GetGlobalTimeStamp()
 
-				for image in self.affectImageDict.values():
+				for image in list(self.affectImageDict.values()):
 					if image.GetAffect() == chr.NEW_AFFECT_AUTO_HP_RECOVERY or image.GetAffect() == chr.NEW_AFFECT_AUTO_SP_RECOVERY:
 						image.UpdateAutoPotionDescription()
 						continue
@@ -1199,8 +1199,8 @@ class AffectShower(ui.Window):
 
 					if not image.IsSkillAffect():
 						image.UpdateDescription()
-		except Exception, e:
-			print "AffectShower::OnUpdate error : ", e
+		except Exception as e:
+			print(("AffectShower::OnUpdate error : ", e))
 
 	if app.ENABLE_GROWTH_PET_SYSTEM:
 		def SetPetSkillAffect(self, index, affect):
@@ -1213,7 +1213,7 @@ class AffectShower(ui.Window):
 			self.__ArrangeImageList()
 
 		def __AppendPetSkillAffect(self, index, affect):
-			if self.petSkillaffectImageDict.has_key(affect):
+			if affect in self.petSkillaffectImageDict:
 				return False
 
 			filename = skill.GetPetSkillIconPath(affect)
@@ -1228,7 +1228,7 @@ class AffectShower(ui.Window):
 			try:
 				image.LoadImage(filename)
 			except:
-				print "LoadImage Except nn"
+				print("LoadImage Except nn")
 				return False
 
 			image.SetToolTipText(pet_skill_name, 0, 40)

@@ -6,13 +6,13 @@ import wndMgr
 import uiScriptLocale
 import localeInfo
 
-# ´ëºÎºĞÀÇ ½ÇÁ¦ ±¸ÇöÀº PythonApplicationLogo.cpp¿¡ ÀÖ´Ù.
+# ëŒ€ë¶€ë¶„ì˜ ì‹¤ì œ êµ¬í˜„ì€ PythonApplicationLogo.cppì— ìˆë‹¤.
 
 app.SetGuildMarkPath("test")
 
 class LogoWindow(ui.ScriptWindow):
 
-	# º¸¿© ÁÙ µ¿¿µ»ó ¸ñ·Ï (¹è¿­ ¼ø¼­´ë·Î º¸¿©ÁÜ)
+	# ë³´ì—¬ ì¤„ ë™ì˜ìƒ ëª©ë¡ (ë°°ì—´ ìˆœì„œëŒ€ë¡œ ë³´ì—¬ì¤Œ)
 	videoList = []
 
 	def __init__(self, stream):
@@ -49,7 +49,7 @@ class LogoWindow(ui.ScriptWindow):
 
 		app.HideCursor()
 
-	# ¿µ»ó Àç»ıÀÌ ºÒ°¡´ÉÇÑ È¯°æÀÌ°Å³ª, ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê´Â °æ¿ì introLoginÀ¸·Î skip.
+	# ì˜ìƒ ì¬ìƒì´ ë¶ˆê°€ëŠ¥í•œ í™˜ê²½ì´ê±°ë‚˜, íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê²½ìš° introLoginìœ¼ë¡œ skip.
 	def OnUpdate(self):
 		if self.bNeedUpdate:
 			if self.playingVideo == 0:

@@ -12,7 +12,7 @@ import uiRefine
 import uiAttachMetin
 import uiPickMoney
 import uiCommon
-import uiPrivateShopBuilder # °³ÀÎ»óÁ¡ ¿­µ¿¾È ItemMove ¹æÁö
+import uiPrivateShopBuilder # ê°œì¸ìƒì  ì—´ë™ì•ˆ ItemMove ë°©ì§€
 import localeInfo
 import constInfo
 import exception
@@ -102,7 +102,7 @@ class CostumeWindow(ui.ScriptWindow):
 	def RefreshCostumeSlot(self):
 		getItemVNum = ReprGetItemIndex(playerm2g2.EQUIPMENT)
 
-		for i in xrange(item.COSTUME_SLOT_COUNT):
+		for i in range(item.COSTUME_SLOT_COUNT):
 			slotNumber = item.COSTUME_SLOT_START + i
 			self.wndEquip.SetItemSlot(slotNumber, getItemVNum(slotNumber), 0)
 
@@ -187,7 +187,7 @@ class BeltInventoryWindow(ui.ScriptWindow):
 		if localeInfo.IsARABIC() == 0:
 			self.AdjustPositionAndSize()
 
-	## ÇöÀç ÀÎº¥Åä¸® À§Ä¡¸¦ ±âÁØÀ¸·Î BASE À§Ä¡¸¦ °è»ê, ¸®ÅÏ.. ¼ıÀÚ ÇÏµåÄÚµùÇÏ±â Á¤¸» ½ÈÁö¸¸ ¹æ¹ıÀÌ ¾ø´Ù..
+	## í˜„ì¬ ì¸ë²¤í† ë¦¬ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ BASE ìœ„ì¹˜ë¥¼ ê³„ì‚°, ë¦¬í„´.. ìˆ«ì í•˜ë“œì½”ë”©í•˜ê¸° ì •ë§ ì‹«ì§€ë§Œ ë°©ë²•ì´ ì—†ë‹¤..
 	def GetBasePosition(self):
 		x, y = self.wndInventory.GetGlobalPosition()
 		return x - 148, y + 397
@@ -229,7 +229,7 @@ class BeltInventoryWindow(ui.ScriptWindow):
 				self.wndBeltInventoryLayer.SetPosition(self.wndBeltInventoryLayer.GetWidth() - 5, 0)
 				self.minBtn.SetPosition(self.minBtn.GetWidth() + 3, 15)
 
-			for i in xrange(item.BELT_INVENTORY_SLOT_COUNT):
+			for i in range(item.BELT_INVENTORY_SLOT_COUNT):
 				slotNumber = item.BELT_INVENTORY_SLOT_START + i
 				wndBeltInventorySlot.SetCoverButton(slotNumber,	"d:/ymir work/ui/game/quest/slot_button_01.sub",\
 												"d:/ymir work/ui/game/quest/slot_button_01.sub",\
@@ -271,7 +271,7 @@ class BeltInventoryWindow(ui.ScriptWindow):
 	def RefreshSlot(self):
 		getItemVnum=playerm2g2.GetItemIndex
 
-		for i in xrange(item.BELT_INVENTORY_SLOT_COUNT):
+		for i in range(item.BELT_INVENTORY_SLOT_COUNT):
 			slotNumber = item.BELT_INVENTORY_SLOT_START + i
 			self.wndBeltInventorySlot.SetCoverButton(slotNumber,
 				"d:/ymir work/ui/game/quest/slot_button_01.sub",\
@@ -427,7 +427,7 @@ class InventoryWindow(ui.ScriptWindow):
 				self.toolTip.ClearToolTip()
 
 			self.inventoryTab = []
-			for i in xrange(playerm2g2.INVENTORY_PAGE_COUNT):
+			for i in range(playerm2g2.INVENTORY_PAGE_COUNT):
 				self.inventoryTab.append(self.GetChild("Inventory_Tab_%02d" % (i+1)))
 
 			self.equipmentTab = []
@@ -440,10 +440,10 @@ class InventoryWindow(ui.ScriptWindow):
 
 			if app.ENABLE_SPECIAL_INVENTORY:
 				self.inventoryTypeTab = []
-				for i in xrange(4):
+				for i in range(4):
 					self.inventoryTypeTab.append(self.GetChild("Category_Tab_%02d" % (i+1)))
 			else:
-				for i in xrange(4):
+				for i in range(4):
 					self.GetChild("Category_Tab_%02d" % (i+1)).Hide()
 
 			if self.costumeButton and not app.ENABLE_COSTUME_SYSTEM:
@@ -516,12 +516,12 @@ class InventoryWindow(ui.ScriptWindow):
 		else:
 			self.wndMoneySlot.SetEvent(ui.__mem_func__(self.OpenPickMoneyDialog))
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_COUNT):
 			self.inventoryTab[i].SetEvent(lambda arg=i: self.SetInventoryPage(arg))
 		self.inventoryTab[0].Down()
 
 		if app.ENABLE_SPECIAL_INVENTORY:
-			for i in xrange(4):
+			for i in range(4):
 				self.inventoryTypeTab[i].SetEvent(lambda arg=i: self.SetInventoryType(arg))
 			self.inventoryTypeTab[0].Down()
 
@@ -666,7 +666,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 		if self.wndBelt:
 			self.isOpenedBeltWindowWhenClosingInventory = self.wndBelt.IsOpeningInventory()
-			print "Is Opening Belt Inven?? ", self.isOpenedBeltWindowWhenClosingInventory
+			print(("Is Opening Belt Inven?? ", self.isOpenedBeltWindowWhenClosingInventory))
 			self.wndBelt.Close()
 
 		if self.dlgPickMoney:
@@ -693,14 +693,14 @@ class InventoryWindow(ui.ScriptWindow):
 				self.wndMoneySlot = self.wndExpandedMoneyBar.GetMoneySlot()
 				self.wndMoney = self.wndExpandedMoneyBar.GetMoney()
 				if app.ENABLE_CHEQUE_SYSTEM:
-					## ¾ç °ü·Ã
+					## ì–‘ ê´€ë ¨
 					self.wndMoneyIcon = self.wndExpandedMoneyBar.GetMoneyIcon()
 					if self.wndMoneyIcon:
 						self.wndMoneyIcon.SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", 0)
 						self.wndMoneyIcon.SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_out", 0)
 					if self.wndMoneySlot:
 						self.wndMoneySlot.SetEvent(ui.__mem_func__(self.OpenPickMoneyDialog), 0)
-					## 2Â÷È­Æó °ü·Ã
+					## 2ì°¨í™”í ê´€ë ¨
 					self.wndChequeIcon = self.wndExpandedMoneyBar.GetChequeIcon()
 					if self.wndChequeIcon:
 						self.wndChequeIcon.SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", 1)
@@ -725,7 +725,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 	def SetInventoryPage(self, page):
 		self.inventoryPageIndex = page
-		for i in xrange(playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_COUNT):
 			if i!=page:
 				self.inventoryTab[i].SetUp()
 
@@ -746,7 +746,7 @@ class InventoryWindow(ui.ScriptWindow):
 		def SetInventoryType(self, type):
 			self.inventoryTypeIndex = int(type)
 
-			for i in xrange(4):
+			for i in range(4):
 				if i!=type:
 					self.inventoryTypeTab[i].SetUp()
 
@@ -773,7 +773,7 @@ class InventoryWindow(ui.ScriptWindow):
 			return slotPageStart + local
 
 		def RefreshSpecialInventory(self):
-			for i in xrange(playerm2g2.SPECIAL_INVENTORY_PAGE_SIZE):
+			for i in range(playerm2g2.SPECIAL_INVENTORY_PAGE_SIZE):
 				slotNumber = self.__SpecialInventoryLocalSlotPosToGlobalSlotPos(i)
 				
 				itemCount = playerm2g2.GetItemCount(slotNumber)
@@ -790,16 +790,16 @@ class InventoryWindow(ui.ScriptWindow):
 			self.wndItem.RefreshSlot()
 
 	def ClickMallButton(self):
-		print "click_mall_button"
+		print("click_mall_button")
 		m2netm2g.SendChatPacket("/click_mall")
 
 	# DSSButton
 	def ClickDSSButton(self):
-		print "click_dss_button"
+		print("click_dss_button")
 		self.interface.ToggleDragonSoulWindow()
 
 	def ClickCostumeButton(self):
-		print "Click Costume Button"
+		print("Click Costume Button")
 		if self.wndCostume:
 			if self.wndCostume.IsShow():
 				self.wndCostume.Hide()
@@ -904,15 +904,15 @@ class InventoryWindow(ui.ScriptWindow):
 		getItemCount=playerm2g2.GetItemCount
 		setItemVNum=self.wndItem.SetItemSlot
 
-		## ¸®ÇÁ·¹½¬ ÇÏ±âÀü¿¡ ÇÏÀÌ¶óÀÌÆ® ¸ğµÎ ²ö´Ù.
-		for i in xrange(self.wndItem.GetSlotCount()):
+		## ë¦¬í”„ë ˆì‰¬ í•˜ê¸°ì „ì— í•˜ì´ë¼ì´íŠ¸ ëª¨ë‘ ëˆë‹¤.
+		for i in range(self.wndItem.GetSlotCount()):
 			self.wndItem.DeactivateSlot(i)
 
 		if app.WJ_ENABLE_TRADABLE_ICON or app.ENABLE_MOVE_COSTUME_ATTR:
 			if self.interface:
 				onTopWindow = self.interface.GetOnTopWindow()
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
 			slotNumber = self.__InventoryLocalSlotPosToGlobalSlotPos(i)
 
 			itemCount = getItemCount(slotNumber)
@@ -926,10 +926,10 @@ class InventoryWindow(ui.ScriptWindow):
 			itemVnum = getItemVNum(slotNumber)
 			setItemVNum(i, itemVnum, itemCount)
 
-			## ÀÚµ¿¹°¾à (HP: #72723 ~ #72726, SP: #72727 ~ #72730) Æ¯¼öÃ³¸® - ¾ÆÀÌÅÛÀÎµ¥µµ ½½·Ô¿¡ È°¼ºÈ­/ºñÈ°¼ºÈ­ Ç¥½Ã¸¦ À§ÇÑ ÀÛ¾÷ÀÓ - [hyo]
+			## ìë™ë¬¼ì•½ (HP: #72723 ~ #72726, SP: #72727 ~ #72730) íŠ¹ìˆ˜ì²˜ë¦¬ - ì•„ì´í…œì¸ë°ë„ ìŠ¬ë¡¯ì— í™œì„±í™”/ë¹„í™œì„±í™” í‘œì‹œë¥¼ ìœ„í•œ ì‘ì—…ì„ - [hyo]
 			if constInfo.IS_AUTO_POTION(itemVnum):
-				# metinSocket - [0] : È°¼ºÈ­ ¿©ºÎ, [1] : »ç¿ëÇÑ ¾ç, [2] : ÃÖ´ë ¿ë·®
-				metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+				# metinSocket - [0] : í™œì„±í™” ì—¬ë¶€, [1] : ì‚¬ìš©í•œ ì–‘, [2] : ìµœëŒ€ ìš©ëŸ‰
+				metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 				tempSlotNum = slotNumber
 				if tempSlotNum >= playerm2g2.INVENTORY_PAGE_SIZE:
 					tempSlotNum -= playerm2g2.INVENTORY_PAGE_SIZE
@@ -950,7 +950,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 			if app.ENABLE_ACTIVE_PET_EFFECT:
 				if item.ITEM_TYPE_PET == item.GetItemType() and item.PET_PAY == item.GetItemSubType():
-					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 					isActivated = 0 != metinSocket[1]
 					if isActivated:
 						self.wndItem.ActivateSlot(i)
@@ -959,7 +959,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 			if app.ENABLE_SOUL_SYSTEM:
 				if item.IsSoulItem(itemVnum):
-					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 					tempSlotNum = slotNumber
 					if tempSlotNum >= playerm2g2.INVENTORY_PAGE_SIZE:
 						tempSlotNum -= (self.inventoryPageIndex * playerm2g2.INVENTORY_PAGE_SIZE)
@@ -971,10 +971,10 @@ class InventoryWindow(ui.ScriptWindow):
 
 			if app.ENABLE_GROWTH_PET_SYSTEM:
 				if constInfo.IS_PET_ITEM(itemVnum):
-					## È°¼ºµÈ Æê ÇÏÀÌ¶óÀÌÆ®
+					## í™œì„±ëœ í« í•˜ì´ë¼ì´íŠ¸
 					self.__ActivePetHighlightSlot(slotNumber)
 
-					## Æê ³²Àº ½Ã°£¿¡ µû¶ó ÄğÅ¸ÀÓ Ç¥½Ã
+					## í« ë‚¨ì€ ì‹œê°„ì— ë”°ë¼ ì¿¨íƒ€ì„ í‘œì‹œ
 					self.__SetCollTimePetItemSlot(slotNumber, itemVnum)
 
 			if app.WJ_ENABLE_TRADABLE_ICON or app.ENABLE_MOVE_COSTUME_ATTR or app.ENABLE_GROWTH_PET_SYSTEM or app.ENABLE_MAILBOX:
@@ -999,7 +999,7 @@ class InventoryWindow(ui.ScriptWindow):
 		getItemCount	=ReprGetItemCount(playerm2g2.EQUIPMENT) #playerm2g2.GetItemCount
 		setItemVNum		=self.wndEquip.SetItemSlot
 
-		for i in xrange(playerm2g2.WEAR_MAX):	## 32 ( 0 ~ 31 )
+		for i in range(playerm2g2.WEAR_MAX):	## 32 ( 0 ~ 31 )
 			slotNumber = playerm2g2.EQUIPMENT_SLOT_START + i
 			itemCount = getItemCount(slotNumber)
 			if itemCount <= 1:
@@ -1036,7 +1036,7 @@ class InventoryWindow(ui.ScriptWindow):
 	def SellItem(self):
 		if self.sellingSlotitemIndex == playerm2g2.GetItemIndex(self.sellingSlotNumber):
 			if self.sellingSlotitemCount == playerm2g2.GetItemCount(self.sellingSlotNumber):
-				## ¿ëÈ¥¼®µµ ÆÈ¸®°Ô ÇÏ´Â ±â´É Ãß°¡ÇÏ¸é¼­ ÀÎÀÚ type Ãß°¡
+				## ìš©í˜¼ì„ë„ íŒ”ë¦¬ê²Œ í•˜ëŠ” ê¸°ëŠ¥ ì¶”ê°€í•˜ë©´ì„œ ì¸ì type ì¶”ê°€
 				m2netm2g.SendShopSellPacketNew(self.sellingSlotNumber, self.questionDialog.count, playerm2g2.INVENTORY)
 				snd.PlaySound("sound/ui/money.wav")
 		self.OnCloseQuestionDialog()
@@ -1278,10 +1278,10 @@ class InventoryWindow(ui.ScriptWindow):
 						self.__OpenQuestionDialog(srcItemSlotPos, dstItemSlotPos)
 						return
 
-			## ÀÌµ¿½ÃÅ² °÷ÀÌ ÀåÂø ½½·ÔÀÏ °æ¿ì ¾ÆÀÌÅÛÀ» »ç¿ëÇØ¼­ ÀåÂø ½ÃÅ²´Ù - [levites]
+			## ì´ë™ì‹œí‚¨ ê³³ì´ ì¥ì°© ìŠ¬ë¡¯ì¼ ê²½ìš° ì•„ì´í…œì„ ì‚¬ìš©í•´ì„œ ì¥ì°© ì‹œí‚¨ë‹¤ - [levites]
 			if playerm2g2.IsEquipmentSlot(dstItemSlotPos):
 
-				## µé°í ÀÖ´Â ¾ÆÀÌÅÛÀÌ ÀåºñÀÏ¶§¸¸
+				## ë“¤ê³  ìˆëŠ” ì•„ì´í…œì´ ì¥ë¹„ì¼ë•Œë§Œ
 				if item.IsEquipmentVID(srcItemVID):
 					self.__UseItem(srcItemSlotPos)
 
@@ -1327,7 +1327,7 @@ class InventoryWindow(ui.ScriptWindow):
 			self.sellingSlotitemCount = itemCount
 
 			item.SelectItem(itemIndex)
-			## ¾ÈÆ¼ ÇÃ·¹±× °Ë»ç ºüÁ®¼­ Ãß°¡
+			## ì•ˆí‹° í”Œë ˆê·¸ ê²€ì‚¬ ë¹ ì ¸ì„œ ì¶”ê°€
 			## 20140220
 			if item.IsAntiFlag(item.ANTIFLAG_SELL):
 				popup = uiCommon.PopupDialog()
@@ -1501,7 +1501,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 
 	def __IsUsableItemToItem(self, srcItemVNum, srcSlotPos):
-		"´Ù¸¥ ¾ÆÀÌÅÛ¿¡ »ç¿ëÇÒ ¼ö ÀÖ´Â ¾ÆÀÌÅÛÀÎ°¡?"
+		"ë‹¤ë¥¸ ì•„ì´í…œì— ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ì•„ì´í…œì¸ê°€?"
 
 		if item.IsRefineScroll(srcItemVNum):
 			return True
@@ -1536,7 +1536,7 @@ class InventoryWindow(ui.ScriptWindow):
 		return False
 
 	def __CanUseSrcItemToDstItem(self, srcItemVNum, srcSlotPos, dstSlotPos):
-		"´ë»ó ¾ÆÀÌÅÛ¿¡ »ç¿ëÇÒ ¼ö ÀÖ´Â°¡?"
+		"ëŒ€ìƒ ì•„ì´í…œì— ì‚¬ìš©í•  ìˆ˜ ìˆëŠ”ê°€?"
 		if srcSlotPos == dstSlotPos:
 			return False
 
@@ -1644,7 +1644,7 @@ class InventoryWindow(ui.ScriptWindow):
 		if item.ITEM_TYPE_WEAPON != item.GetItemType():
 			return False
 
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			if playerm2g2.GetItemMetinSocket(dstSlotPos, i) == constInfo.ERROR_METIN_STONE:
 				return True
 
@@ -1660,12 +1660,12 @@ class InventoryWindow(ui.ScriptWindow):
 		if not item.GetItemType() in (item.ITEM_TYPE_WEAPON, item.ITEM_TYPE_ARMOR):
 			return False
 
-		# Àç°æºñ¼­
+		# ì¬ê²½ë¹„ì„œ
 		if app.ENABLE_NEW_USER_CARE:
 			if item.IsAntiFlag(item.ITEM_ANTIFLAG_ENCHANT):
 				return False
 
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			if playerm2g2.GetItemAttribute(dstSlotPos, i) != 0:
 				return True
 
@@ -1689,7 +1689,7 @@ class InventoryWindow(ui.ScriptWindow):
 				if (item.GetItemType() == item.ITEM_TYPE_WEAPON and item.GetItemSubType() == item.WEAPON_ARROW):
 					return False
 
-			# Àç°æºñ¼­
+			# ì¬ê²½ë¹„ì„œ
 			if app.ENABLE_NEW_USER_CARE:
 				if item.IsAntiFlag(item.ITEM_ANTIFLAG_ENCHANT):
 					return False
@@ -1701,7 +1701,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if self.__GetAttribute67Bonus(dstSlotPos) <= 5:
 				return False
 
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				if playerm2g2.GetItemAttribute(dstSlotPos, i) != 0:
 					return True
 
@@ -1709,7 +1709,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 		def __GetAttribute67Bonus(self,slot):
 			count = 0
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				(type,value) = playerm2g2.GetItemAttribute(slot, i)
 				if type != 0:
 					count += 1
@@ -1726,7 +1726,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if item.GetItemType() != item.ITEM_TYPE_COSTUME:
 				return False
 
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				if playerm2g2.GetItemAttribute(dstSlotPos, i) != 0:
 					return True
 
@@ -1742,7 +1742,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if item.GetItemType() != item.ITEM_TYPE_COSTUME:
 				return False
 
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				if playerm2g2.GetItemAttribute(dstSlotPos, i) != 0:
 					return True
 
@@ -1804,13 +1804,13 @@ class InventoryWindow(ui.ScriptWindow):
 		if not item.GetItemType() in (item.ITEM_TYPE_WEAPON, item.ITEM_TYPE_ARMOR):
 			return False
 
-		# Àç°¡ºñ¼­
+		# ì¬ê°€ë¹„ì„œ
 		if app.ENABLE_NEW_USER_CARE:
 			if item.IsAntiFlag(item.ITEM_ANTIFLAG_REINFORCE):
 				return False
 
 		attrCount = 0
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			if playerm2g2.GetItemAttribute(dstSlotPos, i) != 0:
 				attrCount += 1
 
@@ -1862,7 +1862,7 @@ class InventoryWindow(ui.ScriptWindow):
 				else:
 					loop_repeat = 10 # prevent open 200 stacks, because lag. Max 10
 
-				for x in xrange(loop_repeat):
+				for x in range(loop_repeat):
 					m2netm2g.SendItemUsePacket(slotIndex)
 			else:
 				self.__UseItem(slotIndex)
@@ -1937,7 +1937,7 @@ class InventoryWindow(ui.ScriptWindow):
 		self.OnCloseQuestionDialog()
 
 	def __SendUseItemToItemPacket(self, srcSlotPos, dstSlotPos):
-		# °³ÀÎ»óÁ¡ ¿­°í ÀÖ´Â µ¿¾È ¾ÆÀÌÅÛ »ç¿ë ¹æÁö
+		# ê°œì¸ìƒì  ì—´ê³  ìˆëŠ” ë™ì•ˆ ì•„ì´í…œ ì‚¬ìš© ë°©ì§€
 		if app.ENABLE_PREMIUM_PRIVATE_SHOP:
 			if uiPrivateShopBuilder.IsBuildingPrivateShop() or uiPrivateShopEditor.IsEditingOfflineShop():
 				chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.USE_ITEM_FAILURE_PRIVATE_SHOP)
@@ -1950,7 +1950,7 @@ class InventoryWindow(ui.ScriptWindow):
 		m2netm2g.SendItemUseToItemPacket(srcSlotPos, dstSlotPos)
 
 	def __SendUseItemPacket(self, slotPos):
-		# °³ÀÎ»óÁ¡ ¿­°í ÀÖ´Â µ¿¾È ¾ÆÀÌÅÛ »ç¿ë ¹æÁö
+		# ê°œì¸ìƒì  ì—´ê³  ìˆëŠ” ë™ì•ˆ ì•„ì´í…œ ì‚¬ìš© ë°©ì§€
 		if app.ENABLE_PREMIUM_PRIVATE_SHOP:
 			if uiPrivateShopBuilder.IsBuildingPrivateShop() or uiPrivateShopEditor.IsEditingOfflineShop():
 				chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.USE_ITEM_FAILURE_PRIVATE_SHOP)
@@ -1963,7 +1963,7 @@ class InventoryWindow(ui.ScriptWindow):
 		m2netm2g.SendItemUsePacket(slotPos)
 
 	def __SendMoveItemPacket(self, srcSlotPos, dstSlotPos, srcItemCount):
-		# °³ÀÎ»óÁ¡ ¿­°í ÀÖ´Â µ¿¾È ¾ÆÀÌÅÛ »ç¿ë ¹æÁö
+		# ê°œì¸ìƒì  ì—´ê³  ìˆëŠ” ë™ì•ˆ ì•„ì´í…œ ì‚¬ìš© ë°©ì§€
 		if uiPrivateShopBuilder.IsBuildingPrivateShop() or uiPrivateShopEditor.IsEditingOfflineShop():
 			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, localeInfo.MOVE_ITEM_FAILURE_PRIVATE_SHOP)
 			return
@@ -2012,7 +2012,7 @@ class InventoryWindow(ui.ScriptWindow):
 #			print "Belt Global Pos : ", self.wndBelt.GetGlobalPosition()
 			self.wndBelt.AdjustPositionAndSize()
 
-	# wj.2014.12.2. ÀÎº¥Åä¸®¿Í DSÀÎº¥ °£ÀÇ »óÅÂ¸¦ È®ÀÎ ¹× ¼³Á¤ÇÏ±â À§ÇÑ ÇÔ¼ö.
+	# wj.2014.12.2. ì¸ë²¤í† ë¦¬ì™€ DSì¸ë²¤ ê°„ì˜ ìƒíƒœë¥¼ í™•ì¸ ë° ì„¤ì •í•˜ê¸° ìœ„í•œ í•¨ìˆ˜.
 	def IsDlgQuestionShow(self):
 		if self.dlgQuestion and self.dlgQuestion.IsShow() or self.attachMetinDialog.IsShow():
 			return True

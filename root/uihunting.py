@@ -265,12 +265,12 @@ class HuntingWindow(ui.ScriptWindow):
 			self.GetChild("item_icon").SetEvent(ui.__mem_func__(self.MouseOverInRaceItem), "mouse_over_in")
 			self.GetChild("item_icon").SetEvent(ui.__mem_func__(self.MouseOverOut), "mouse_over_out")
 			self.GetChild("item_icon").Show()
-			for i in xrange(3):
+			for i in range(3):
 				self.GetChild("empty_slot_%d" % i).Hide()
 		else:
 			self.current_race_item = 0
 			self.GetChild("item_icon").Hide()
-			for i in xrange(3):
+			for i in range(3):
 				self.GetChild("empty_slot_%d" % i).Show()
 	
 	def UpdateMission(self, count):
@@ -332,7 +332,7 @@ class HuntingWindow(ui.ScriptWindow):
 	def MouseOverInRaceItem(self):
 		if self.tooltipItem and self.race_item != 0:
 			self.tooltipItem.ClearToolTip()
-			self.tooltipItem.AddItemData(self.race_item, [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+			self.tooltipItem.AddItemData(self.race_item, [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 			self.tooltipItem.ShowToolTip()
 
 	def MouseOverOut(self):
@@ -478,7 +478,7 @@ class HuntingSelectWindow(ui.ScriptWindow):
 				self.GetChild("container_1_0").LeftRightReverse()
 				self.GetChild("container_1_1").LeftRightReverse()
 
-			for i in xrange(2):
+			for i in range(2):
 				if i == 0:
 					index = TARGET_RENDER_INDEX_SEL_1
 				else:
@@ -525,11 +525,11 @@ class HuntingSelectWindow(ui.ScriptWindow):
 				self.GetChild("item_icon_%d" % type).SetEvent(ui.__mem_func__(self.MouseOverInRaceItem2), "mouse_over_in")
 			self.GetChild("item_icon_%d" % type).SetEvent(ui.__mem_func__(self.MouseOverOut), "mouse_over_out")
 			self.GetChild("item_icon_%d" % type).Show()
-			for i in xrange(3):
+			for i in range(3):
 				self.GetChild("empty_slot_%d_%d" % (i, type)).Hide()
 		else:
 			self.GetChild("item_icon_%d" % type).Hide()
-			for i in xrange(3):
+			for i in range(3):
 				self.GetChild("empty_slot_%d_%d" % (i, type)).Show()
 
 	def SetRandomItemTable(self, item_vnum, item_count):
@@ -564,13 +564,13 @@ class HuntingSelectWindow(ui.ScriptWindow):
 	def MouseOverInRaceItem1(self):
 		if self.tooltipItem and self.RaceItem[0][0] != 0:
 			self.tooltipItem.ClearToolTip()
-			self.tooltipItem.AddItemData(self.RaceItem[0][0], [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+			self.tooltipItem.AddItemData(self.RaceItem[0][0], [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 			self.tooltipItem.ShowToolTip()
 
 	def MouseOverInRaceItem2(self):
 		if self.tooltipItem and self.RaceItem[1][0] != 0:
 			self.tooltipItem.ClearToolTip()
-			self.tooltipItem.AddItemData(self.RaceItem[1][0], [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+			self.tooltipItem.AddItemData(self.RaceItem[1][0], [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 			self.tooltipItem.ShowToolTip()
 
 	def MouseOverOut(self):
@@ -626,7 +626,7 @@ class HuntingRewardWindow(ui.ScriptWindow):
 		self.startNextAni = 0
 		self.startetAni = 1
 
-		for i in xrange(4):
+		for i in range(4):
 			self.GetChild("empty_slot_%d" % i).Show()
 			self.GetChild("ani_slot_%d" % i).Show()
 
@@ -637,7 +637,7 @@ class HuntingRewardWindow(ui.ScriptWindow):
 		self.clickOpenButton = False
 		self.showRandomItemName = False
 		self.cur = [0,0,0]
-		self.GetChild("ButtonRecive").SetText("÷ffnen")
+		self.GetChild("ButtonRecive").SetText("√ñffnen")
 
 		self.GetChild("board").SetTitleName(uiScriptLocale.HUNTING_SYSTEM_TITLE_REWARD % self.level)
 		self.GetChild("ButtonRecive").EnableFlash()
@@ -648,7 +648,7 @@ class HuntingRewardWindow(ui.ScriptWindow):
 
 	def Close(self):
 		if self.clickOpenButton == False:
-			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, "Du musst erst deine Belohnung ˆffnen um dieses Fenster zu schlieﬂen")
+			chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, "Du musst erst deine Belohnung √∂ffnen um dieses Fenster zu schlie√üen")
 			return
 		else:
 			self.GetChild("item_icon").Hide()
@@ -688,14 +688,14 @@ class HuntingRewardWindow(ui.ScriptWindow):
 			self.GetChild("item_icon").SetEvent(ui.__mem_func__(self.MouseOverInRaceItem), "mouse_over_in")
 			self.GetChild("item_icon").SetEvent(ui.__mem_func__(self.MouseOverOut), "mouse_over_out")
 			self.GetChild("item_icon").Show()
-			for i in xrange(3):
+			for i in range(3):
 				# self.GetChild("empty_slot_%d" % i).Hide()
 				self.startingAni.append([0,0])
 				self.AnimationImage = ui.AniImageBox()
 				self.AnimationImage.SetParent(self.GetChild("ani_slot_%d" % i))
 				self.AnimationImage.SetDelay(4)
 				self.AnimationImage.SetEndFrameEvent(ui.__mem_func__(self.HideBrokeSlotAni), i)
-				for s in xrange(FRAMES_COUNT+1):
+				for s in range(FRAMES_COUNT+1):
 					self.AnimationImage.AppendImage("d:/ymir work/ui/effect/slot_broke_key/frame_%d.sub" % (s))
 					self.AnimationImage.Show()
 				if localeInfo.IsARABIC():
@@ -706,11 +706,11 @@ class HuntingRewardWindow(ui.ScriptWindow):
 				self.AnimationImage.Hide()
 				self.AniImageObjects.append(self.AnimationImage)
 		else:
-			for i in xrange(3):
+			for i in range(3):
 				self.GetChild("empty_slot_%d" % i).LoadImage("d:/ymir work/ui/pet/skill_button/skill_enable_button.sub")
 				self.GetChild("ani_slot_%d" % i).Hide()
 
-		for obj in xrange(len(self.AniImageObjects)):
+		for obj in range(len(self.AniImageObjects)):
 			self.AniImageObjects[obj].Hide()
 
 		if self.rand_reward != 0:
@@ -725,7 +725,7 @@ class HuntingRewardWindow(ui.ScriptWindow):
 			self.AnimationImage.SetParent(self.GetChild("ani_slot_3"))
 			self.AnimationImage.SetDelay(4)
 			self.AnimationImage.SetEndFrameEvent(ui.__mem_func__(self.HideBrokeSlotAni), 3)
-			for x in xrange(FRAMES_COUNT+1):
+			for x in range(FRAMES_COUNT+1):
 				self.AnimationImage.AppendImage("d:/ymir work/ui/effect/slot_broke_key/frame_%d.sub" % (x))
 				self.AnimationImage.Show()
 
@@ -761,7 +761,7 @@ class HuntingRewardWindow(ui.ScriptWindow):
 		if self.clickOpenButton == False:
 			self.clickOpenButton = True
 			self.ShowBrokeSlotAni()
-			self.GetChild("ButtonRecive").SetText("Schlieﬂen")
+			self.GetChild("ButtonRecive").SetText("Schlie√üen")
 			self.GetChild("ButtonRecive").DisableFlash()
 			m2netm2g.SendHuntingAction(4, 0)
 
@@ -773,13 +773,13 @@ class HuntingRewardWindow(ui.ScriptWindow):
 	def MouseOverInRaceItem(self):
 		if self.tooltipItem and self.reward != 0:
 			self.tooltipItem.ClearToolTip()
-			self.tooltipItem.AddItemData(self.reward, [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+			self.tooltipItem.AddItemData(self.reward, [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 			self.tooltipItem.ShowToolTip()
 
 	def MouseOverInRandomItem(self):
 		if self.tooltipItem and self.rand_reward != 0:
 			self.tooltipItem.ClearToolTip()
-			self.tooltipItem.AddItemData(self.rand_reward, [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+			self.tooltipItem.AddItemData(self.rand_reward, [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 			self.tooltipItem.ShowToolTip()
 
 	def MouseOverOut(self):
@@ -892,7 +892,7 @@ class HuntingMiniWindow(ui.Window):
 			self.mob_text.SetHorizontalAlignCenter()
 			self.mob_text.SetPosition(0, 26)
 			self.mob_text.SetOutline()
-			self.mob_text.SetText("Weiﬂer-Eid Kommandantin")
+			self.mob_text.SetText("Wei√üer-Eid Kommandantin")
 			self.mob_text.Show()
 
 			self.count_text = ui.TextLine()
@@ -985,7 +985,7 @@ class ListBoxItems(ui.Window):
 		def OverInItem(self):
 			if self.tooltipItem:
 				self.tooltipItem.ClearToolTip()
-				self.tooltipItem.AddItemData(self.vnum, [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+				self.tooltipItem.AddItemData(self.vnum, [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 				self.tooltipItem.ShowToolTip()
 
 		def OverOutItem(self):
@@ -1029,7 +1029,7 @@ class ListBoxItems(ui.Window):
 
 	def GetObjectCount(self):
 		count = 0
-		for i in xrange(len(self.object_list)):
+		for i in range(len(self.object_list)):
 			count += 1
 		return count
 
@@ -1043,7 +1043,7 @@ class ListBoxItems(ui.Window):
 
 		totalHeight -= self.GetHeight()
 
-		for i in xrange(len(self.object_list)):
+		for i in range(len(self.object_list)):
 			x, y = self.object_list[i].GetLocalPosition()
 			xB, yB = self.object_list[i].GetBasePosition()
 			setPos = yB - int(scrollPos * totalHeight)

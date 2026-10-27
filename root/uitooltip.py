@@ -215,7 +215,7 @@ class ToolTip(ui.ThinBoard):
 		self.ResizeToolTip()
 
 	def AppendHorizontalLine(self):
-		for i in xrange(2):
+		for i in range(2):
 			horizontalLine = ui.Line()
 			horizontalLine.SetParent(self)
 			horizontalLine.SetPosition(0, self.toolTipHeight + 3 + i)
@@ -468,7 +468,7 @@ class ToolTip(ui.ThinBoard):
 			return
 
 		lineCount = grpText.GetSplitingTextLineCount(description, characterLimitation)
-		for i in xrange(lineCount):
+		for i in range(lineCount):
 			if 0 == i:
 				self.AppendSpace(5)
 			self.AppendTextLine(grpText.GetSplitingTextLine(description, characterLimitation, i), color)
@@ -1186,7 +1186,7 @@ class ItemToolTip(ToolTip):
 
 		race = playerm2g2.GetRace()
 		job = chr.RaceToJob(race)
-		if not self.ANTI_FLAG_DICT.has_key(job):
+		if job not in self.ANTI_FLAG_DICT:
 			return False
 
 		if item.IsAntiFlag(self.ANTI_FLAG_DICT[job]):
@@ -1203,7 +1203,7 @@ class ItemToolTip(ToolTip):
 		if item.IsAntiFlag(item.ITEM_ANTIFLAG_FEMALE) and sex == FEMALE:
 			return False
 
-		for i in xrange(item.LIMIT_MAX_NUM):
+		for i in range(item.LIMIT_MAX_NUM):
 			(limitType, limitValue) = item.GetLimit(i)
 
 			if item.LIMIT_LEVEL == limitType:
@@ -1284,15 +1284,15 @@ class ItemToolTip(ToolTip):
 				item.SelectItem(itemVnum)
 				self.AppendSellingPrice(playerm2g2.GetISellItemPrice(window_type, slotIndex))
 
-		metinSlot = [playerm2g2.GetItemMetinSocket(window_type, slotIndex, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
-		attrSlot = [playerm2g2.GetItemAttribute(window_type, slotIndex, i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+		metinSlot = [playerm2g2.GetItemMetinSocket(window_type, slotIndex, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
+		attrSlot = [playerm2g2.GetItemAttribute(window_type, slotIndex, i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
 		if app.ENABLE_YOHARA_SYSTEM:
-			apply_random_list = [playerm2g2.GetItemApplyRandom(window_type, slotIndex, i) for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM)]
-			randomValue = [playerm2g2.GetRandomValue(window_type, slotIndex, i) for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM)]
+			apply_random_list = [playerm2g2.GetItemApplyRandom(window_type, slotIndex, i) for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM)]
+			randomValue = [playerm2g2.GetRandomValue(window_type, slotIndex, i) for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM)]
 
 		if app.ENABLE_GROWTH_PET_SYSTEM:
 			if window_type == playerm2g2.PET_FEED:
-				metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.INVENTORY, slotIndex, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+				metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.INVENTORY, slotIndex, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 
 		if app.ENABLE_REFINE_ELEMENT:
 			self.FuncElementSpellItemDate(slotIndex, window_type)
@@ -1330,8 +1330,8 @@ class ItemToolTip(ToolTip):
 
 			self.ClearToolTip()
 
-			metinSlot = [playerm2g2.GetItemMetinSocket(window_type, slotIndex, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
-			attrSlot = [playerm2g2.GetItemAttribute(window_type, slotIndex, i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+			metinSlot = [playerm2g2.GetItemMetinSocket(window_type, slotIndex, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
+			attrSlot = [playerm2g2.GetItemAttribute(window_type, slotIndex, i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
 
 			self.AddItemData(itemVnum, metinSlot, attrSlot, 0, 0, window_type, slotIndex)
 
@@ -1349,8 +1349,8 @@ class ItemToolTip(ToolTip):
 
 			self.ClearToolTip()
 
-			metinSlot = [playerm2g2.GetItemMetinSocket(window_type, baseSlotIndex, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
-			attrSlot = [playerm2g2.GetItemAttribute(window_type, materialSlotIndex, i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+			metinSlot = [playerm2g2.GetItemMetinSocket(window_type, baseSlotIndex, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
+			attrSlot = [playerm2g2.GetItemAttribute(window_type, materialSlotIndex, i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
 
 			self.AddItemData(baseItemVnum, metinSlot, attrSlot)
 
@@ -1365,10 +1365,10 @@ class ItemToolTip(ToolTip):
 			self.isPrivateSearchItem = True
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(shop.GetPrivateShopSelectItemMetinSocket(slotIndex, i))
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(shop.GetPrivateShopSelectItemAttribute(slotIndex, i))
 
 			if app.ENABLE_REFINE_ELEMENT: #GUILDBANK_ELEMENT
@@ -1377,11 +1377,11 @@ class ItemToolTip(ToolTip):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				applyRandomList = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					applyRandomList.append(shop.GetPrivateShopItemApplyRandom(slotIndex, i))
 
 				random_value = []
-				for r in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for r in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					random_value.append(shop.GetPrivateShopGetRandomValue(slotIndex, r))
 
 			if app.ENABLE_SET_ITEM:
@@ -1466,11 +1466,11 @@ class ItemToolTip(ToolTip):
 			self.ClearToolTip()
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(guildbank.GetItemMetinSocket(slotIndex, i))
 
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(guildbank.GetItemAttribute(slotIndex, i))
 
 			if app.ENABLE_REFINE_ELEMENT: #GUILDBANK_ELEMENT
@@ -1479,11 +1479,11 @@ class ItemToolTip(ToolTip):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				apply_random_list = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(guildbank.GetItemApplyRandom(slotIndex, i))
 
 				randomValue = []
-				for r in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for r in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randomValue.append(guildbank.GetRandomValue(slotIndex, r))
 
 			if app.ENABLE_SET_ITEM:
@@ -1517,7 +1517,7 @@ class ItemToolTip(ToolTip):
 				self.AppendMetinInformation()
 				self.AppendMetinWearInformation()
 
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME_START_FIRST_USE == limitType:
@@ -1541,10 +1541,10 @@ class ItemToolTip(ToolTip):
 			self.ShopSlotIndex = slotIndex
 
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(shop.GetItemMetinSocket(slotIndex, i))
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(shop.GetItemAttribute(slotIndex, i))
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -1553,11 +1553,11 @@ class ItemToolTip(ToolTip):
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			applyRandomList = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				applyRandomList.append(shop.GetItemApplyRandom(slotIndex, i))
 
 			random_value = []
-			for r in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for r in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				random_value.append(shop.GetRandomValue(slotIndex, r))
 
 		if app.ENABLE_SET_ITEM:
@@ -1595,10 +1595,10 @@ class ItemToolTip(ToolTip):
 			self.isShopItem = True
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(shop.GetItemMetinSocket(slotIndex, i))
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(shop.GetItemAttribute(slotIndex, i))
 
 			self.AddItemData(itemVnum, metinSlot, attrSlot)
@@ -1621,10 +1621,10 @@ class ItemToolTip(ToolTip):
 			self.isShopItem = True
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(shop.GetItemMetinSocket(slotIndex, i))
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(shop.GetItemAttribute(slotIndex, i))
 
 			self.AddItemData(itemVnum, metinSlot, attrSlot)
@@ -1655,10 +1655,10 @@ class ItemToolTip(ToolTip):
 			self.isShopItem = True
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(shop.GetItemMetinSocket(slotIndex, i))
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(shop.GetItemAttribute(slotIndex, i))
 
 			self.AddItemData(itemVnum, metinSlot, attrSlot)
@@ -1680,10 +1680,10 @@ class ItemToolTip(ToolTip):
 		self.ClearToolTip()
 
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(exchange.GetItemMetinSocketFromSelf(slotIndex, i))
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(exchange.GetItemAttributeFromSelf(slotIndex, i))
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -1696,11 +1696,11 @@ class ItemToolTip(ToolTip):
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			applyRandomList = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				applyRandomList.append(exchange.GetItemApplyRandomFromSelf(slotIndex, i))
 
 			random_value = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				random_value.append(exchange.GetRandomValueFromSelf(slotIndex, i))
 
 		if app.ENABLE_SET_ITEM:
@@ -1719,10 +1719,10 @@ class ItemToolTip(ToolTip):
 		self.ClearToolTip()
 
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(exchange.GetItemMetinSocketFromTarget(slotIndex, i))
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(exchange.GetItemAttributeFromTarget(slotIndex, i))
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -1735,11 +1735,11 @@ class ItemToolTip(ToolTip):
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			applyRandomList = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				applyRandomList.append(exchange.GetItemApplyRandomFromTarget(slotIndex, i))
 
 			random_value = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				random_value.append(exchange.GetRandomValueFromTarget(slotIndex, i))
 
 		if app.ENABLE_SET_ITEM:
@@ -1799,10 +1799,10 @@ class ItemToolTip(ToolTip):
 			self.AppendSellingPrice(shop.GetPrivateShopItemPrice(invenType, invenPos))
 
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(playerm2g2.GetItemMetinSocket(invenPos, i))
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(playerm2g2.GetItemAttribute(invenPos, i))
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -1810,11 +1810,11 @@ class ItemToolTip(ToolTip):
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			apply_random_list = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				apply_random_list.append(playerm2g2.GetItemApplyRandom(invenPos, i))
 
 			randomValue = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				randomValue.append(playerm2g2.GetRandomValue(invenPos, i))
 
 		if app.ENABLE_SET_ITEM:
@@ -1830,11 +1830,11 @@ class ItemToolTip(ToolTip):
 			self.ClearToolTip()
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetAcceItemMetinSocket(slotIndex, i))
 
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(playerm2g2.GetAcceItemAttribute(slotIndex, i))
 
 			if app.ENABLE_REFINE_ELEMENT:
@@ -1842,11 +1842,11 @@ class ItemToolTip(ToolTip):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				apply_random_list = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(playerm2g2.GetAcceRandomItemAttribute(slotIndex, i))
 
 				randomValue = []
-				for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randomValue.append(playerm2g2.GetAcceItemRandomValue(slotIndex, i))
 
 			if app.ENABLE_SET_ITEM:
@@ -1865,16 +1865,16 @@ class ItemToolTip(ToolTip):
 				return
 
 			self.ClearToolTip()
-			metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.INVENTORY, inventoryslotindex, i) for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
-			attrSlot = [playerm2g2.GetItemAttribute(playerm2g2.INVENTORY, inventoryslotindex, i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+			metinSlot = [playerm2g2.GetItemMetinSocket(playerm2g2.INVENTORY, inventoryslotindex, i) for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
+			attrSlot = [playerm2g2.GetItemAttribute(playerm2g2.INVENTORY, inventoryslotindex, i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
 
 			if app.ENABLE_REFINE_ELEMENT:
 				(grade_element,attack_element,type_element,value_element) = playerm2g2.GetChangeLookElement(slotIndex)
 				self.ElementSpellItemDateDirect(grade_element, attack_element, type_element, value_element)
 
 			if app.ENABLE_YOHARA_SYSTEM:
-				apply_random_list = [playerm2g2.GetItemApplyRandom(playerm2g2.INVENTORY, inventoryslotindex, i) for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM)]
-				randomValue = [playerm2g2.GetRandomValue(playerm2g2.INVENTORY, inventoryslotindex, i) for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM)]
+				apply_random_list = [playerm2g2.GetItemApplyRandom(playerm2g2.INVENTORY, inventoryslotindex, i) for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM)]
+				randomValue = [playerm2g2.GetRandomValue(playerm2g2.INVENTORY, inventoryslotindex, i) for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM)]
 
 			if app.ENABLE_SET_ITEM:
 				set_value = playerm2g2.GetItemSetValue(inventoryslotindex)
@@ -1889,20 +1889,20 @@ class ItemToolTip(ToolTip):
 			self.ClearToolTip()
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetAuraItemMetinSocket(slotIndex, i))
 
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(playerm2g2.GetAuraItemAttribute(slotIndex, i))
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				apply_random_list = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(playerm2g2.GetAuraSlotItemApplyRandom(slotIndex, i))
 
 				randomValue = []
-				for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randomValue.append(playerm2g2.GetAuraRandomValue(slotIndex, i))
 
 			if app.ENABLE_SET_ITEM:
@@ -1917,10 +1917,10 @@ class ItemToolTip(ToolTip):
 
 		self.ClearToolTip()
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(safebox.GetItemMetinSocket(slotIndex, i))
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(safebox.GetItemAttribute(slotIndex, i))
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -1929,11 +1929,11 @@ class ItemToolTip(ToolTip):
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			apply_random_list = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				apply_random_list.append(safebox.GetItemApplyRandom(slotIndex, i))
 
 			randomValue = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				randomValue.append(safebox.GetRandomValue(slotIndex, i))
 
 		if app.ENABLE_SET_ITEM:
@@ -1956,10 +1956,10 @@ class ItemToolTip(ToolTip):
 
 		self.ClearToolTip()
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(safebox.GetMallItemMetinSocket(slotIndex, i))
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(safebox.GetMallItemAttribute(slotIndex, i))
 
 		# if app.ENABLE_YOHARA_SYSTEM:
@@ -1983,19 +1983,19 @@ class ItemToolTip(ToolTip):
 	def SetItemToolTip(self, itemVnum):
 		self.ClearToolTip()
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(0)
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append((0, 0))
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			applyRandomList = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				applyRandomList.append((0, 0))
 
 			random_value = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				random_value.append(0)
 
 		if app.ENABLE_SET_ITEM:
@@ -2012,10 +2012,10 @@ class ItemToolTip(ToolTip):
 			self.isAttendanceRewardItem = True
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(0)
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append((0, 0))
 
 			self.AddItemData(itemVnum, metinSlot, attrSlot)
@@ -2030,19 +2030,19 @@ class ItemToolTip(ToolTip):
 
 			self.ClearToolTip()
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(mail.GetMailItemMetinSocket(index, i))
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(mail.GetMailItemAttribute(index, i))
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				apply_random_list = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(mail.GetItemApplyRandom(index, i))
 
 				randomValue = []
-				for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randomValue.append(mail.GetMailRandomValue(index, i))
 
 			if app.ENABLE_REFINE_ELEMENT:
@@ -2172,7 +2172,7 @@ class ItemToolTip(ToolTip):
 				else:
 					drainlate = affectValueAcce / 100.0
 
-				for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+				for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 					type = attrSlot[i][0]
 					value = attrSlot[i][1]
 
@@ -2255,7 +2255,7 @@ class ItemToolTip(ToolTip):
 
 				drainlate = curLevel / 10. / 100. + boostPercent
 
-				for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+				for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 					type = attrSlot[i][0]
 					value = attrSlot[i][1]
 					if 0 >= value:
@@ -2270,7 +2270,7 @@ class ItemToolTip(ToolTip):
 
 	def __AppendAttributeInformation(self, attrSlot):
 		if 0 != attrSlot:
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				type = attrSlot[i][0]
 				value = attrSlot[i][1]
 
@@ -2292,7 +2292,7 @@ class ItemToolTip(ToolTip):
 	if app.ENABLE_YOHARA_SYSTEM:
 		def __AppendDefaultItemApplyInformation(self, apply_random_list):
 			if 0 != apply_random_list:
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					type = apply_random_list[i][0]
 					value = apply_random_list[i][1]
 
@@ -2311,7 +2311,7 @@ class ItemToolTip(ToolTip):
 					setWeightValue = item.GetDSSetWeight(dsType, grade)
 					basicApplyCount = item.GetDSBasicApplyCount(dsType, grade)
 
-					for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+					for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 						type = attrSlot[i][0]
 						value = attrSlot[i][1]
 
@@ -2337,7 +2337,7 @@ class ItemToolTip(ToolTip):
 							else:
 								self.AppendTextLine(affectString, affectColor)
 				else:
-					for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+					for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 						type = attrSlot[i][0]
 						value = attrSlot[i][1]
 
@@ -2359,7 +2359,7 @@ class ItemToolTip(ToolTip):
 	if app.ENABLE_ATTR_6TH_7TH:
 		def __AppendAttribute6th7thPossibility(self, attrSlot):
 			count = 0
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				type = attrSlot[i][0]
 				if type != 0:
 					count += 1
@@ -2475,7 +2475,7 @@ class ItemToolTip(ToolTip):
 		if not attrSlot:
 			return False
 
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			type = attrSlot[i][0]
 			if 0 != type:
 				return True
@@ -2495,7 +2495,7 @@ class ItemToolTip(ToolTip):
 	if app.ENABLE_SOUL_SYSTEM:
 		## apply_random_list -> ENABLE_YOHARA_SYSTEM
 		def AddRefineItemData(self, itemVnum, metinSlot, attrSlot = 0, type = 0, apply_random_list = 0, randomValue = 0, set_value = 0):
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlotData=metinSlot[i]
 				if self.GetMetinItemIndex(metinSlotData) == constInfo.ERROR_METIN_STONE:
 					metinSlot[i]=playerm2g2.METIN_SOCKET_TYPE_SILVER
@@ -2504,7 +2504,7 @@ class ItemToolTip(ToolTip):
 	else:
 		## apply_random_list -> ENABLE_YOHARA_SYSTEM
 		def AddRefineItemData(self, itemVnum, metinSlot, attrSlot = 0, apply_random_list = 0, randomValue = 0, set_value = 0):
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlotData=metinSlot[i]
 				if self.GetMetinItemIndex(metinSlotData) == constInfo.ERROR_METIN_STONE:
 					metinSlot[i]=playerm2g2.METIN_SOCKET_TYPE_SILVER
@@ -2617,7 +2617,7 @@ class ItemToolTip(ToolTip):
 					self.AppendTextLine( localeInfo.PET_TOOLTIP_SKILL % (pet_skill_name, pet_skill_level[index]) , self.SPECIAL_POSITIVE_COLOR)
 
 			## life span
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 				if item.LIMIT_REAL_TIME == limitType:
 					self.AppendPetItemLastTime(metinSlot[0])
@@ -2692,7 +2692,7 @@ class ItemToolTip(ToolTip):
 
 			## Time remaining
 			if 0 == flags:
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 					if item.LIMIT_REAL_TIME == limitType:
 						self.AppendSoulItemLastTime(metinSlot[0])
@@ -2751,7 +2751,7 @@ class ItemToolTip(ToolTip):
 		## apply_random_list -> ENABLE_YOHARA_SYSTEM
 		## set_value -> ENABLE_SET_ITEM
 		def AddElementsSpellItemData(self, itemVnum, func, grade_add, slotIndex, metinSlot, attrSlot = 0, window_type = playerm2g2.INVENTORY, apply_random_list = 0, randomValue = 0, set_value = 0):
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlotData=metinSlot[i]
 				if self.GetMetinItemIndex(metinSlotData) == constInfo.ERROR_METIN_STONE:
 					metinSlot[i]=playerm2g2.METIN_SOCKET_TYPE_SILVER
@@ -2904,7 +2904,7 @@ class ItemToolTip(ToolTip):
 			if itemType in [item.ITEM_TYPE_WEAPON, item.ITEM_TYPE_ARMOR]:
 				points = 0.0
 				if attrSlot != 0:
-					for i in xrange(playerm2g2.ATTRIBUTE_SLOT_NORM_NUM):
+					for i in range(playerm2g2.ATTRIBUTE_SLOT_NORM_NUM):
 						BONUS_LIST = self.VALENCE_BONUS_LIST
 						# if i >= 5:
 							# BONUS_LIST = self.VALENCE_BONUS_LIST_SPECIAL
@@ -2999,7 +2999,7 @@ class ItemToolTip(ToolTip):
 				elif item.WEAPON_QUIVER == itemSubType:
 					if not self.isShopItem:
 						## Look for available time limits
-						for i in xrange(item.LIMIT_MAX_NUM):
+						for i in range(item.LIMIT_MAX_NUM):
 							(limitType, limitValue) = item.GetLimit(i)
 
 							if item.LIMIT_REAL_TIME == limitType:
@@ -3074,7 +3074,7 @@ class ItemToolTip(ToolTip):
 
 			bHasRealtimeFlag = 0
 
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME == limitType:
@@ -3138,7 +3138,7 @@ class ItemToolTip(ToolTip):
 
 			if item.GetItemSubType() != item.COSTUME_TYPE_ACCE:
 				## Look for available time limits
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3183,7 +3183,7 @@ class ItemToolTip(ToolTip):
 
 				bHasRealtimeFlag = 0
 
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3291,7 +3291,7 @@ class ItemToolTip(ToolTip):
 			if 0 != metinSlot:
 				bHasRealtimeFlag = 0
 
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3390,7 +3390,7 @@ class ItemToolTip(ToolTip):
 			#####
 			if item.USE_SPECIAL == itemSubType:
 				bHasRealtimeFlag = 0
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3411,7 +3411,7 @@ class ItemToolTip(ToolTip):
 
 			elif item.USE_TIME_CHARGE_PER == itemSubType:
 				bHasRealtimeFlag = 0
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3427,7 +3427,7 @@ class ItemToolTip(ToolTip):
 
 			elif item.USE_TIME_CHARGE_FIX == itemSubType:
 				bHasRealtimeFlag = 0
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3446,7 +3446,7 @@ class ItemToolTip(ToolTip):
 			item.USE_CHANGE_ATTRIBUTE == itemSubType or \
 			item.USE_ADD_ATTRIBUTE == itemSubType or \
 			item.USE_TUNING == itemSubType:
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					if item.LIMIT_REAL_TIME == limitType:
@@ -3461,7 +3461,7 @@ class ItemToolTip(ToolTip):
 			if app.ENABLE_CHANGE_LOOK_SYSTEM and item.GetVnum(50051) or item.GetVnum(50052) or item.GetVnum(50053):
 				self.AppendChangeLookInformation(window_type, slotIndex)
 
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME == limitType:
@@ -3482,7 +3482,7 @@ class ItemToolTip(ToolTip):
 
 		elif item.ITEM_TYPE_SPECIAL == itemType: # ENABLE_MINI_GAME_CATCH_KING / ENABLE_MINI_GAME_BNW / ENABLE_MINI_GAME_OKEY_NORMAL
 			item.SelectItem(itemVnum)
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME == limitType:
@@ -3503,7 +3503,7 @@ class ItemToolTip(ToolTip):
 					self.__AppendPetBagItemInfomation(metinSlot)
 
 			if item.PET_PAY == itemSubType:
-				for g in xrange(item.ITEM_APPLY_MAX_NUM):
+				for g in range(item.ITEM_APPLY_MAX_NUM):
 					(affectType, affectValue) = item.GetAffect(g)
 					affectString = self.__GetAffectString(affectType, affectValue)
 					if affectString:
@@ -3512,7 +3512,7 @@ class ItemToolTip(ToolTip):
 
 				self.AppendSpace(5)
 
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 					if item.LIMIT_REAL_TIME == limitType:
 						self.AppendMallItemLastTime(metinSlot[0])
@@ -3528,14 +3528,14 @@ class ItemToolTip(ToolTip):
 			self.__AppendLimitInformation()
 
 		if item.ITEM_TYPE_GIFTBOX == itemType:
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME == limitType:
 					self.AppendMallItemLastTime(metinSlot[0])
 
 		elif item.ITEM_TYPE_TREASURE_BOX == itemType or item.ITEM_TYPE_TREASURE_KEY == itemType or item.ITEM_TYPE_MATERIAL == itemType:
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME == limitType:
@@ -3543,7 +3543,7 @@ class ItemToolTip(ToolTip):
 
 		if app.ENABLE_GROWTH_PET_SYSTEM:
 			if not (item.ITEM_TYPE_PET == itemType and item.PET_BAG == itemSubType):
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 					#dbg.TraceError("LimitType : %d, limitValue : %d" % (limitType, limitValue))
 
@@ -3555,7 +3555,7 @@ class ItemToolTip(ToolTip):
 						self.AppendTimerBasedOnWearLastTime(metinSlot)
 						#dbg.TraceError("1) REAL_TIME flag On ")
 		else:
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 				#dbg.TraceError("LimitType : %d, limitValue : %d" % (limitType, limitValue))
 
@@ -3599,7 +3599,7 @@ class ItemToolTip(ToolTip):
 		if app.ENABLE_ANTIFLAG_TOOLTIP:
 			self.AppendAntiflagInformation()
 
-		if app.ENABLE_SOULBIND_SYSTEM: # and itemType != item.ITEM_TYPE_DS:
+		if app.ENABLE_SOULBIND_SYSTEM and not self.isShopItem: # and itemType != item.ITEM_TYPE_DS:
 			self.__AppendSealInformation(window_type, slotIndex) ## cyh itemseal 2013 11 11
 
 		if app.ENABLE_RENDER_TARGET:
@@ -3732,7 +3732,7 @@ class ItemToolTip(ToolTip):
 					self.AppendTextLine( localeInfo.PET_TOOLTIP_SKILL % (pet_skill_name, pet_skill_level3) , self.SPECIAL_POSITIVE_COLOR)
 
 				## term
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 					if item.LIMIT_REAL_TIME_START_FIRST_USE == limitType:
 						self.AppendPetItemLastTime(metinSlot[0])
@@ -3744,7 +3744,7 @@ class ItemToolTip(ToolTip):
 					return
 			"""
 
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 				if item.LIMIT_REAL_TIME == limitType:
 					self.AppendMallItemLastTime(metinSlot[0])
@@ -3789,7 +3789,7 @@ class ItemToolTip(ToolTip):
 					self.AppendTextLine( localeInfo.PET_TOOLTIP_SKILL % (pet_skill_name, pet_skill_level3) , self.SPECIAL_POSITIVE_COLOR)
 
 				## life span
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 					if item.LIMIT_REAL_TIME == limitType:
 						self.AppendPetItemLastTime(metinSlot[0])
@@ -3997,10 +3997,10 @@ class ItemToolTip(ToolTip):
 			return self.toolTipWidth
 
 		maxWidth = self.toolTipWidth
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			type = attrSlot[i][0]
 			value = attrSlot[i][1]
-			if self.ATTRIBUTE_NEED_WIDTH.has_key(type):
+			if type in self.ATTRIBUTE_NEED_WIDTH:
 				if value > 0:
 					maxWidth = max(self.ATTRIBUTE_NEED_WIDTH[type], maxWidth)
 
@@ -4065,7 +4065,7 @@ class ItemToolTip(ToolTip):
 
 		appendSpace = False
 
-		for i in xrange(item.LIMIT_MAX_NUM):
+		for i in range(item.LIMIT_MAX_NUM):
 			(limitType, limitValue) = item.GetLimit(i)
 
 			if limitValue > 0:
@@ -4097,6 +4097,8 @@ class ItemToolTip(ToolTip):
 	## cyh itemseal 2013 11 11
 	if app.ENABLE_SOULBIND_SYSTEM:
 		def __AppendSealInformation(self, window_type, slotIndex):
+			if slotIndex < 0:
+				return
 			itemSealDate = playerm2g2.GetItemSealDate(window_type, slotIndex)
 			if itemSealDate == item.GetUnlimitedSealDate():
 				self.AppendSpace(5)
@@ -4289,7 +4291,7 @@ class ItemToolTip(ToolTip):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				if 0 != apply_random_list:
-					for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+					for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 						randomType = apply_random_list[i][0]
 						randomValue = max((apply_random_list[i][1] * drainlate), 1)
 
@@ -4300,7 +4302,7 @@ class ItemToolTip(ToolTip):
 						if affectRandomString:
 							self.AppendTextLineAcce(affectRandomString, self.APPLY_RANDOM_TEXT_COLOR)
 
-			for i in xrange(item.ITEM_APPLY_MAX_NUM):
+			for i in range(item.ITEM_APPLY_MAX_NUM):
 				(affectType, affectValue) = item.GetAffect(i)
 				if affectValue > 0:
 					affectValue = max((affectValue * drainlate) , 1)
@@ -4322,7 +4324,7 @@ class ItemToolTip(ToolTip):
 			item.SelectItem(oriitemVnum)
 
 		def __AppendAffectInformationAcce(self,slotIndex, window_type, metinSlot):
-			for i in xrange(item.ITEM_APPLY_MAX_NUM):
+			for i in range(item.ITEM_APPLY_MAX_NUM):
 				(affectType, affectValue) = item.GetAffect(i)
 
 				if item.GetRefinedVnum() == 0:
@@ -4484,7 +4486,7 @@ class ItemToolTip(ToolTip):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				if 0 != apply_random_list:
-					for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+					for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 						randomType = apply_random_list[i][0]
 						randomValue = max((apply_random_list[i][1] * drainlate), 1)
 
@@ -4497,7 +4499,7 @@ class ItemToolTip(ToolTip):
 
 			## Apply default properties in Itemtable.
 			## For aura,-Ex movement speed is not applied.
-			for i in xrange(item.ITEM_APPLY_MAX_NUM):
+			for i in range(item.ITEM_APPLY_MAX_NUM):
 				item.SelectItem(socketInDrainItemVnum)
 				(affectType, affectValue) = item.GetAffect(i)
 				if affectValue > 0:
@@ -4721,7 +4723,7 @@ class ItemToolTip(ToolTip):
 				item.SelectItem(itemVnum)
 
 	def __AppendAffectInformation(self):
-		for i in xrange(item.ITEM_APPLY_MAX_NUM):
+		for i in range(item.ITEM_APPLY_MAX_NUM):
 
 			(affectType, affectValue) = item.GetAffect(i)
 			affectString = self.__GetAffectString(affectType, affectValue)
@@ -4779,7 +4781,7 @@ class ItemToolTip(ToolTip):
 				localeInfo.TOOLTIP_ANTIFLAG_SAFEBOX: item.IsAntiFlag(item.ITEM_ANTIFLAG_SAFEBOX),
 			}
 
-			antiFlagNames = [name for name, flag in antiFlagDict.iteritems() if flag]
+			antiFlagNames = [name for name, flag in list(antiFlagDict.items()) if flag]
 			if antiFlagNames:
 				self.AppendSpace(5)
 
@@ -4799,7 +4801,7 @@ class ItemToolTip(ToolTip):
 			flagList += (not item.IsAntiFlag(item.ITEM_ANTIFLAG_WOLFMAN),)
 
 		characterNames = ""
-		for i in xrange(self.CHARACTER_COUNT):
+		for i in range(self.CHARACTER_COUNT):
 
 			name = self.CHARACTER_NAMES[i]
 			flag = flagList[i]
@@ -4961,7 +4963,7 @@ class ItemToolTip(ToolTip):
 
 	def AppendMetinInformation(self):
 		if constInfo.ENABLE_FULLSTONE_DETAILS:
-			for i in xrange(item.ITEM_APPLY_MAX_NUM):
+			for i in range(item.ITEM_APPLY_MAX_NUM):
 				(affectType, affectValue) = item.GetAffect(i)
 				affectString = self.__GetAffectString(affectType, affectValue)
 				if affectString:
@@ -4986,7 +4988,7 @@ class ItemToolTip(ToolTip):
 			flagList += (item.IsWearableFlag(item.WEARABLE_GLOVE),)
 
 		wearNames = ""
-		for i in xrange(self.WEAR_COUNT):
+		for i in range(self.WEAR_COUNT):
 
 			name = self.WEAR_NAMES[i]
 			flag = flagList[i]
@@ -5102,7 +5104,7 @@ class ItemToolTip(ToolTip):
 		if self.__AppendMetinSlotInfo_IsEmptySlotList(metinSlot):
 			return
 
-		for i in xrange(playerm2g2.ITEM_METIN_SOCKET_MAX):
+		for i in range(playerm2g2.ITEM_METIN_SOCKET_MAX):
 			self.__AppendMetinSlotInfo_AppendMetinSocketData(i, metinSlot[i])
 
 	if app.ENABLE_GLOVE_SYSTEM and app.ENABLE_YOHARA_SYSTEM:
@@ -5110,14 +5112,14 @@ class ItemToolTip(ToolTip):
 			if self.__AppendMetinSlotInfo_IsEmptySlotList(metin_slot):
 				return
 
-			for i in xrange(playerm2g2.ITEM_METIN_SOCKET_MAX):
+			for i in range(playerm2g2.ITEM_METIN_SOCKET_MAX):
 				self.__GetSungmaStoneDataByIndex(i, metin_slot[i], metin_slot[i+3])
 
 	def __AppendMetinSlotInfo_IsEmptySlotList(self, metinSlot):
 		if 0 == metinSlot:
 			return 1
 
-		for i in xrange(playerm2g2.ITEM_METIN_SOCKET_MAX):
+		for i in range(playerm2g2.ITEM_METIN_SOCKET_MAX):
 			metinSlotData=metinSlot[i]
 			if 0 != self.GetMetinSocketType(metinSlotData):
 				if 0 != self.GetMetinItemIndex(metinSlotData):
@@ -5580,7 +5582,7 @@ class ItemToolTip(ToolTip):
 		def __AppendRealTimeToolTip(self, itemVnum, endTime):
 			item.SelectItem(itemVnum)
 
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 
 				if item.LIMIT_REAL_TIME == limitType and limitValue > 0:
@@ -5856,7 +5858,7 @@ class SkillToolTip(ToolTip):
 		self.__AppendSkillGradeName(skillIndex, skillGrade)
 
 	def __AppendSkillGradeName(self, skillIndex, skillGrade):
-		if self.SKILL_GRADE_NAME.has_key(skillGrade):
+		if skillGrade in self.SKILL_GRADE_NAME:
 			self.AppendSpace(5)
 			self.AppendTextLine(self.SKILL_GRADE_NAME[skillGrade] % (skill.GetSkillName(skillIndex, 0)), self.CAN_LEVEL_UP_COLOR)
 
@@ -5909,7 +5911,7 @@ class SkillToolTip(ToolTip):
 		conditionDataCount = skill.GetSkillConditionDescriptionCount(skillIndex)
 		if conditionDataCount > 0:
 			self.AppendSpace(5)
-			for i in xrange(conditionDataCount):
+			for i in range(conditionDataCount):
 				self.AppendTextLine(skill.GetSkillConditionDescription(skillIndex, i), self.CONDITION_COLOR)
 
 	def AppendGuildSkillData(self, skillIndex, skillLevel):
@@ -5927,7 +5929,7 @@ class SkillToolTip(ToolTip):
 
 				#####
 
-				for i in xrange(skill.GetSkillAffectDescriptionCount(skillIndex)):
+				for i in range(skill.GetSkillAffectDescriptionCount(skillIndex)):
 					self.AppendTextLine(skill.GetSkillAffectDescription(skillIndex, i, skillCurrentPercentage), self.ENABLE_COLOR)
 
 				## Cooltime
@@ -5948,7 +5950,7 @@ class SkillToolTip(ToolTip):
 
 				#####
 
-				for i in xrange(skill.GetSkillAffectDescriptionCount(skillIndex)):
+				for i in range(skill.GetSkillAffectDescriptionCount(skillIndex)):
 					self.AppendTextLine(skill.GetSkillAffectDescription(skillIndex, i, skillNextPercentage), self.DISABLE_COLOR)
 
 				## Cooltime
@@ -5999,10 +6001,10 @@ class SkillToolTip(ToolTip):
 
 		affectDataCount = skill.GetNewAffectDataCount(skillIndex)
 		if affectDataCount > 0:
-			for i in xrange(affectDataCount):
+			for i in range(affectDataCount):
 				type, minValue, maxValue = skill.GetNewAffectData(skillIndex, i, skillPercentage)
 
-				if not self.AFFECT_NAME_DICT.has_key(type):
+				if type not in self.AFFECT_NAME_DICT:
 					continue
 
 				minValue = int(minValue)
@@ -6029,7 +6031,7 @@ class SkillToolTip(ToolTip):
 				self.AppendTextLine(affectText, color)
 
 		else:
-			for i in xrange(skill.GetSkillAffectDescriptionCount(skillIndex)):
+			for i in range(skill.GetSkillAffectDescriptionCount(skillIndex)):
 				self.AppendTextLine(skill.GetSkillAffectDescription(skillIndex, i, skillPercentage), color)
 
 
@@ -6080,9 +6082,9 @@ class SkillToolTip(ToolTip):
 		requireStatCount = skill.GetSkillRequireStatCount(skillIndex)
 		if requireStatCount > 0:
 
-			for i in xrange(requireStatCount):
+			for i in range(requireStatCount):
 				type, level = skill.GetSkillRequireStatData(skillIndex, i)
-				if self.POINT_NAME_DICT.has_key(type):
+				if type in self.POINT_NAME_DICT:
 
 					if not isAppendHorizontalLine:
 						isAppendHorizontalLine = True

@@ -670,7 +670,7 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		self.itemMasktypeselectslot.SetEvent(lambda Masktypenumber, argSelf=proxy(self): argSelf.OnChangeItemTypeSlot(Masktypenumber))
 
 		## ENABLE_PRIVATESHOP_CATEGORY
-		for index, itemtypedic in self.ITEM_MASK_TYPE_DIC.items() :
+		for index, itemtypedic in list(self.ITEM_MASK_TYPE_DIC.items()) :
 			self.itemMasktypeselectslot.InsertItem(index,self.ITEM_MASK_TYPE_DIC[index])
 
 		self.itemMasktypeselectslot.SetCurrentItem(self.ITEM_MASK_TYPE_DIC[item.MASK_ITEM_TYPE_EQUIPMENT_WEAPON])
@@ -699,7 +699,7 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		maxcount = shop.GetPrivateShopSearchResultMaxCount()
 		page = shop.GetPrivateShopSearchResultPage()
 
-		for line, nameSlotList in self.SerchItemSlotList.items():
+		for line, nameSlotList in list(self.SerchItemSlotList.items()):
 			if app.ENABLE_CHEQUE_SYSTEM:
 				itemname, sellername, count, price, cheque = shop.GetPrivateShopSearchResult(line)
 				if "" == itemname:
@@ -800,8 +800,8 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 
 		self.clearPagebuttoncolor()
 		self.bigpagecount = 1
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagebutton[i].SetText(str(i+1))
 
 		self.nowpagenumber = int(self.pagebuttonList[0][0].GetText())
@@ -826,8 +826,8 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		pagenumber = 5 * (self.pagecount/5)
 		if pagenumber == self.pagecount:
 			pagenumber -= 5
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagebutton[i].SetText(str(i+pagenumber+1))
 
 		self.nowpagenumber = self.pagecount
@@ -842,8 +842,8 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		self.clearPagebuttoncolor()
 		self.bigpagecount -= 1
 
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagenumber = int(pagebutton[i].GetText()) - 5
 				pagebutton[i].SetText(str(pagenumber))
 
@@ -860,8 +860,8 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		if maxitemcount < self.bigpagecount * self.PAGEONE_MAX_SIZE:
 			return
 
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagenumber = int(pagebutton[i].GetText()) + 5
 				pagebutton[i].SetText(str(pagenumber))
 
@@ -877,7 +877,7 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 
 	## Number page button colored white.
 	def clearPagebuttoncolor(self):
-		for line, pagebutton in self.pagebuttonList.items():
+		for line, pagebutton in list(self.pagebuttonList.items()):
 			for i in range(0,self.PAGEBUTTON_NUMBER_SIZE):
 				pagebutton[i].SetTextColor(0xffffffff)
 				pagebutton[i].SetUp()
@@ -885,7 +885,7 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 
 	## Hide all page buttons
 	def HidePageButton(self):
-		for line, pagebutton in self.pagebuttonList.items():
+		for line, pagebutton in list(self.pagebuttonList.items()):
 			for i in range(0,self.PAGEBUTTON_MAX_SIZE):
 				pagebutton[i].Hide()
 
@@ -903,8 +903,8 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		if self.pagecount > 5:
 			self.pagecount = 5
 
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(self.pagecount):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(self.pagecount):
 				pagebutton[i].Show()
 
 		self.pagebuttonList[0][5].Show()
@@ -1003,7 +1003,7 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		else:
 			m2netm2g.SendPrivateShopSearchInfo(job,Masktype,Masksub,minrefine,maxrefine,minlevel,maxlevel,mingold,maxgold,itemname)
 
-		for line, nameSlotList in self.SerchItemSlotList.items():
+		for line, nameSlotList in list(self.SerchItemSlotList.items()):
 			nameSlotList[0].SetText("")
 			nameSlotList[1].SetText("")
 			nameSlotList[2].SetText("")
@@ -1016,8 +1016,8 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 		self.clearEffectEtc()
 		self.HidePageButton()
 		self.bigpagecount = 1
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagenumber = int(pagebutton[i].GetText()) - 5
 				pagebutton[i].SetText(str(i+1))
 
@@ -1074,12 +1074,12 @@ class PrivateShopSeachWindow(ui.ScriptWindow):
 
 	## All Select Button Up
 	def __ClearItemSlotButtonList(self):
-		for line, ItemSlotButtonList in self.ItemSlotButtonList.items():
+		for line, ItemSlotButtonList in list(self.ItemSlotButtonList.items()):
 			ItemSlotButtonList[0].SetUp()
 
 	## All buttons except the corresponding slot Up
 	def __SelectItemSlotButtonList(self, index):
-		for line, ItemSlotButtonList in self.ItemSlotButtonList.items():
+		for line, ItemSlotButtonList in list(self.ItemSlotButtonList.items()):
 			if index != line:
 				ItemSlotButtonList[0].SetUp()
 			else:

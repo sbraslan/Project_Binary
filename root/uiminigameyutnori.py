@@ -302,11 +302,11 @@ class YutArea:
 		return self.prev
 
 	def GetNextArea(self):
-		return self.next
+		return self.__next__
 
 	def GetShortcutNextArea(self):
 		if 0 == self.shortcutNext:
-			return self.next
+			return self.__next__
 
 		return self.shortcutNext
 
@@ -988,7 +988,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 		if None == self.probSelectWindow:
 			return
 
-		for i in xrange(6):
+		for i in range(6):
 			button = ui.Button()
 			button.SetParent(self.probSelectWindow)
 			button.SetPosition(0, 16 * i)
@@ -1072,7 +1072,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 		self.arrowImg.AddFlag("float")
 
 	def __CreateYutImg(self):
-		for i in xrange(4):
+		for i in range(4):
 			tImage = ui.ImageBox()
 			tImage.SetParent(self.GetChild("yut_result_img"))
 			tImage.SetPosition(12 + i*21 + i*2, 26)
@@ -1201,7 +1201,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 			self.giveupDialog.Hide()
 
 	def __HideYutArea(self):
-		for area in self.areaDict.values():
+		for area in list(self.areaDict.values()):
 			area.Hide()
 
 	def SetYut(self):
@@ -1216,7 +1216,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 		if YUTNORI_YUTSEM_MAX == index:
 			return
 
-		for i in xrange(4):
+		for i in range(4):
 			self.yutImg[i].LoadImage(yutImgPath[index][i])
 			self.yutImg[i].SetAlpha(self.yutCurAlpha)
 			self.yutImg[i].Show()
@@ -1262,7 +1262,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 	def AvailableAreaShow(self, data):
 		(playerIndex, availableIndex) = data
 
-		if self.areaDict.has_key(availableIndex):
+		if availableIndex in self.areaDict:
 			self.areaDict[availableIndex].Show()
 
 		self.playerList[playerIndex].SetAvailableIndex(availableIndex)
@@ -1333,7 +1333,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 				self.comTextCoverOverImg.Show()
 
 	def __HideYut(self):
-		for i in xrange(4):
+		for i in range(4):
 			self.yutImg[i].Hide()
 			
 	def __ClickProbSelectButton(self):
@@ -1455,7 +1455,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 
 		self.yutCurAlpha = self.yutCurAlpha + 0.02
 
-		for i in xrange(4):	
+		for i in range(4):	
 			self.yutImg[i].SetAlpha(self.yutCurAlpha)
 
 		if self.yutCurAlpha >= 1.0:
@@ -1615,7 +1615,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 			moveIndex = startIndex
 			crossCheckIndex = 0
 
-			for i in xrange(moveCount):
+			for i in range(moveCount):
 				if 22 == moveIndex or 27 == moveIndex:
 					crossCheckIndex = moveIndex
 
@@ -1683,7 +1683,7 @@ class YutnoriGamePage(ui.ScriptWindow):
 			self.catchAni.Hide()
 
 	def __GoalCoverCheck(self):
-		for i in xrange(2):
+		for i in range(2):
 			if self.playerList[i].IsGoal():
 				self.playerList[i].ShowGoalCoverImg()
 

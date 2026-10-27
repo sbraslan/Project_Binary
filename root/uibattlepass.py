@@ -202,16 +202,16 @@ class BattlePassWindow(ui.ScriptWindow):
 				self.GetChild("PremiumTextInfo")
 			]
 			
-			for i in xrange(len(self.infoPagesList)):
+			for i in range(len(self.infoPagesList)):
 				self.infoPagesList[i].Hide()
 
-			for tabValue in self.tabDict.itervalues():
+			for tabValue in list(self.tabDict.values()):
 				tabValue.Hide()
 
-			for (stateKey, tabButton) in self.tabButtonDict.items():
+			for (stateKey, tabButton) in list(self.tabButtonDict.items()):
 				tabButton.SetEvent(ui.__mem_func__(self.__OnClickTabButton), stateKey)
 				
-			for (subStateKey, subTabButton) in self.subTabButtonDict.items():
+			for (subStateKey, subTabButton) in list(self.subTabButtonDict.items()):
 				subTabButton.SetEvent(ui.__mem_func__(self.__OnClickSubTabButton), subStateKey)
 				
 			self.GetChild("BorderRanking").Hide()
@@ -234,7 +234,7 @@ class BattlePassWindow(ui.ScriptWindow):
 			self.GetChild("last_page_button").SetEvent(ui.__mem_func__(self.__OnClickRankingPageButton), 5)
 			self.GetChild("refresh_ranklist_button").SetEvent(ui.__mem_func__(self.__OnClickRefreshRanklist))
 
-			for i in xrange(1, 6):
+			for i in range(1, 6):
 				self.GetChild("page%d_button" % int(i)).SetEvent(ui.__mem_func__(self.__OnClickRankingPageButton), i)
 				
 			self.scrollBar = MissionScrollBar()
@@ -288,7 +288,7 @@ class BattlePassWindow(ui.ScriptWindow):
 	def __OnClickRankingPageButton(self, pageIndex):
 		new_page = min(5, pageIndex)
 		new_page = max(1, new_page)
-		for i in xrange(1, 6):
+		for i in range(1, 6):
 			if i != new_page:
 				self.GetChild("page%d_button" % int(i)).SetUp()
 			else:
@@ -339,21 +339,21 @@ class BattlePassWindow(ui.ScriptWindow):
 		
 		self.page = stateKey
 
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			if stateKey!=tabKey:
 				tabButton.SetUp()
 
-		for (tabKey, tabWindow) in self.tabWindowDict.items():
+		for (tabKey, tabWindow) in list(self.tabWindowDict.items()):
 			if stateKey==tabKey:
 				tabWindow.Show()
 			else:
 				tabWindow.Hide()
 
-		for tabValue in self.tabDict.itervalues():
+		for tabValue in list(self.tabDict.values()):
 			tabValue.Hide()
 
 		self.GetChild("UIArea").Show()
-		for i in xrange(len(self.infoPagesList)):
+		for i in range(len(self.infoPagesList)):
 			self.infoPagesList[i].Hide()
 	
 		self.tabDict[stateKey].Show()
@@ -387,11 +387,11 @@ class BattlePassWindow(ui.ScriptWindow):
 	def SetSubPage(self, subStateKey):
 		self.subpage = subStateKey
 		
-		for (subTabKey, subTabButton) in self.subTabButtonDict.items():
+		for (subTabKey, subTabButton) in list(self.subTabButtonDict.items()):
 			if subStateKey!=subTabKey:
 				subTabButton.SetUp()
 	
-		for subTabValue in self.subTabDict.itervalues():
+		for subTabValue in list(self.subTabDict.values()):
 			subTabValue.Hide()
 
 		self.subTabDict[subStateKey].Show()
@@ -408,7 +408,7 @@ class BattlePassWindow(ui.ScriptWindow):
 			self.RefreshRewardSlots()
 
 	def SetNormalPage(self):
-		if self.battlePassGeneralInfo[1].has_key(self.BattlePassIDNormal) and self.battlePassGeneralInfo[1][self.BattlePassIDNormal]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[1][self.BattlePassIDNormal]["end_time"] > app.GetGlobalTimeStamp():
+		if self.BattlePassIDNormal in self.battlePassGeneralInfo[1] and self.battlePassGeneralInfo[1][self.BattlePassIDNormal]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[1][self.BattlePassIDNormal]["end_time"] > app.GetGlobalTimeStamp():
 			self.GetChild("UIArea").Show()
 			self.GetChild("NormalInfoBoard").Hide()
 			self.GetChild("NormalTextInfo").Hide()
@@ -418,7 +418,7 @@ class BattlePassWindow(ui.ScriptWindow):
 			self.GetChild("NormalInfoBoard").Show()
 			self.GetChild("NormalTextInfo").Show()
 			self.GetChild("NormalInfoTextTime").Hide()
-			for battlepass in self.battlePassGeneralInfo[1].itervalues():
+			for battlepass in list(self.battlePassGeneralInfo[1].values()):
 				if battlepass["start_time"] > app.GetGlobalTimeStamp():
 					self.next_normal_battlepass_time = battlepass["start_time"]
 					break
@@ -433,7 +433,7 @@ class BattlePassWindow(ui.ScriptWindow):
 	
 	def SetPremiumPage(self):
 		self.isActivePremiumWindow = 0
-		if self.battlePassGeneralInfo[2].has_key(self.BattlePassIDPremium) and self.battlePassGeneralInfo[2][self.BattlePassIDPremium]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[2][self.BattlePassIDPremium]["end_time"] > app.GetGlobalTimeStamp():
+		if self.BattlePassIDPremium in self.battlePassGeneralInfo[2] and self.battlePassGeneralInfo[2][self.BattlePassIDPremium]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[2][self.BattlePassIDPremium]["end_time"] > app.GetGlobalTimeStamp():
 			if playerm2g2.GetPremiumBattlePassID() != self.BattlePassIDPremium:
 				self.GetChild("UIArea").Hide()
 				self.GetChild("PremiumInfoBoard").Show()
@@ -453,7 +453,7 @@ class BattlePassWindow(ui.ScriptWindow):
 			self.GetChild("PremiumInfoBoard").Show()
 			self.GetChild("PremiumTextInfo").Show()
 			self.GetChild("PremiumInfoTextTime").Hide()
-			for battlepass in self.battlePassGeneralInfo[2].itervalues():
+			for battlepass in list(self.battlePassGeneralInfo[2].values()):
 				if battlepass["start_time"] > app.GetGlobalTimeStamp():
 					self.next_premium_battlepass_time = battlepass["start_time"]
 					break
@@ -467,7 +467,7 @@ class BattlePassWindow(ui.ScriptWindow):
 				self.GetChild("PremiumInfoText").SetPosition(0, -2)
 	
 	def SetEventPage(self):
-		if self.battlePassGeneralInfo[3].has_key(self.BattlePassIDEvent) and self.battlePassGeneralInfo[3][self.BattlePassIDEvent]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[3][self.BattlePassIDEvent]["end_time"] > app.GetGlobalTimeStamp():
+		if self.BattlePassIDEvent in self.battlePassGeneralInfo[3] and self.battlePassGeneralInfo[3][self.BattlePassIDEvent]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[3][self.BattlePassIDEvent]["end_time"] > app.GetGlobalTimeStamp():
 			self.GetChild("UIArea").Show()
 			self.GetChild("EventInfoBoard").Hide()
 			self.GetChild("EventTextInfo").Hide()
@@ -477,7 +477,7 @@ class BattlePassWindow(ui.ScriptWindow):
 			self.GetChild("EventInfoBoard").Show()
 			self.GetChild("EventTextInfo").Show()
 			self.GetChild("EventInfoTextTime").Hide()
-			for battlepass in self.battlePassGeneralInfo[3].itervalues():
+			for battlepass in list(self.battlePassGeneralInfo[3].values()):
 				if battlepass["start_time"] > app.GetGlobalTimeStamp():
 					self.next_event_battlepass_time = battlepass["start_time"]
 					break
@@ -643,16 +643,16 @@ class BattlePassWindow(ui.ScriptWindow):
 		if len(reward_items[0]) != 0:
 			self.rewardSlotIndex = 0
 			self.rewardDict = {}
-			for slot in xrange(6):
+			for slot in range(6):
 				self.GetChild("reward_slots").ClearSlot(slot)
-			for i in xrange(len(reward_items[0])):
+			for i in range(len(reward_items[0])):
 				self.GetChild("reward_slots").SetItemSlot(self.rewardSlotIndex, reward_items[0][i], reward_items[1][i])
 				self.rewardDict[self.rewardSlotIndex] = [reward_items[0][i], reward_items[1][i]]
 				item.SelectItem(reward_items[0][i])
 				self.rewardSlotIndex += 1 if item.GetItemSize()[1] == 1 else 2
 
 	def RecvGeneralInfo(self, BattlePassType, BattlePassName, BattlePassID, battlePassStartTime, battlePassEndTime):
-		if not self.battlePassGeneralInfo[BattlePassType].has_key(BattlePassID):
+		if BattlePassID not in self.battlePassGeneralInfo[BattlePassType]:
 			self.battlePassGeneralInfo[BattlePassType][BattlePassID] = {"name" : str(BattlePassName), "start_time" : battlePassStartTime, "end_time" : battlePassEndTime}
 			if battlePassStartTime < app.GetGlobalTimeStamp() and battlePassEndTime > app.GetGlobalTimeStamp():
 				if BattlePassType == 1:
@@ -663,13 +663,13 @@ class BattlePassWindow(ui.ScriptWindow):
 					self.BattlePassIDEvent = BattlePassID
 
 	def AddMission(self, battlepass_type, battlepass_id, mission_index, mission_type, info_value, current_value, total_value):
-		if self.battlePassGeneralInfo[battlepass_type].has_key(battlepass_id) and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["end_time"] > app.GetGlobalTimeStamp():
+		if battlepass_id in self.battlePassGeneralInfo[battlepass_type] and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["end_time"] > app.GetGlobalTimeStamp():
 			if self.missionList.HaveMission(battlepass_type, mission_index, mission_type):
 				self.missionList.SetProgress(battlepass_type, mission_index, total_value, current_value)
 			else:
 				textInfo = self.GetTitleTextInfo(mission_type, info_value, current_value)
 				
-				if self.missionNameDict.has_key(mission_type):
+				if mission_type in self.missionNameDict:
 					if mission_type in [3, 4, 16, 17, 19]:
 						missionName = self.missionNameDict[mission_type]["name"] 
 					else:
@@ -684,7 +684,7 @@ class BattlePassWindow(ui.ScriptWindow):
 				self.missionList.SetProgress(battlepass_type, mission_index, total_value, current_value)
 
 	def AddMissionReward(self, battlepass_type, battlepass_id, missionIndex, missionType, itemVnum, itemCount):
-		if self.battlePassGeneralInfo[battlepass_type].has_key(battlepass_id) and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["end_time"] > app.GetGlobalTimeStamp():
+		if battlepass_id in self.battlePassGeneralInfo[battlepass_type] and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["end_time"] > app.GetGlobalTimeStamp():
 			if self.missionList:
 				self.missionList.AddMissionReward(battlepass_type, missionIndex, itemVnum, itemCount)
 	
@@ -696,7 +696,7 @@ class BattlePassWindow(ui.ScriptWindow):
 			#self.RefreshGeneralInfo()
 
 	def AddReward(self, battlepass_type, battlepass_id, itemVnum, itemCount):
-		if self.battlePassGeneralInfo[battlepass_type].has_key(battlepass_id) and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["end_time"] > app.GetGlobalTimeStamp():
+		if battlepass_id in self.battlePassGeneralInfo[battlepass_type] and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepass_type][battlepass_id]["end_time"] > app.GetGlobalTimeStamp():
 			self.rewardTable[battlepass_type-1][0].append(itemVnum)
 			self.rewardTable[battlepass_type-1][1].append(itemCount)
 
@@ -712,7 +712,7 @@ class BattlePassWindow(ui.ScriptWindow):
 	def RefreshRanklist(self):
 		pos_y = 27
 		self.rankingItems = []
-		for i in xrange(RANKING_MAX_NUM):
+		for i in range(RANKING_MAX_NUM):
 	
 			if self.page == "NORMAL":
 				rank_range = i + (self.ranklistNormalCurrentPage*RANKING_MAX_NUM) - RANKING_MAX_NUM + 1
@@ -727,7 +727,7 @@ class BattlePassWindow(ui.ScriptWindow):
 				slot_image = EVENT_PATH + "ranklist_item.sub"
 				info_list = self.rankingInfoEvent
 			
-			if info_list.has_key(rank_range-1):
+			if rank_range-1 in info_list:
 				image = ui.ImageBox()
 				image.SetParent(self.GetChild("BorderRanking"))
 				image.SetPosition(3, pos_y)
@@ -876,8 +876,8 @@ class BattlePassWindow(ui.ScriptWindow):
 	def OverInItem(self, slotPos):
 		if self.tooltipItem:
 			self.tooltipItem.ClearToolTip()
-			if self.rewardDict.has_key(slotPos):
-				self.tooltipItem.AddItemData(self.rewardDict[slotPos][0], [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+			if slotPos in self.rewardDict:
+				self.tooltipItem.AddItemData(self.rewardDict[slotPos][0], [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 				self.tooltipItem.ShowToolTip()
 
 	def OverOutItem(self):
@@ -947,7 +947,7 @@ class BattlePassWindow(ui.ScriptWindow):
 				self.GetChild("EventInfoTextTime").SetText(uiScriptLocale.EXTENDET_BATTLE_PASS_TIME_TO_NEXT_EVENT_BATTLEPASS % localeInfo.SecondToDHMS(self.next_event_battlepass_time+2 - app.GetGlobalTimeStamp()))
 
 		if self.subpage == "GENERAL":
-			if self.battlePassGeneralInfo[battlepasstype].has_key(battlepassid) and self.battlePassGeneralInfo[battlepasstype][battlepassid]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepasstype][battlepassid]["end_time"]+1 > app.GetGlobalTimeStamp():
+			if battlepassid in self.battlePassGeneralInfo[battlepasstype] and self.battlePassGeneralInfo[battlepasstype][battlepassid]["start_time"] < app.GetGlobalTimeStamp() and self.battlePassGeneralInfo[battlepasstype][battlepassid]["end_time"]+1 > app.GetGlobalTimeStamp():
 				self.GetChild("GeneralInfoEndTimeText").SetText(uiScriptLocale.EXTENDET_BATTLE_PASS_SEASON_REST_TIME % str(localeInfo.SecondToDHMS(self.battlePassGeneralInfo[battlepasstype][battlepassid]["end_time"] - app.GetGlobalTimeStamp())))
 				self.GetChild("GeneralInfoFinishMissionsText").SetText(uiScriptLocale.EXTENDET_BATTLE_PASS_SEASON_CURRENT_MISSIONS % (completedMissionCount, missionCount))
 				self.GetChild("GaugeMission").SetPercentage(completedMissionCount, missionCount)
@@ -1005,7 +1005,7 @@ class ListBoxMissions(ui.Window):
 			self.listImages.append(bgGauge)
 			self.listImages.append(bgGaugeFull)
 
-			for i in xrange(3):
+			for i in range(3):
 				rewardImage = ui.MakeExpandedImageBox(self, "d:/ymir work/ui/pet/skill_button/skill_enable_button.sub", 186 + (32 * i), 6)
 				rewardImage.SetEvent(ui.__mem_func__(self.OverInItem), "mouse_over_in", i)
 				rewardImage.SetEvent(ui.__mem_func__(self.OverOutItem), "mouse_over_out")
@@ -1045,7 +1045,7 @@ class ListBoxMissions(ui.Window):
 			if self.tooltipItem:
 				self.tooltipItem.ClearToolTip()
 				if self.rewardList[rewardIndex][0]:
-					self.tooltipItem.AddItemData(self.rewardList[rewardIndex][0], metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+					self.tooltipItem.AddItemData(self.rewardList[rewardIndex][0], metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 					self.tooltipItem.ShowToolTip()
 
 		def OverOutItem(self):
@@ -1169,7 +1169,7 @@ class ListBoxMissions(ui.Window):
 				if self.tooltipItem:
 					self.tooltipItem.ClearToolTip()
 					if self.rewardList[isInMissionRewards][0] and self.rewardList[isInMissionRewards][0] != 0:
-						self.tooltipItem.AddItemData(self.rewardList[isInMissionRewards][0], metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+						self.tooltipItem.AddItemData(self.rewardList[isInMissionRewards][0], metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 						self.tooltipItem.ShowToolTip()
 					else:
 						self.tooltipItem.HideToolTip()
@@ -1365,7 +1365,7 @@ class ListBoxMissions(ui.Window):
 
 		totalHeight -= self.GetHeight()
 
-		for i in xrange(len(self.selected_list)):
+		for i in range(len(self.selected_list)):
 			x, y = self.selected_list[i].GetLocalPosition()
 			xB, yB = self.selected_list[i].GetBasePosition()
 			setPos = yB - int(scrollPos * totalHeight)
@@ -1397,30 +1397,30 @@ class ListBoxMissions(ui.Window):
 
 	def ShowMissionsByBattlePassType(self, BattlePassType):
 		self.selectedBattlePassType = BattlePassType
-		for i in xrange(len(self.missionlist_type_normal)):
+		for i in range(len(self.missionlist_type_normal)):
 			self.missionlist_type_normal[i].Hide()
-		for i in xrange(len(self.missionlist_type_premium)):
+		for i in range(len(self.missionlist_type_premium)):
 			self.missionlist_type_premium[i].Hide()
-		for i in xrange(len(self.missionlist_type_event)):
+		for i in range(len(self.missionlist_type_event)):
 			self.missionlist_type_event[i].Hide()
 		if self.globalParent.scrollBar:
 			self.globalParent.scrollBar.Show()
 		if BattlePassType == 1:
 			if len(self.missionlist_type_normal) <= 5:
 				self.globalParent.scrollBar.Hide()
-			for i in xrange(len(self.missionlist_type_normal)):
+			for i in range(len(self.missionlist_type_normal)):
 				self.missionlist_type_normal[i].Show()
 				self.selected_list = self.missionlist_type_normal
 		if BattlePassType == 2:
 			if len(self.missionlist_type_premium) <= 5:
 				self.globalParent.scrollBar.Hide()
-			for i in xrange(len(self.missionlist_type_premium)):
+			for i in range(len(self.missionlist_type_premium)):
 				self.missionlist_type_premium[i].Show()
 				self.selected_list = self.missionlist_type_premium
 		if BattlePassType == 3:
 			if len(self.missionlist_type_event) <= 5:
 				self.globalParent.scrollBar.Hide()
-			for i in xrange(len(self.missionlist_type_event)):
+			for i in range(len(self.missionlist_type_event)):
 				self.missionlist_type_event[i].Show()
 				self.selected_list = self.missionlist_type_event
 		

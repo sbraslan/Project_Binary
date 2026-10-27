@@ -142,7 +142,7 @@ if app.ENABLE_MYSHOP_DECO:
 		def Refresh(self):
 			getItemID=shop.GetItemID
 			getItemCount=shop.GetItemCount
-			for i in xrange(shop.SHOP_SLOT_COUNT):
+			for i in range(shop.SHOP_SLOT_COUNT):
 				itemCount = getItemCount(i)
 				if itemCount <= 1:
 					itemCount = 0
@@ -159,7 +159,7 @@ if app.ENABLE_MYSHOP_DECO:
 			if not self.ItemSlotWnd2.IsShow():
 				return
 
-			for i in xrange(shop.SHOP_SLOT_COUNT):
+			for i in range(shop.SHOP_SLOT_COUNT):
 				idx = i + shop.SHOP_SLOT_COUNT
 				itemCount = getItemCount(idx)
 				if itemCount <= 1:

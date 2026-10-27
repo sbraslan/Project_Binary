@@ -122,7 +122,7 @@ class OptionDialog(ui.ScriptWindow):
 			self.showDamageButtonList.append(GetObject("show_damage_on_button"))
 			self.showDamageButtonList.append(GetObject("show_damage_off_button"))
 			if app.ENABLE_PREMIUM_PRIVATE_SHOP and app.ENABLE_PREMIUM_PRIVATE_SHOP_TEXTTAIL:
-				for i in xrange(1, SHOP_TEXTAIL_LEVEL_MAX_NUM + 1):
+				for i in range(1, SHOP_TEXTAIL_LEVEL_MAX_NUM + 1):
 					self.shopTextTailLevelButtonList.append(GetObject("shop_textail_level%d" % i))
 
 				self.shopTextTailLevelApplyButton=GetObject("shop_textail_apply")
@@ -218,7 +218,7 @@ class OptionDialog(ui.ScriptWindow):
 		self.showDamageButtonList[1].SAFE_SetEvent(self.__OnClickShowDamageOffButton)
 
 		if app.ENABLE_PREMIUM_PRIVATE_SHOP and app.ENABLE_PREMIUM_PRIVATE_SHOP_TEXTTAIL:
-			for i in xrange(SHOP_TEXTAIL_LEVEL_MAX_NUM):
+			for i in range(SHOP_TEXTAIL_LEVEL_MAX_NUM):
 				self.shopTextTailLevelButtonList[i].SAFE_SetEvent(self.__OnClickShopTextTailLevelButton, i)
 
 			self.shopTextTailLevelApplyButton.SAFE_SetEvent(self.__OnClickShopTexTailLevelApplyButton)
@@ -548,9 +548,9 @@ class OptionDialog(ui.ScriptWindow):
 		return 0
 
 	def __SetPKMode(self, mode):
-		for btn in self.pvpModeButtonDict.values():
+		for btn in list(self.pvpModeButtonDict.values()):
 			btn.SetUp()
-		if self.pvpModeButtonDict.has_key(mode):
+		if mode in self.pvpModeButtonDict:
 			self.pvpModeButtonDict[mode].Down()
 
 	def __SetPeacePKMode(self):
@@ -715,7 +715,7 @@ class OptionDialog(ui.ScriptWindow):
 
 	def RefreshBlock(self):
 		global blockMode
-		for i in xrange(len(self.blockButtonList)):
+		for i in range(len(self.blockButtonList)):
 			if 0 != (blockMode & (1 << i)):
 				self.blockButtonList[i].Down()
 			else:

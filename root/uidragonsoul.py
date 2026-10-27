@@ -140,7 +140,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 			import exception
 			exception.Abort("InventoryWindow.LoadWindow.BindObject")
 		## DragonSoul Kind Tap
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			tabButton.SetEvent(ui.__mem_func__(self.SetDSKindIndex), tabKey)
 		## Item
 		wndItem.SetOverInItemEvent(ui.__mem_func__(self.OverInItem))
@@ -304,7 +304,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 	def RefreshEquipSlotWindow(self):
 		if app.ENABLE_EXTEND_INVEN_SYSTEM:
-			for i in xrange(6):
+			for i in range(6):
 				slotNumber = self.__GetEquipSlotPos(playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i)
 				itemVnum = playerm2g2.GetItemIndex(playerm2g2.EQUIPMENT, slotNumber)
 
@@ -313,7 +313,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 				if itemVnum != 0:
 					item.SelectItem(itemVnum)
-					for j in xrange(item.LIMIT_MAX_NUM):
+					for j in range(item.LIMIT_MAX_NUM):
 						(limitType, limitValue) = item.GetLimit(j)
 
 						# Initializes to an arbitrary positive number because it checks whether the remain_time is less than 0 at the bottom.
@@ -330,7 +330,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 							self.wndEquip.DisableSlot(playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i)
 							break
 		else:
-			for i in xrange(6):
+			for i in range(6):
 				slotNumber = self.__InventoryLocalSlotPosToGlobalSlotPos(playerm2g2.INVENTORY, playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i)
 				itemVnum = playerm2g2.GetItemIndex(slotNumber)
 				self.wndEquip.SetItemSlot(playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i, itemVnum, 0)
@@ -338,7 +338,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 				if itemVnum != 0:
 					item.SelectItem(itemVnum)
-					for j in xrange(item.LIMIT_MAX_NUM):
+					for j in range(item.LIMIT_MAX_NUM):
 						(limitType, limitValue) = item.GetLimit(j)
 
 						# Initializes to an arbitrary positive number because it checks whether the remain_time is less than 0 at the bottom.
@@ -359,7 +359,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 	if app.ENABLE_DS_REFINE_WINDOW:
 		def ActivateEquipSlotWindow(self, deck):
-			for i in xrange(6):
+			for i in range(6):
 				if deck == 2:
 					plusCount = 6
 				else:
@@ -368,7 +368,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 				self.wndEquip.ActivateSlot(playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i + plusCount)
 
 		def DeactivateEquipSlotWindow(self):
-			for i in xrange(12):
+			for i in range(12):
 				self.wndEquip.DeactivateSlot(playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i)
 
 	def RefreshStatus(self):
@@ -400,7 +400,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 			if self.interface:
 				onTopWindow = self.interface.GetOnTopWindow()
 
-		for i in xrange(playerm2g2.DRAGON_SOUL_PAGE_SIZE):
+		for i in range(playerm2g2.DRAGON_SOUL_PAGE_SIZE):
 			self.wndItem.EnableSlot(i)
 			#<- dragon soul kind
 			slotNumber = self.__InventoryLocalSlotPosToGlobalSlotPos(playerm2g2.DRAGON_SOUL_INVENTORY, i)
@@ -417,7 +417,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 			if itemVnum != 0:
 				item.SelectItem(itemVnum)
-				for j in xrange(item.LIMIT_MAX_NUM):
+				for j in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(j)
 
 					# Initializes to an arbitrary positive number because it checks whether the remain_time is negative at the bottom.
@@ -621,8 +621,8 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 	if app.ENABLE_NEW_USER_CARE:
 		def CreateSecondConfirmQuestionDialog(self, slotPos, count, itemtype):
-			attrSlot = [playerm2g2.GetItemAttribute(itemtype, slotPos, i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			attrSlot = [playerm2g2.GetItemAttribute(itemtype, slotPos, i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				type = attrSlot[i][0]
 				if type != 0:
 					self.sellingAttrOrMetinSocketCount += 1
@@ -1027,11 +1027,11 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 		self.DSKindIndex = kindIndex
 
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			if kindIndex!=tabKey:
 				tabButton.SetUp()
 
-		for tabValue in self.tabDict.itervalues():
+		for tabValue in list(self.tabDict.values()):
 			tabValue.Hide()
 
 		self.tabDict[kindIndex].Show()
@@ -1092,7 +1092,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 	def __CanActivateDeck(self):
 		canActiveNum = 0
-		for i in xrange(6):
+		for i in range(6):
 			if app.ENABLE_EXTEND_INVEN_SYSTEM:
 				slotNumber = self.__GetEquipSlotPos(playerm2g2.DRAGON_SOUL_EQUIPMENT_SLOT_START + i)
 				itemVnum = playerm2g2.GetItemIndex(playerm2g2.EQUIPMENT, slotNumber)
@@ -1103,7 +1103,7 @@ class DragonSoulWindow(ui.ScriptWindow):
 			if itemVnum != 0:
 				item.SelectItem(itemVnum)
 				isNoLimit = True
-				for i in xrange(item.LIMIT_MAX_NUM):
+				for i in range(item.LIMIT_MAX_NUM):
 					(limitType, limitValue) = item.GetLimit(i)
 
 					# LIMIT_TIMER_BASED_ON_WEAR			Puts the remaining time in socket 0.
@@ -1147,14 +1147,14 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 	# Slot highlight BEGIN
 	def __HighlightSlot_ClearCurrentPage(self):
-		for i in xrange(self.wndItem.GetSlotCount()):
+		for i in range(self.wndItem.GetSlotCount()):
 			slotNumber = self.__InventoryLocalSlotPosToGlobalSlotPos(playerm2g2.DRAGON_SOUL_INVENTORY, i)
 			if slotNumber in self.listHighlightedSlot:
 				self.wndItem.DeactivateSlot(i)
 				self.listHighlightedSlot.remove(slotNumber)
 
 	def __HighlightSlot_RefreshCurrentPage(self):
-		for i in xrange(self.wndItem.GetSlotCount()):
+		for i in range(self.wndItem.GetSlotCount()):
 			slotNumber = self.__InventoryLocalSlotPosToGlobalSlotPos(playerm2g2.DRAGON_SOUL_INVENTORY, i)
 			if slotNumber in self.listHighlightedSlot:
 				self.wndItem.ActivateSlot(i)
@@ -1215,9 +1215,9 @@ class DragonSoulWindow(ui.ScriptWindow):
 
 class DragonSoulRefineWindow(ui.ScriptWindow):
 	if app.ENABLE_DS_CHANGE_ATTR:
-		REFINE_TYPE_GRADE, REFINE_TYPE_STEP, REFINE_TYPE_STRENGTH, REFINE_TYPE_CHANGE_ATTR = xrange(4)
+		REFINE_TYPE_GRADE, REFINE_TYPE_STEP, REFINE_TYPE_STRENGTH, REFINE_TYPE_CHANGE_ATTR = list(range(4))
 	else:
-		REFINE_TYPE_GRADE, REFINE_TYPE_STEP, REFINE_TYPE_STRENGTH = xrange(3)
+		REFINE_TYPE_GRADE, REFINE_TYPE_STEP, REFINE_TYPE_STRENGTH = list(range(3))
 	DS_SUB_HEADER_DIC = {
 		REFINE_TYPE_GRADE : playerm2g2.DS_SUB_HEADER_DO_UPGRADE,
 		REFINE_TYPE_STEP : playerm2g2.DS_SUB_HEADER_DO_IMPROVEMENT,
@@ -1227,7 +1227,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 		DS_SUB_HEADER_DIC.update({
 			REFINE_TYPE_CHANGE_ATTR : playerm2g2.DS_SUB_HEADER_DO_CHANGE_ATTR,
 		})
-	REFINE_STONE_SLOT, DRAGON_SOUL_SLOT = xrange(2)
+	REFINE_STONE_SLOT, DRAGON_SOUL_SLOT = list(range(2))
 
 	INVALID_DRAGON_SOUL_INFO = -1
 
@@ -1431,7 +1431,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 				if app.ENABLE_DS_REFINE_WINDOW:
 					self.refineAllButton.Show()
 
-		for i in xrange(self.refineSlotLockStartIndex):
+		for i in range(self.refineSlotLockStartIndex):
 			self.wndRefineSlot.HideSlotBaseImage(i)
 
 		self.wndMoney.SetText(localeInfo.NumberToMoneyString(0))
@@ -1441,7 +1441,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 	def __FlushRefineItemSlot(self):
 		## Item slot settings
 		# Item count recovery of original inventory
-		for invenType, invenPos, itemCount in self.refineItemInfo.values():
+		for invenType, invenPos, itemCount in list(self.refineItemInfo.values()):
 			remainCount = playerm2g2.GetItemCount(invenType, invenPos)
 			playerm2g2.SetItemCount(invenType, invenPos, remainCount + itemCount)
 		self.__Initialize()
@@ -1488,7 +1488,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 		maxCount = playerm2g2.GetItemCount(invenType, invenPos)
 
 		if itemCount > maxCount:
-			raise Exception, ("Invalid attachedItemCount(%d). (base pos (%d, %d), base itemCount(%d))" % (itemCount, invenType, invenPos, maxCount))
+			raise Exception("Invalid attachedItemCount(%d). (base pos (%d, %d), base itemCount(%d))" % (itemCount, invenType, invenPos, maxCount))
 			#return False
 
 		# strength : In case of refine, it is forced to place refined-stone at No. 0 and DragonSoulStone at No. 1.
@@ -1768,7 +1768,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 				if True == self.__SetItem((attachedInvenType, attachedSlotPos), selectedSlotPos, attachedItemCount):
 					self.Refresh()
 
-		except Exception, e:
+		except Exception as e:
 			import dbg
 			dbg.TraceError("Exception : __SelectRefineEmptySlot, %s" % e)
 
@@ -1848,19 +1848,19 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 				else:
 					pass
 
-		except Exception, e:
+		except Exception as e:
 			import dbg
 			dbg.TraceError("Exception : __SelectRefineItemSlot, %s" % e)
 
 		self.Refresh()
 
 	def __OverInRefineItem(self, slotIndex):
-		if self.refineItemInfo.has_key(slotIndex):
+		if slotIndex in self.refineItemInfo:
 			inven_type, inven_pos, item_count = self.refineItemInfo[slotIndex]
 			self.tooltipItem.SetInventoryItem(inven_pos, inven_type)
 
 	def __OverInResultItem(self, slotIndex):
-		if self.resultItemInfo.has_key(slotIndex):
+		if slotIndex in self.resultItemInfo:
 			inven_type, inven_pos, item_count = self.resultItemInfo[slotIndex]
 			self.tooltipItem.SetInventoryItem(inven_pos, inven_type)
 
@@ -1869,7 +1869,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 			self.tooltipItem.HideToolTip()
 
 	def __PressDoRefineButton(self):
-		for i in xrange(self.refineSlotLockStartIndex):
+		for i in range(self.refineSlotLockStartIndex):
 			if not i in self.refineItemInfo:
 				self.wndPopupDialog.SetText(localeInfo.DRAGON_SOUL_NOT_ENOUGH_MATERIAL)
 				self.wndPopupDialog.Open()
@@ -1899,7 +1899,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 
 	def __RefreshRefineItemSlot(self):
 		try:
-			for slotPos in xrange(self.wndRefineSlot.GetSlotCount()):
+			for slotPos in range(self.wndRefineSlot.GetSlotCount()):
 				self.wndRefineSlot.ClearSlot(slotPos)
 				if slotPos < self.refineSlotLockStartIndex:
 					# Checking the information of self.refineItemInfo[slotPos]
@@ -1961,7 +1961,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 				self.__Initialize()
 
 			self.wndRefineSlot.RefreshSlot()
-		except Exception, e:
+		except Exception as e:
 			import dbg
 			dbg.TraceError("Exception : __RefreshRefineItemSlot, %s" % e)
 
@@ -1979,7 +1979,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 				if not DragonSoulRefineWindow.REFINE_STONE_SLOT in self.refineItemInfo:
 					return DragonSoulRefineWindow.REFINE_STONE_SLOT
 		else:
-			for slotPos in xrange(self.wndRefineSlot.GetSlotCount()):
+			for slotPos in range(self.wndRefineSlot.GetSlotCount()):
 				if not slotPos in self.refineItemInfo:
 					return slotPos
 
@@ -2069,7 +2069,7 @@ class DragonSoulRefineWindow(ui.ScriptWindow):
 			self.refineAllButton.Down()
 			self.refineAllButton.Disable()
 
-			for i in xrange(playerm2g2.DRAGON_SOUL_PAGE_SIZE):
+			for i in range(playerm2g2.DRAGON_SOUL_PAGE_SIZE):
 				slotNumber = self.wndDragonSoul.InventoryLocalSlotPosToGlobalSlotPos(playerm2g2.DRAGON_SOUL_INVENTORY, i)
 				if playerm2g2.GetItemIndex(playerm2g2.DRAGON_SOUL_INVENTORY, slotNumber):
 					self.AutoSetItem((playerm2g2.DRAGON_SOUL_INVENTORY, slotNumber), 1)

@@ -143,7 +143,7 @@ class PrivateShopEditor(ui.ScriptWindow):
 			self.toolTip = uiToolTip.ToolTip()
 			self.toolTip.ClearToolTip()
 
-			for i in xrange(shop.SHOP_SLOT_COUNT):
+			for i in range(shop.SHOP_SLOT_COUNT):
 				self.item_slot_cover.SetCoverButton(i,	"d:/ymir work/ui/game/quest/slot_button_01.sub",\
 												"d:/ymir work/ui/game/quest/slot_button_01.sub",\
 												"d:/ymir work/ui/game/quest/slot_button_01.sub",\
@@ -159,7 +159,7 @@ class PrivateShopEditor(ui.ScriptWindow):
 
 		if app.ENABLE_MYSHOP_DECO:
 			self.curPageIndex = 0
-			for i in xrange(len(self.PrvShopTab)):
+			for i in range(len(self.PrvShopTab)):
 				self.PrvShopTab[i].SetEvent(ui.__mem_func__(self.SetPrivateShopPage), i)
 
 			self.PrvShopTabRefresh()
@@ -376,11 +376,11 @@ class PrivateShopEditor(ui.ScriptWindow):
 		else:
 			shopMaxSlots = shop.SHOP_SLOT_COUNT
 
-		for i in xrange(shopMaxSlots):
+		for i in range(shopMaxSlots):
 			if getItemCount(i) > 0:
 				hasItems = True
 
-		for i in xrange(shop.SHOP_SLOT_COUNT):
+		for i in range(shop.SHOP_SLOT_COUNT):
 			if app.ENABLE_MYSHOP_DECO:
 				slotIndex = self.__GetRealIndex(i)
 			else:
@@ -534,7 +534,7 @@ class PrivateShopEditor(ui.ScriptWindow):
 			self.won_text.SetText(wonValue)
 
 		## Gold stash
-		yangValue = localeInfo.NumberToMoneyString(long(shop.GetStashValue()))
+		yangValue = localeInfo.NumberToMoneyString(int(shop.GetStashValue()))
 		self.yang_text.SetText(yangValue)
 
 	if ENABLE_SAVE_PRICE:
@@ -740,7 +740,7 @@ class PrivateShopEditor(ui.ScriptWindow):
 			m2netm2g.SendAddItemToMyShop(attachedInvenType, sourceSlotPos, targetSlotPos, int(price))
 
 		if app.WJ_ENABLE_TRADABLE_ICON:
-			for i in xrange(len(self.ItemListIdx)) :
+			for i in range(len(self.ItemListIdx)) :
 				if self.ItemListIdx[i] == sourceSlotPos :
 					del self.ItemListIdx[i]
 					break
@@ -754,7 +754,7 @@ class PrivateShopEditor(ui.ScriptWindow):
 	def CancelInputPrice(self):
 		if app.WJ_ENABLE_TRADABLE_ICON:
 			pos = self.priceInputBoard.sourceSlotPos
-			for i in xrange(len(self.ItemListIdx)) :
+			for i in range(len(self.ItemListIdx)) :
 				if self.ItemListIdx[i] == pos :
 					del self.ItemListIdx[i]
 					break
@@ -1095,7 +1095,7 @@ class PrivateShopEditor(ui.ScriptWindow):
 		elif "mouse_over_out" == event_type :
 			self.OverOutToolTipButton()
 		else :
-			print " uiPrivateShopEditor.py ::EventProgress : FALSE"
+			print(" uiPrivateShopEditor.py ::EventProgress : FALSE")
 
 	def OnClose(self):
 		self.Close()

@@ -78,17 +78,17 @@ class BiologManager(ui.ScriptWindow):
 				ui.PythonScriptLoader().LoadScriptFile(self, uiScriptLocale.LOCALE_UISCRIPT_PATH + "BiologManagerWindow.py")
 			else:
 				ui.PythonScriptLoader().LoadScriptFile(self, "UIScript/BiologManagerWindow.py")
-		except KeyError, msg:
+		except KeyError as msg:
 			dbg.TraceError("BiologManager #1")
 
 		try:
 			self.__BindObjects()
-		except KeyError, msg:
+		except KeyError as msg:
 			dbg.TraceError("BiologManager #2 - %s" % str(msg))
 
 		try:
 			self.__BindEvents()
-		except KeyError, msg:
+		except KeyError as msg:
 			dbg.TraceError("BiologManager #3 - %s" % str(msg))
 
 	def __BindObjects(self):
@@ -110,7 +110,7 @@ class BiologManager(ui.ScriptWindow):
 			"board" : GetObject("TitleBar"),
 			"item_required" : GetObject("BiologRequiredItem"),
 
-			"additional_items" : [GetObject("AdditionalItem_%d" % (i)) for i in xrange(BIOLOG_ADDITIONAL_COUNT)],
+			"additional_items" : [GetObject("AdditionalItem_%d" % (i)) for i in range(BIOLOG_ADDITIONAL_COUNT)],
 
 			"biolog_reward_item" : GetObject("BiologRewardItem"),
 
@@ -126,7 +126,7 @@ class BiologManager(ui.ScriptWindow):
 
 		wnd["board"].SetCloseEvent(ui.__mem_func__(self.Close))
 
-		for i in xrange(BIOLOG_ADDITIONAL_COUNT):
+		for i in range(BIOLOG_ADDITIONAL_COUNT):
 			wnd["additional_items"][i].SetItemSlot(0, BIOLOG_ADDITIONAL_ITEMS[i], 0)
 			wnd["additional_items"][i].SetOverInItemEvent(lambda slotNumber, iPos = i : self.OnOverInAdditional(slotNumber, iPos))
 			wnd["additional_items"][i].SetOverOutItemEvent(ui.__mem_func__(self.OnOverOutItem))

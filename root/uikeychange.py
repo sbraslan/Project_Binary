@@ -262,7 +262,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 			self.baseXArabic = 510
 			self.Xup = self.baseXArabic
 			self.Yup = 0
-			for i in xrange(self.KeySlotMax):
+			for i in range(self.KeySlotMax):
 				if i == 19:
 					self.Xup = self.baseXArabic - 180 - 30
 					self.Yup = 0
@@ -291,7 +291,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 			self.Xup = 20
 			self.Yup = 0
 
-			for i in xrange(self.KeySlotMax):
+			for i in range(self.KeySlotMax):
 				if i == 19:
 					self.Xup = 180 + 30
 					self.Yup = 0
@@ -322,7 +322,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 	def OnMouseLeftButtonDownEvent(self, slotnumber, slot):
 		returnslotnumber = slotnumber
 
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			if slot != self.slotList[i]:
 				if not self.slotList[i].mouseReflector.GetEmpty():
 					self.slotList[i].mouseReflector.Hide()
@@ -343,7 +343,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 		ui.ScriptWindow.Show(self)
 		playerm2g2.IsOpenKeySettingWindow(1)
 
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			self.slotList[i].EmptySlotShow()
 			self.KeySaveUiInfoDick[i] = self.KeyUiInfoDick[i]
 
@@ -370,14 +370,14 @@ class KeyChangeWindow(ui.ScriptWindow):
 
 	def KeyChangeWindowSaveClose(self, isclose):
 		if isclose:
-			for i in xrange(self.KeySlotMax):
+			for i in range(self.KeySlotMax):
 				self.KeyUiInfoDick[i] = self.KeySaveUiInfoDick[i]
 			self.SaveKeyInfo()
 			self.SettingKey()
 			self.Hide()
 			self.isloded = 0
 			playerm2g2.IsOpenKeySettingWindow(0)
-			for i in xrange(self.KeySlotMax):
+			for i in range(self.KeySlotMax):
 				self.slotList[i].Clear()
 		if self.popup:
 			self.popup.Close()
@@ -388,7 +388,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 			self.Hide()
 			self.isloded = 0
 			playerm2g2.IsOpenKeySettingWindow(0)
-			for i in xrange(self.KeySlotMax):
+			for i in range(self.KeySlotMax):
 				self.slotList[i].Clear()
 		if self.popup:
 			self.popup.Close()
@@ -418,13 +418,13 @@ class KeyChangeWindow(ui.ScriptWindow):
 		return True
 
 	def IsSelectKeySlot(self):
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			if self.slotList[i].GetAble():
 				return True
 		return False
 
 	def CheckUsableKeyValue(self, Key):
-		for i in xrange(self.UsableKeyMax):
+		for i in range(self.UsableKeyMax):
 			if self.UsableKeyDict[i] == Key:
 				if Key == app.DIK_SYSRQ:
 					return True
@@ -434,7 +434,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 
 	## KeySetting.txt
 	def LoadKeyInfo(self):
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			self.KeyUiInfoDick[i] = 0
 
 		try:
@@ -447,7 +447,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 		count = app.GetTextFileLineCount(handle)
 
 		if count > 0:
-			for i in xrange(count-1):
+			for i in range(count-1):
 				line = app.GetTextFileLine(handle, i)
 				self.KeyUiInfoDick[i] = int(line)
 
@@ -483,20 +483,20 @@ class KeyChangeWindow(ui.ScriptWindow):
 
 	def SettingKey(self):
 		playerm2g2.KeySettingClear()
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			playerm2g2.KeySetting(self.KeyUiInfoDick[i],self.KeyFunctionInfo[i])
 
 	def SaveKeyInfo(self):
 		output_KeySettingFile = open("keysave", "w")
 
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			linestr = str(self.KeyUiInfoDick[i]) +'\n'
 			output_KeySettingFile.write(linestr)
 
 		output_KeySettingFile.close()
 
 	def GetSelectSlotNumber(self):
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			if self.slotList[i].GetAble():
 				return self.slotList[i].GetSlotNumber()
 
@@ -507,7 +507,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 		OldSlotNumber = self.KeySlotMax + 1
 		slotNumber = 0
 
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			if self.slotList[i].GetAble():
 				slotNumber = self.slotList[i].GetSlotNumber()
 			if self.KeySaveUiInfoDick[i] == key:
@@ -532,18 +532,18 @@ class KeyChangeWindow(ui.ScriptWindow):
 		return self.SelectSlotDikNumber
 
 	def RefreshKeyText(self):
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			self.slotList[i].SetText(self.KeyTextDict[self.KeyUiInfoDick[i]])
 
 	def RefreshKeyTextTemp(self):
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			self.slotList[i].SetText(self.KeyTextDict[self.KeySaveUiInfoDick[i]])
 
 	def IsOpen(self):
 		return self.isloded
 
 	def Clear(self):
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			self.KeySaveUiInfoDick[i] = self.BaseKeyUiInfoDick[i]
 		self.SettingKey()
 		self.RefreshKeyTextTemp()
@@ -575,7 +575,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 			return False
 		return True
 
-	## =================== Å° ¼ÂÆÃ¹× º¯°æ¿¡ ÇÊ¿äÇÑ Dick µé ¼ÂÆÃ ºÎºĞ ===================
+	## =================== í‚¤ ì…‹íŒ…ë° ë³€ê²½ì— í•„ìš”í•œ Dick ë“¤ ì…‹íŒ… ë¶€ë¶„ ===================
 
 	def __BuildKeyInfo(self, fileable):
 		KeyUiInfoDick = {}
@@ -665,7 +665,7 @@ class KeyChangeWindow(ui.ScriptWindow):
 		if not fileable:
 			self.KeyUiInfoDick = KeyUiInfoDick
 
-		for i in xrange(self.KeySlotMax):
+		for i in range(self.KeySlotMax):
 			self.BaseKeyUiInfoDick[i] = KeyUiInfoDick[i]
 
 	def __BuildKeyFunction(self):
@@ -1206,4 +1206,4 @@ class KeyChangeWindow(ui.ScriptWindow):
 		UsableKeyDict[220] = app.DIK_NUMLOCK
 
 		self.UsableKeyDict = UsableKeyDict
-	## =================== Å° ¼ÂÆÃ¹Î º¯°æ¿¡ ÇÊ¿äÇÑ Dick µé ¼ÂÆÃ ºÎºĞ ===================
+	## =================== í‚¤ ì…‹íŒ…ë¯¼ ë³€ê²½ì— í•„ìš”í•œ Dick ë“¤ ì…‹íŒ… ë¶€ë¶„ ===================

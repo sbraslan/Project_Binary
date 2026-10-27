@@ -159,7 +159,7 @@ class SkillBookCombinationWindow(ui.ScriptWindow):
 		self.Slot.ClearSlot(idx)
 
 	def SetCanMouseEventSlot(self, idx) :
-		if not isinstance(idx, types.NoneType) :
+		if not isinstance(idx, type(None)) :
 			if idx >= INVENTORY_PAGE_SIZE :
 				page = self.inven.GetInventoryPageIndex() # 0,1,2,3
 				if app.ENABLE_SPECIAL_INVENTORY and self.inven.GetInventoryType() == INVENTORY_TYPE_SKILLBOOK:
@@ -175,7 +175,7 @@ class SkillBookCombinationWindow(ui.ScriptWindow):
 	def ClickAcceptButton(self) :
 		cnt = 0
 		for i in self.SkillBookList :
-			if not isinstance(i, types.NoneType) :
+			if not isinstance(i, type(None)) :
 				cnt += 1
 
 		if cnt != SKILLBOOK_SLOT_MAX :
@@ -187,7 +187,7 @@ class SkillBookCombinationWindow(ui.ScriptWindow):
 		for i in self.SkillBookList :
 			self.SetCanMouseEventSlot(i)
 
-		for i in xrange(SKILLBOOK_SLOT_MAX):
+		for i in range(SKILLBOOK_SLOT_MAX):
 			self.ClearSlot(i)
 
 		self.Slot.RefreshSlot()
@@ -206,7 +206,7 @@ class SkillBookCombinationWindow(ui.ScriptWindow):
 		page = self.inven.GetInventoryPageIndex() # 0,1,2,3
 
 		for i in self.SkillBookList :
-			if not isinstance(i, types.NoneType) :
+			if not isinstance(i, type(None)) :
 				if app.ENABLE_SPECIAL_INVENTORY and self.inven.GetInventoryType() == INVENTORY_TYPE_SKILLBOOK:
 					if (SKILLBOOK_INVENTORY_SLOT_START + (page * SPECIAL_INVENTORY_PAGE_SIZE)) <= i < (SKILLBOOK_INVENTORY_SLOT_START + ((page + 1) * SPECIAL_INVENTORY_PAGE_SIZE)):
 						special_lock_idx = i - (SKILLBOOK_INVENTORY_SLOT_START + (page * SPECIAL_INVENTORY_PAGE_SIZE))

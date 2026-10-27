@@ -118,7 +118,7 @@ class MyCharacters :
 	def __del__(self) :
 		self.MainStream = None 
 
-		for i in xrange(self.HowManyChar) :
+		for i in range(self.HowManyChar) :
 			chr.DeleteInstance(i)
 
 		self.PriorityData = None
@@ -137,7 +137,7 @@ class MyCharacters :
 	def LoadCharacterData(self) :
 		self.RefreshData()
 		self.MainStream.All_ButtonInfoHide()
-		for i in xrange(m2netm2g.CHARACTER_SLOT_COUNT_MAX) :
+		for i in range(m2netm2g.CHARACTER_SLOT_COUNT_MAX) :
 			pid 			= m2netm2g.GetAccountCharacterSlotDataInteger(i, m2netm2g.ACCOUNT_CHARACTER_SLOT_ID) 
 			
 			if not pid :
@@ -181,7 +181,7 @@ class MyCharacters :
 
 		self.PriorityData.sort(reverse = True)
 
-		for i in xrange(len(self.PriorityData)) :
+		for i in range(len(self.PriorityData)) :
 			time, index = self.PriorityData[i]
 			DestDataDic = self.myUnitDic[index].GetUnitData()
 			if app.ENABLE_YOHARA_SYSTEM:
@@ -694,7 +694,7 @@ class SelectCharacterWindow(ui.Window) :
 			self.CharacterButtonList[self.SelectSlot].Down()
 			self.OverOutToolTip()
 		else :
-			print " New_introSelect.py ::EventProgress : FALSE"
+			print(" New_introSelect.py ::EventProgress : FALSE")
 
 	if app.ENABLE_YOHARA_SYSTEM:
 		def OverInToolTipButton(self, arg):
@@ -726,7 +726,7 @@ class SelectCharacterWindow(ui.Window) :
 			elif "mouse_over_out" == event_type :
 				self.OverOutToolTipButton()
 			else :
-				print " New_introSelect.py ::ConquerorEventProgress : FALSE"
+				print(" New_introSelect.py ::ConquerorEventProgress : FALSE")
 
 	if app.ENABLE_YOHARA_SYSTEM:
 		def SetSungmaInfo(self, sungma = False):
@@ -742,7 +742,7 @@ class SelectCharacterWindow(ui.Window) :
 				self.sungma_immune_img
 			]
 
-			for i in xrange(0, len(imgList)):
+			for i in range(0, len(imgList)):
 				imageElement = imgList[i]
 				if i < 4:
 					imageElement.Hide() if sungma else imageElement.Show()
@@ -796,7 +796,7 @@ class SelectCharacterWindow(ui.Window) :
 			self.ResetStat()
 
 		## Chinese Setting ##
-		for i in xrange(len(self.NameList)):
+		for i in range(len(self.NameList)):
 			if self.select_job == i	: 
 				self.NameList[i].SetAlpha(1)
 			else :
@@ -805,7 +805,7 @@ class SelectCharacterWindow(ui.Window) :
 		## Face Setting & Font Color Setting ##
 		self.select_race = self.mycharacters.GetRace(self.SelectSlot)
 		#print "self.mycharacters.GetMyCharacterCount() = %s" % self.mycharacters.GetMyCharacterCount()
-		for i in xrange(self.mycharacters.GetMyCharacterCount()) :
+		for i in range(self.mycharacters.GetMyCharacterCount()) :
 			if slot == i :
 				self.FaceImage[slot].LoadImage(self.RACE_FACE_PATH[self.select_race] + "1.sub")
 				self.CharacterButtonList[slot].SetAppendTextColor(0, self.Name_FontColor)
@@ -993,7 +993,7 @@ class SelectCharacterWindow(ui.Window) :
 		event.UpdateEventSet(self.descIndex, xposEventSet+7, -(yposEventSet+7))
 		self.descriptionBox.SetIndex(self.descIndex)
 
-		for i in xrange(self.LEN_STATPOINT):
+		for i in range(self.LEN_STATPOINT):
 			self.GaugeList[i].SetPercentage(self.curGauge[i], 1.0)
 
 	# def Refresh(self):
@@ -1001,7 +1001,7 @@ class SelectCharacterWindow(ui.Window) :
 		return m2netm2g.GetAccountCharacterSlotDataInteger(slotIndex, m2netm2g.ACCOUNT_CHARACTER_SLOT_ID)
 
 	def All_ButtonInfoHide(self) :
-		for i in xrange(m2netm2g.CHARACTER_SLOT_COUNT_MAX):
+		for i in range(m2netm2g.CHARACTER_SLOT_COUNT_MAX):
 			self.CharacterButtonList[i].Hide()
 			self.FaceImage[i].Hide()
 
@@ -1102,7 +1102,7 @@ class SelectCharacterWindow(ui.Window) :
 
 	def OnDeleteSuccess(self, slot):
 		self.PopupMessage(localeInfo.SELECT_DELETED)
-		for i in xrange(len(self.RealSlot)):
+		for i in range(len(self.RealSlot)):
 			chr.DeleteInstance(i)
 
 		self.RealSlot = []
@@ -1179,7 +1179,7 @@ class SelectCharacterWindow(ui.Window) :
 			float(self.statpoint[3])/statSummary,
 		]
 
-		for i in xrange(self.LEN_STATPOINT) :
+		for i in range(self.LEN_STATPOINT) :
 			self.statValue[i].SetText(str(self.statpoint[i]))
 
 	def ResetStat(self):
@@ -1188,7 +1188,7 @@ class SelectCharacterWindow(ui.Window) :
 		if not myStatPoint :
 			return
 
-		for i in xrange(self.LEN_STATPOINT) :
+		for i in range(self.LEN_STATPOINT) :
 			self.statpoint[i] = myStatPoint[i]
 
 		self.RefreshStat()
@@ -1203,7 +1203,7 @@ class SelectCharacterWindow(ui.Window) :
 				float(self.sungmapoint[3])/sungmaSummary,
 			]
 
-			for i in xrange(self.LEN_STATPOINT) :
+			for i in range(self.LEN_STATPOINT) :
 				self.statValue[i].SetText(str(self.sungmapoint[i]))
 
 		def ResetSungma(self):
@@ -1212,7 +1212,7 @@ class SelectCharacterWindow(ui.Window) :
 			if not mySungmaPoint :
 				return
 
-			for i in xrange(self.LEN_STATPOINT) :
+			for i in range(self.LEN_STATPOINT) :
 				self.sungmapoint[i] = mySungmaPoint[i]
 
 			self.RefreshSungma()
@@ -1412,7 +1412,7 @@ class SelectCharacterWindow(ui.Window) :
 			self.PopupMessage(localeInfo.SELECT_CHANGE_FAILURE_STRANGE_INDEX)
 
 	def OnChangeName(self, slot, name):
-		for i in xrange(len(self.RealSlot)) :
+		for i in range(len(self.RealSlot)) :
 			if self.RealSlot[i] == slot :
 				self.ChangeNameButton(i, name)
 				self.SelectButton(i)

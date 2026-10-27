@@ -19,6 +19,27 @@ if app.ENABLE_REFINE_RENEWAL:
 
 from _weakref import proxy
 
+# PY315 LOCALE TEXT BRIDGE
+def DecodeLocaleText(value):
+    if isinstance(value, str):
+        return value
+
+    if isinstance(value, (bytes, bytearray)):
+        raw = bytes(value)
+
+        try:
+            return raw.decode("utf-8")
+        except UnicodeDecodeError:
+            codePage = app.GetDefaultCodePage()
+
+            try:
+                return raw.decode("cp%d" % codePage)
+            except (LookupError, UnicodeDecodeError):
+                return raw.decode("latin1", "replace")
+
+    return str(value)
+# PY315 LOCALE TEXT BRIDGE END
+
 BACKGROUND_COLOR = grp.GenerateColor(0.0, 0.0, 0.0, 1.0)
 DARK_COLOR = grp.GenerateColor(0.2, 0.2, 0.2, 1.0)
 BRIGHT_COLOR = grp.GenerateColor(0.7, 0.7, 0.7, 1.0)
@@ -83,10 +104,10 @@ class __mem_func__:
 			return self.func(self.obj, *arg)
 
 	def __init__(self, mfunc):
-		if mfunc.im_func.func_code.co_argcount>1:
-			self.call=__mem_func__.__arg_call__(mfunc.im_class, mfunc.im_self, mfunc.im_func)
+		if mfunc.__func__.__code__.co_argcount>1:
+			self.call=__mem_func__.__arg_call__(mfunc.__self__.__class__, mfunc.__self__, mfunc.__func__)
 		else:
-			self.call=__mem_func__.__noarg_call__(mfunc.im_class, mfunc.im_self, mfunc.im_func)
+			self.call=__mem_func__.__noarg_call__(mfunc.__self__.__class__, mfunc.__self__, mfunc.__func__)
 
 	def __call__(self, *arg):
 		return self.call(*arg)
@@ -111,10 +132,10 @@ class mem_func:
 			return self.func(self.obj, *arg)
 
 	def __init__(self, mfunc):
-		if mfunc.im_func.func_code.co_argcount>1:
-			self.call=mem_func.__arg_call__(mfunc.im_class, mfunc.im_self, mfunc.im_func)
+		if mfunc.__func__.__code__.co_argcount>1:
+			self.call=mem_func.__arg_call__(mfunc.__self__.__class__, mfunc.__self__, mfunc.__func__)
 		else:
-			self.call=mem_func.__noarg_call__(mfunc.im_class, mfunc.im_self, mfunc.im_func)
+			self.call=mem_func.__noarg_call__(mfunc.__self__.__class__, mfunc.__self__, mfunc.__func__)
 
 	def __call__(self, *arg):
 		return self.call(*arg)
@@ -370,7 +391,7 @@ class Window(object):
 
 		def OnMouseLeftButtonUp(self):
 			if self.onMouseLeftButtonUpEvent:
-				apply( self.onMouseLeftButtonUpEvent, self.onMouseLeftButtonUpEventArgs )
+				self.onMouseLeftButtonUpEvent(*self.onMouseLeftButtonUpEventArgs)
 			# if self.onMouseLeftButtonUpEvent:
 				# self.onMouseLeftButtonUpEvent()
 	else:
@@ -384,11 +405,11 @@ class Window(object):
 	if app.ENABLE_MAILBOX or app.ENABLE_SEND_TARGET_INFO:
 		def OnMouseOverIn(self):
 			if self.overFunc:
-				apply(self.overFunc, self.overArgs )
+				self.overFunc(*self.overArgs)
 
 		def OnMouseOverOut(self):
 			if self.overOutFunc:
-				apply(self.overOutFunc, self.overOutArgs )
+				self.overOutFunc(*self.overOutArgs)
 
 		def SetOverOutEvent(self, func, *args):
 			self.overOutFunc = func
@@ -415,7 +436,7 @@ class Window(object):
 
 		def OnRunMouseWheel(self, nLen):
 			if self.onRunMouseWheelEvent:
-				apply(self.onRunMouseWheelEvent, (bool(nLen < 0), ))
+				self.onRunMouseWheelEvent(*(bool(nLen < 0), ))
 				return True
 
 			return False
@@ -432,7 +453,7 @@ class Window(object):
 
 		def OnMouseLeftButtonDown(self):
 			if self.mouseLeftButtonDownEvent:
-				apply(self.mouseLeftButtonDownEvent, self.mouseLeftButtonDownArgs)
+				self.mouseLeftButtonDownEvent(*self.mouseLeftButtonDownArgs)
 
 	if app.ENABLE_SEND_TARGET_INFO:
 		def SetMouseLeftButtonDoubleClickEvent(self, event):
@@ -448,7 +469,7 @@ class Window(object):
 
 		def OnMouseRightButtonDown(self):
 			if self.mouseRightButtonDownEvent:
-				apply(self.mouseRightButtonDownEvent, self.mouseRightButtonDownArgs)
+				self.mouseRightButtonDownEvent(*self.mouseRightButtonDownArgs)
 
 		def SetMoveWindowEvent(self, event):
 			self.moveWindowEvent = event
@@ -479,7 +500,7 @@ class Window(object):
 
 		def OnRender(self):
 			if self.renderEvent:
-				apply(self.renderEvent, self.renderArgs)
+				self.renderEvent(*self.renderArgs)
 
 class ListBoxEx(Window):
 	class Item(Window):
@@ -1663,7 +1684,7 @@ class ImageBox(Window):
 		wndMgr.LoadImage(self.hWnd, imageName)
 
 		if len(self.eventDict)!=0:
-			print "LOAD IMAGE", self, self.eventDict
+			print(("LOAD IMAGE", self, self.eventDict))
 
 	# if app.ENABLE_INGAME_WIKI:
 	def UnloadImage(self):
@@ -1692,47 +1713,47 @@ class ImageBox(Window):
 		return wndMgr.GetHeight(self.hWnd)
 
 	def SetEvent(self, func, *args) :
-		result = self.eventFunc.has_key(args[0])
+		result = args[0] in self.eventFunc
 		if result:
 			self.eventFunc[args[0]] = func
 			self.eventArgs[args[0]] = args
 		else :
-			print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+			print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 	def __OnMouseOverIn(self):
 		try:
-			apply(self.eventDict["mouse_over_in"], self.argDict["mouse_over_in"])
+			self.eventDict["mouse_over_in"](*self.argDict["mouse_over_in"])
 		except KeyError:
 			pass
 
 	def __OnMouseOverOut(self):
 		try:
-			apply(self.eventDict["mouse_over_out"], self.argDict["mouse_over_out"])
+			self.eventDict["mouse_over_out"](*self.argDict["mouse_over_out"])
 		except KeyError:
 			pass
 
 	def OnMouseOverIn(self) :
 		if self.eventFunc["mouse_over_in"]:
-			apply(self.eventFunc["mouse_over_in"], self.eventArgs["mouse_over_in"])
+			self.eventFunc["mouse_over_in"](*self.eventArgs["mouse_over_in"])
 		else:
 			self.__OnMouseOverIn()
 
 	def OnMouseOverOut(self):
 		if self.eventFunc["mouse_over_out"]:
-			apply(self.eventFunc["mouse_over_out"], self.eventArgs["mouse_over_out"])
+			self.eventFunc["mouse_over_out"](*self.eventArgs["mouse_over_out"])
 		else:
 			self.__OnMouseOverOut()
 
 	def OnMouseLeftButtonDown(self):
-		if self.eventDict.has_key("MOUSE_LEFT_DOWN"):
-			apply(self.eventDict["MOUSE_LEFT_DOWN"], self.argDict["MOUSE_LEFT_DOWN"])
+		if "MOUSE_LEFT_DOWN" in self.eventDict:
+			self.eventDict["MOUSE_LEFT_DOWN"](*self.argDict["MOUSE_LEFT_DOWN"])
 
 	def OnMouseLeftButtonUp(self):
 		if self.eventFunc:
 			if isinstance(self.eventFunc, dict) and self.eventFunc["mouse_click"] :
-				apply(self.eventFunc["mouse_click"], self.eventArgs["mouse_click"])
+				self.eventFunc["mouse_click"](*self.eventArgs["mouse_click"])
 			elif not isinstance(self.eventArgs, dict):
-				apply(self.eventFunc, self.eventArgs)
+				self.eventFunc(*self.eventArgs)
 
 		if self.onMouseLeftButtonUpEvent:
 			self.onMouseLeftButtonUpEvent()
@@ -1762,7 +1783,7 @@ class ImageBox(Window):
 
 		def OnFishMouseLeftButtonUp(self):
 			try:
-				apply(self.eventDict["MOUSE_LEFT_UP"], self.argDict["MOUSE_LEFT_UP"])
+				self.eventDict["MOUSE_LEFT_UP"](*self.argDict["MOUSE_LEFT_UP"])
 			except KeyError:
 				if self.onMouseLeftButtonUpEvent != None:
 					self.onMouseLeftButtonUpEvent()
@@ -1799,7 +1820,7 @@ if app.ENABLE_MINI_GAME_CATCH_KING:
 			wndMgr.LoadImage(self.hWnd, imageName)
 
 			if len(self.eventDict)!=0:
-				print "LOAD IMAGE", self, self.eventDict
+				print(("LOAD IMAGE", self, self.eventDict))
 
 		def SetAlpha(self, alpha):
 			wndMgr.SetDiffuseColor(self.hWnd, 1.0, 1.0, 1.0, alpha)
@@ -1812,25 +1833,25 @@ if app.ENABLE_MINI_GAME_CATCH_KING:
 
 		def OnMouseOverIn(self):
 			try:
-				apply(self.eventDict["mouse_over_in"], self.argDict["mouse_over_in"])
+				self.eventDict["mouse_over_in"](*self.argDict["mouse_over_in"])
 			except KeyError:
 				pass
 
 		def OnMouseOverOut(self):
 			try:
-				apply(self.eventDict["mouse_over_out"], self.argDict["mouse_over_out"])
+				self.eventDict["mouse_over_out"](*self.argDict["mouse_over_out"])
 			except KeyError:
 				pass
 
 		def OnMouseLeftButtonUp(self):
 			try:
-				apply(self.eventDict["MOUSE_LEFT_UP"], self.argDict["MOUSE_LEFT_UP"])
+				self.eventDict["MOUSE_LEFT_UP"](*self.argDict["MOUSE_LEFT_UP"])
 			except KeyError:
 				pass
 
 		def OnMouseLeftButtonDown(self):
 			try:
-				apply(self.eventDict["MOUSE_LEFT_DOWN"], self.argDict["MOUSE_LEFT_DOWN"])
+				self.eventDict["MOUSE_LEFT_DOWN"](*self.argDict["MOUSE_LEFT_DOWN"])
 			except KeyError:
 				pass
 
@@ -1846,16 +1867,16 @@ if app.ENABLE_MINI_GAME_CATCH_KING:
 			self.argDict["MOUSE_LEFT_DOWN"]=args
 
 		def SetEvent(self, func, *args) :
-			result = self.eventFunc.has_key(args[0])
+			result = args[0] in self.eventFunc
 			if result :
 				self.eventFunc[args[0]] = func
 				self.eventArgs[args[0]] = args
 			else :
-				print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+				print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 		def OnMouseOverIn(self) :
 			if self.eventFunc["mouse_over_in"] :
-				apply(self.eventFunc["mouse_over_in"], self.eventArgs["mouse_over_in"])
+				self.eventFunc["mouse_over_in"](*self.eventArgs["mouse_over_in"])
 			else:
 				try:
 					self.eventDict["mouse_over_in"]()
@@ -1864,7 +1885,7 @@ if app.ENABLE_MINI_GAME_CATCH_KING:
 
 		def OnMouseOverOut(self) :
 			if self.eventFunc["mouse_over_out"] :
-				apply(self.eventFunc["mouse_over_out"], self.eventArgs["mouse_over_out"])
+				self.eventFunc["mouse_over_out"](*self.eventArgs["mouse_over_out"])
 			else :
 				try:
 					self.eventDict["mouse_over_out"]()
@@ -1937,12 +1958,12 @@ class ExpandedImageBox(ImageBox):
 
 	if app.NEW_SELECT_CHARACTER:
 		def SetEvent(self, func, *args) :
-			result = self.eventFunc.has_key(args[0])
+			result = args[0] in self.eventFunc
 			if result :
 				self.eventFunc[args[0]] = func
 				self.eventArgs[args[0]] = args
 			else :
-				print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+				print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 if app.ENABLE_INGAME_WIKI:
 	class ImageBoxWiki(Window):
@@ -1961,7 +1982,7 @@ if app.ENABLE_INGAME_WIKI:
 			self.name=imageName
 			wndMgr.LoadImage(self.hWnd, imageName)
 			if len(self.eventDict)!=0:
-				print "LOAD IMAGE", self, self.eventDict
+				print(("LOAD IMAGE", self, self.eventDict))
 
 		def UnloadImage(self):
 			wndMgr.UnloadImage(self.hWnd)
@@ -1977,8 +1998,8 @@ if app.ENABLE_INGAME_WIKI:
 
 		def OnMouseOverIn(self):
 			try:
-				if self.argDict.has_key("mouse_over_in"):
-					apply(self.eventDict["mouse_over_in"], self.argDict["mouse_over_in"])
+				if "mouse_over_in" in self.argDict:
+					self.eventDict["mouse_over_in"](*self.argDict["mouse_over_in"])
 				else:
 					self.eventDict["mouse_over_in"]()
 			except KeyError:
@@ -1986,16 +2007,16 @@ if app.ENABLE_INGAME_WIKI:
 
 		def OnMouseOverOut(self):
 			try:
-				if self.argDict.has_key("mouse_over_out"):
-					apply(self.eventDict["mouse_over_out"], self.argDict["mouse_over_out"])
+				if "mouse_over_out" in self.argDict:
+					self.eventDict["mouse_over_out"](*self.argDict["mouse_over_out"])
 				else:
 					self.eventDict["mouse_over_out"]()
 			except KeyError:
 				pass
 
 		def OnMouseLeftButtonDown(self):
-			if self.eventDict.has_key("MOUSE_LEFT_DOWN"):
-				apply(self.eventDict["MOUSE_LEFT_DOWN"], self.argDict["MOUSE_LEFT_DOWN"])
+			if "MOUSE_LEFT_DOWN" in self.eventDict:
+				self.eventDict["MOUSE_LEFT_DOWN"](*self.argDict["MOUSE_LEFT_DOWN"])
 
 		def SAFE_SetStringEvent(self, event, func):
 			self.eventDict[event]=__mem_func__(func)
@@ -2090,7 +2111,7 @@ class AniImageBox(Window):
 					apply(self.end_frame_event)
 			else:
 				if self.end_frame_event:
-					apply(self.end_frame_event, self.endFrameArgs)
+					self.end_frame_event(*self.endFrameArgs)
 
 		def SetScale(self, xScale, yScale):
 			wndMgr.SetSlotScale(self.hWnd, xScale, yScale)
@@ -2121,12 +2142,12 @@ class AniImageBox(Window):
 
 	if app.ENABLE_MINI_GAME_CATCH_KING:
 		def SetEvent(self, func, *args) :
-			result = self.eventFunc.has_key(args[0])
+			result = args[0] in self.eventFunc
 			if result:
 				self.eventFunc[args[0]] = func
 				self.eventArgs[args[0]] = args
 			else :
-				print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+				print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 		# def OnMouseLeftButtonUp(self) :
 			# if self.eventFunc["mouse_click"] :
@@ -2134,11 +2155,11 @@ class AniImageBox(Window):
 
 		def OnMouseOverIn(self) :
 			if self.eventFunc["mouse_over_in"] :
-				apply(self.eventFunc["mouse_over_in"], self.eventArgs["mouse_over_in"])
+				self.eventFunc["mouse_over_in"](*self.eventArgs["mouse_over_in"])
 
 		def OnMouseOverOut(self) :
 			if self.eventFunc["mouse_over_out"] :
-				apply(self.eventFunc["mouse_over_out"], self.eventArgs["mouse_over_out"])
+				self.eventFunc["mouse_over_out"](*self.eventArgs["mouse_over_out"])
 
 	if app.ENABLE_FISHING_RENEWAL:
 		def SetRotation(self, r):
@@ -2152,7 +2173,7 @@ if app.ENABLE_FISHING_RENEWAL:
 			fishIcon.SetParent(self)
 			fishIcon.SetSize(30, 30)
 			fishIcon.SetPosition(0, 0)
-			for i in xrange(4):
+			for i in range(4):
 				fishIcon.AppendImage("d:/ymir work/ui/game/fishing/fish/fishing_fish_%d.sub" % (i + 1))
 			fishIcon.Show()
 			self.fishIcon = fishIcon
@@ -2245,7 +2266,7 @@ if app.ENABLE_MINI_GAME_CATCH_KING:
 
 		def OnEndFrame(self):
 			if self.endFrameEvent:
-				apply(self.endFrameEvent, self.endFrameArgs)
+				self.endFrameEvent(*self.endFrameArgs)
 
 class MoveImageBox(ImageBox):
 	def __init__(self, layer = "UI"):
@@ -2280,7 +2301,7 @@ class MoveImageBox(ImageBox):
 	def OnEndMove(self):
 		if self.end_move_event:
 			if app.ENABLE_MINI_GAME_BNW:
-				apply(self.end_move_event, self.argsEndMove)
+				self.end_move_event(*self.argsEndMove)
 			else:
 				self.end_move_event()
 
@@ -2324,7 +2345,7 @@ if app.ENABLE_MINI_GAME_YUTNORI:
 
 		def OnEndMove(self):
 			if self.end_move_event_func:
-				apply(self.end_move_event_func, self.end_move_event_args)
+				self.end_move_event_func(*self.end_move_event_args)
 
 		def SetEndMoveEvent(self, event, *args):
 			self.end_move_event_func = event
@@ -2419,12 +2440,12 @@ class CheckObjectLooting(Window):
 		return False
 
 	def SetEvent(self, func, *args) :
-		result = self.eventFunc.has_key(args[0])
+		result = args[0] in self.eventFunc
 		if result :
 			self.eventFunc[args[0]] = func
 			self.eventArgs[args[0]] = args
 		else :
-			print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+			print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 	def OnMouseLeftButtonUp(self):
 		if self.checkImage:
@@ -2432,13 +2453,13 @@ class CheckObjectLooting(Window):
 				self.checkImage.Hide()
 
 				if self.eventFunc["ON_UNCKECK"]:
-					apply(self.eventFunc["ON_UNCKECK"], self.eventArgs["ON_UNCKECK"])
+					self.eventFunc["ON_UNCKECK"](*self.eventArgs["ON_UNCKECK"])
 					# systemSetting.SetRefineStatus(False)
 			else:
 				self.checkImage.Show()
 
 				if self.eventFunc["ON_CHECK"]:
-					apply(self.eventFunc["ON_CHECK"], self.eventArgs["ON_CHECK"])
+					self.eventFunc["ON_CHECK"](*self.eventArgs["ON_CHECK"])
 					# systemSetting.SetRefineStatus(True)
 
 if app.ENABLE_REFINE_RENEWAL or app.ENABLE_WORLD_LOTTERY_SYSTEM:
@@ -2507,12 +2528,12 @@ if app.ENABLE_REFINE_RENEWAL or app.ENABLE_WORLD_LOTTERY_SYSTEM:
 			return False
 
 		def SetEvent(self, func, *args) :
-			result = self.eventFunc.has_key(args[0])
+			result = args[0] in self.eventFunc
 			if result :
 				self.eventFunc[args[0]] = func
 				self.eventArgs[args[0]] = args
 			else :
-				print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+				print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 		def OnMouseLeftButtonUp(self):
 			if self.checkImage:
@@ -2520,13 +2541,13 @@ if app.ENABLE_REFINE_RENEWAL or app.ENABLE_WORLD_LOTTERY_SYSTEM:
 					self.checkImage.Hide()
 
 					if self.eventFunc["ON_UNCKECK"]:
-						apply(self.eventFunc["ON_UNCKECK"], self.eventArgs["ON_UNCKECK"])
+						self.eventFunc["ON_UNCKECK"](*self.eventArgs["ON_UNCKECK"])
 						systemSetting.SetRefineStatus(False)
 				else:
 					self.checkImage.Show()
 
 					if self.eventFunc["ON_CHECK"]:
-						apply(self.eventFunc["ON_CHECK"], self.eventArgs["ON_CHECK"])
+						self.eventFunc["ON_CHECK"](*self.eventArgs["ON_CHECK"])
 						systemSetting.SetRefineStatus(True)
 
 if app.ENABLE_WORLD_LOTTERY_SYSTEM:
@@ -2694,24 +2715,24 @@ if app.ENABLE_WORLD_LOTTERY_SYSTEM:
 			return False
 
 		def SetEvent(self, func, *args) :
-			result = self.eventFunc.has_key(args[0])
+			result = args[0] in self.eventFunc
 			if result :
 				self.eventFunc[args[0]] = func
 				self.eventArgs[args[0]] = args
 			else :
-				print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+				print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 		def OnMouseOverIn(self):
 			self.backgroundHoverImage.Show()
 
 			if self.eventFunc["mouse_over_in"]:
-				apply(self.eventFunc["mouse_over_in"], self.eventArgs["mouse_over_in"])
+				self.eventFunc["mouse_over_in"](*self.eventArgs["mouse_over_in"])
 
 		def OnMouseOverOut(self):
 			self.backgroundHoverImage.Hide()
 
 			if self.eventFunc["mouse_over_out"]:
-				apply(self.eventFunc["mouse_over_out"], self.eventArgs["mouse_over_out"])
+				self.eventFunc["mouse_over_out"](*self.eventArgs["mouse_over_out"])
 
 		def OnMouseLeftButtonUp(self):
 			import chatm2g
@@ -2725,7 +2746,7 @@ if app.ENABLE_WORLD_LOTTERY_SYSTEM:
 					constInfo.lottery_new_ticket_numbers.remove(int(self.num_value))
 
 					if self.eventFunc["ON_UNCKECK"]:
-						apply(self.eventFunc["ON_UNCKECK"], self.eventArgs["ON_UNCKECK"])
+						self.eventFunc["ON_UNCKECK"](*self.eventArgs["ON_UNCKECK"])
 				else:
 					if len(constInfo.lottery_new_ticket_numbers) >= 4:
 						chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, "Du hast bereits 4 Zahlen ausgewaehlt")
@@ -2735,7 +2756,7 @@ if app.ENABLE_WORLD_LOTTERY_SYSTEM:
 					constInfo.lottery_new_ticket_numbers.append(int(self.num_value))
 
 					if self.eventFunc["ON_CHECK"]:
-						apply(self.eventFunc["ON_CHECK"], self.eventArgs["ON_CHECK"])
+						self.eventFunc["ON_CHECK"](*self.eventArgs["ON_CHECK"])
 
 				#for i in xrange(0, len(constInfo.lottery_new_ticket_numbers)):
 				#	chatm2g.AppendChat(chatm2g.CHAT_TYPE_INFO, constInfo.lottery_new_ticket_numbers[i])
@@ -2933,7 +2954,7 @@ class Button(Window):
 		snd.PlaySound("sound/ui/click.wav")
 
 		if self.eventFunc:
-			apply(self.eventFunc, self.eventArgs)
+			self.eventFunc(*self.eventArgs)
 
 	def ShowToolTip(self):
 		if self.ToolTipText:
@@ -2941,7 +2962,7 @@ class Button(Window):
 
 		#if app.ENABLE_12ZI or app.ENABLE_DUNGEON_INFO_SYSTEM:
 		if self.showtooltipevent:
-			apply(self.showtooltipevent, self.showtooltiparg)
+			self.showtooltipevent(*self.showtooltiparg)
 
 	def HideToolTip(self):
 		if self.ToolTipText:
@@ -2949,7 +2970,7 @@ class Button(Window):
 
 		#if app.ENABLE_12ZI or app.ENABLE_DUNGEON_INFO_SYSTEM:
 		if self.hidetooltipevent:
-			apply(self.hidetooltipevent, self.hidetooltiparg)
+			self.hidetooltipevent(*self.hidetooltiparg)
 
 	#if app.ENABLE_12ZI or app.ENABLE_DUNGEON_INFO_SYSTEM or app.ENABLE_GUILDRENEWAL_SYSTEM:
 	def SetShowToolTipEvent(self, func, *args):
@@ -2970,11 +2991,11 @@ class Button(Window):
 	if app.ENABLE_DETAILS_UI or app.ENABLE_MINI_GAME_CATCH_KING or app.ENABLE_MINI_GAME_YUTNORI:
 		def OnMouseOverIn(self):
 			if self.overFunc:
-				apply(self.overFunc, self.overArgs)
+				self.overFunc(*self.overArgs)
 
 		def OnMouseOverOut(self):
 			if self.overOutFunc:
-				apply(self.overOutFunc, self.overOutArgs)
+				self.overOutFunc(*self.overOutArgs)
 
 		def SetOverEvent(self, func, *args):
 			self.overFunc = func
@@ -3096,11 +3117,11 @@ class Button(Window):
 	if app.ENABLE_MINI_GAME_CATCH_KING:
 		def OnMouseOverIn(self):
 			if self.overFunc:
-				apply(self.overFunc, self.overArgs )
+				self.overFunc(*self.overArgs)
 
 		def OnMouseOverOut(self):
 			if self.overOutFunc:
-				apply(self.overOutFunc, self.overOutArgs )
+				self.overOutFunc(*self.overOutArgs)
 
 		def SetOverEvent(self, func, *args):
 			self.overFunc = func
@@ -3269,14 +3290,14 @@ class ToggleButton(Button):
 	def OnToggleUp(self):
 		if self.eventUp:
 			if self.eventUpArgs: #if app.ENABLE_DS_REFINE_WINDOW:
-				apply(self.eventUp, self.eventUpArgs)
+				self.eventUp(*self.eventUpArgs)
 			else:
 				self.eventUp()
 
 	def OnToggleDown(self):
 		if self.eventDown:
 			if self.eventDownArgs: # if app.ENABLE_DS_REFINE_WINDOW:
-				apply(self.eventDown, self.eventDownArgs)
+				self.eventDown(*self.eventDownArgs)
 			else:
 				self.eventDown()
 
@@ -3797,19 +3818,19 @@ class SlotWindow(Window):
 			if self.eventSelectItemSlot:
 				if self.eventSelectItemSlotWindow:
 					if self.eventSelectItemSlotArgs:
-						apply(self.eventSelectItemSlot, self.eventSelectItemSlotArgs)
+						self.eventSelectItemSlot(*self.eventSelectItemSlotArgs)
 					else:
 						self.eventSelectItemSlot(slotNumber, self.eventSelectItemSlotWindow)
 				else:
 					if self.eventSelectItemSlotArgs:
-						apply(self.eventSelectItemSlot, self.eventSelectItemSlotArgs)
+						self.eventSelectItemSlot(*self.eventSelectItemSlotArgs)
 					else:
 						self.eventSelectItemSlot(slotNumber)
 	else:
 		def OnSelectItemSlot(self, slotNumber):
 			if self.eventSelectItemSlot:
 				if self.eventSelectItemSlotArgs:
-					apply(self.eventSelectItemSlot, self.eventSelectItemSlotArgs)
+					self.eventSelectItemSlot(*self.eventSelectItemSlotArgs)
 				else:
 					self.eventSelectItemSlot(slotNumber)
 
@@ -3846,19 +3867,19 @@ class SlotWindow(Window):
 			if self.eventOverInItem:
 				if None == self.eventOverInItemSlotWindow:
 					if self.eventOverInItemArgs:
-						apply(self.eventOverInItem, self.eventOverInItemArgs)
+						self.eventOverInItem(*self.eventOverInItemArgs)
 					else:
 						self.eventOverInItem(slotNumber)
 				else:
 					if self.eventOverInItemArgs:
-						apply(self.eventOverInItem, self.eventOverInItemArgs)
+						self.eventOverInItem(*self.eventOverInItemArgs)
 					else:
 						self.eventOverInItem(slotNumber, self.eventOverInItemSlotWindow)
 	else:
 		def OnOverInItem(self, slotNumber):
 			if self.eventOverInItem:
 				if self.eventOverInItemArgs:
-					apply(self.eventOverInItem, self.eventOverInItemArgs)
+					self.eventOverInItem(*self.eventOverInItemArgs)
 				else:
 					self.eventOverInItem(slotNumber)
 
@@ -4656,7 +4677,7 @@ if app.ENABLE_SUNG_MAHI_TOWER:
 			LineFileNames = [ ]
 
 			for imageDictKey in (['CORNER', 'BAR']):
-				for x in xrange(len(self.IMAGES[imageDictKey])):
+				for x in range(len(self.IMAGES[imageDictKey])):
 					if imageDictKey == "CORNER":
 						CornerFileNames.append("%s/%s.tga" % (self.BASE_PATH, self.IMAGES[imageDictKey][x]))
 					elif imageDictKey == "BAR":
@@ -4835,10 +4856,10 @@ class ThinBoard(Window):
 			CornerFileNames = ["d:/ymir work/ui/offlineshop/pattern/ThinBoard_Corner_" + dir + "_" + fileName + ".tga" for dir in ["LeftTop", "LeftBottom", "RightTop", "RightBottom"]]
 			LineFileNames = ["d:/ymir work/ui/offlineshop/pattern/ThinBoard_Line_" + dir + "_" + fileName + ".tga" for dir in ["Left", "Right", "Top", "Bottom"]]
 
-			for i in xrange(len(self.Corners)):
+			for i in range(len(self.Corners)):
 				self.Corners[i].LoadImage(CornerFileNames[i])
 
-			for i in xrange(len(self.Lines)):
+			for i in range(len(self.Lines)):
 				self.Lines[i].LoadImage(LineFileNames[i])
 
 	def SetSize(self, width, height):
@@ -5971,7 +5992,7 @@ class ListBox(Window):
 			self._LocateItem()
 
 	def ChangeItem(self, number, text):
-		for key, value in self.keyDict.items():
+		for key, value in list(self.keyDict.items()):
 			if value == number:
 				self.textDict[key] = text
 
@@ -6017,7 +6038,7 @@ class ListBox(Window):
 		self.event = event
 
 	def SelectItem(self, line):
-		if not self.keyDict.has_key(line):
+		if line not in self.keyDict:
 			return
 
 		if not app.ENABLE_PRIVATESHOP_SEARCH_SYSTEM:
@@ -6047,7 +6068,7 @@ class ListBox(Window):
 			xMouse, yMouse = wndMgr.GetMousePosition()
 
 			if yMouse - y < height - 1:
-				self.overLine = (yMouse - y) / self.stepSize
+				self.overLine = (yMouse - y) // self.stepSize
 
 				if self.overLine < 0:
 					self.overLine = -1
@@ -6122,8 +6143,8 @@ class ListBox2(ListBox):
 			gx, gy = self.GetGlobalPosition()
 			lx, ly = px - gx, py - gy
 
-			col = lx / self.barWidth
-			row = ly / self.stepSize
+			col = lx // self.barWidth
+			row = ly // self.stepSize
 			idx = col * self.rowCount + row
 			if col >= 0 and col < self.colCount:
 				if row >= 0 and row < self.rowCount:
@@ -6135,7 +6156,7 @@ class ListBox2(ListBox):
 	def _CalcRenderPos(self, pos, idx):
 		x, y = pos
 		row = idx % self.rowCount
-		col = idx / self.rowCount
+		col = idx // self.rowCount
 		return (x + col * self.barWidth, y + row * self.stepSize)
 
 	def _RenderBar(self, basePos, idx):
@@ -6155,12 +6176,12 @@ class ListBox2(ListBox):
 
 	def _RefreshForm(self):
 		if len(self.itemList) % self.rowCount:
-			self.colCount = len(self.itemList) / self.rowCount + 1
+			self.colCount = len(self.itemList) // self.rowCount + 1
 		else:
-			self.colCount = len(self.itemList) / self.rowCount
+			self.colCount = len(self.itemList) // self.rowCount
 
 		if self.colCount:
-			self.barWidth = self.width / self.colCount
+			self.barWidth = self.width // self.colCount
 		else:
 			self.barWidth = self.width
 
@@ -6648,7 +6669,7 @@ class ScriptWindow(Window):
 		self.ElementDictionary[name] = child
 
 	def IsChild(self, name):
-		return self.ElementDictionary.has_key(name)
+		return name in self.ElementDictionary
 	def GetChild(self, name):
 		return self.ElementDictionary[name]
 
@@ -6712,7 +6733,6 @@ class PythonScriptLoader(object):
 
 	def LoadScriptFile(self, window, FileName):
 		import exception
-		import exceptions
 		import os
 		import errno
 		self.Clear()
@@ -6749,10 +6769,10 @@ class PythonScriptLoader(object):
 				"SCREEN_WIDTH","SCREEN_HEIGHT",
 				"PLAYER_NAME_MAX_LEN", "DRAGON_SOUL_EQUIPMENT_SLOT_START","LOCALE_PATH"
 			)
-			import __builtin__ as bt
+			import builtins as bt
 			for idx in tpl2Main:
 				tmpVal = self.ScriptDictionary[idx]
-				exec "bt.%s = tmpVal"%idx in globals(), locals()
+				exec("bt.%s = tmpVal"%idx, globals(), locals())
 			# debug stuff
 			#import dbg
 			#dbg.TraceError("Loading %s (%s %s)"%(FileName, GetModName(FileName), IsInUiPath(FileName)))
@@ -6763,13 +6783,13 @@ class PythonScriptLoader(object):
 				del m1
 			else:
 				sandbox.execfile(FileName, self.ScriptDictionary)
-		except IOError, err:
+		except IOError as err:
 			import sys
 			import dbg
 			dbg.TraceError("Failed to load script file : %s" % (FileName))
 			dbg.TraceError("error  : %s" % (err))
 			exception.Abort("LoadScriptFile1")
-		except RuntimeError,err:
+		except RuntimeError as err:
 			import sys
 			import dbg
 			dbg.TraceError("Failed to load script file : %s" % (FileName))
@@ -6794,15 +6814,15 @@ class PythonScriptLoader(object):
 		if localeInfo.IsARABIC(): 
 			w = wndMgr.GetScreenWidth()
 			h = wndMgr.GetScreenHeight()
-			if Body.has_key("width"):
+			if "width" in Body:
 				w = int(Body["width"])
-			if Body.has_key("height"):
+			if "height" in Body:
 				h = int(Body["height"])
 
 			window.SetSize(w, h)
 		else:
 			window.SetSize(int(Body["width"]), int(Body["height"]))
-			if True == Body.has_key("style"):
+			if True == ("style" in Body):
 				for StyleList in Body["style"]:
 					window.AddFlag(StyleList)
 
@@ -6812,17 +6832,17 @@ class PythonScriptLoader(object):
 		if localeInfo.IsARABIC():
 			parent.AddFlag( "rtl" )
 
-		if True == dicChildren.has_key("style"):
+		if True == ("style" in dicChildren):
 			for style in dicChildren["style"]:
 				parent.AddFlag(style)
 
-		if False == dicChildren.has_key("children"):
+		if False == ("children" in dicChildren):
 			return False
 
 		Index = 0
 
 		ChildrenList = dicChildren["children"]
-		parent.Children = range(len(ChildrenList))
+		parent.Children = list(range(len(ChildrenList)))
 		for ElementValue in ChildrenList:
 			try:
 				Name = ElementValue["name"]
@@ -7103,8 +7123,8 @@ class PythonScriptLoader(object):
 	def CheckKeyList(self, name, value, key_list):
 
 		for DataKey in key_list:
-			if False == value.has_key(DataKey):
-				print "Failed to find data key", "[" + name + "/" + DataKey + "]"
+			if False == (DataKey in value):
+				print(("Failed to find data key", "[" + name + "/" + DataKey + "]"))
 				return False
 
 		return True
@@ -7112,7 +7132,7 @@ class PythonScriptLoader(object):
 	def LoadDefaultData(self, window, value, parentWindow):
 		loc_x = int(value["x"])
 		loc_y = int(value["y"])
-		if value.has_key("vertical_align"):
+		if "vertical_align" in value:
 			if "center" == value["vertical_align"]:
 				window.SetWindowVerticalAlignCenter()
 			elif "bottom" == value["vertical_align"]:
@@ -7120,7 +7140,7 @@ class PythonScriptLoader(object):
 
 		if parentWindow.IsRTL():
 			loc_x = int(value["x"]) + window.GetWidth()
-			if value.has_key("horizontal_align"):
+			if "horizontal_align" in value:
 				if "center" == value["horizontal_align"]:
 					window.SetWindowHorizontalAlignCenter()
 					loc_x = - int(value["x"])
@@ -7131,12 +7151,12 @@ class PythonScriptLoader(object):
 			else:
 				window.SetWindowHorizontalAlignRight()
 
-			if value.has_key("all_align"):
+			if "all_align" in value:
 				window.SetWindowVerticalAlignCenter()
 				window.SetWindowHorizontalAlignCenter()
 				loc_x = - int(value["x"])
 		else:
-			if value.has_key("horizontal_align"):
+			if "horizontal_align" in value:
 				if "center" == value["horizontal_align"]:
 					window.SetWindowHorizontalAlignCenter()
 				elif "right" == value["horizontal_align"]:
@@ -7159,29 +7179,29 @@ class PythonScriptLoader(object):
 	## Button
 	def LoadElementButton(self, window, value, parentWindow):
 
-		if value.has_key("width") and value.has_key("height"):
+		if "width" in value and "height" in value:
 			window.SetSize(int(value["width"]), int(value["height"]))
 
-		if True == value.has_key("default_image"):
+		if True == ("default_image" in value):
 			window.SetUpVisual(value["default_image"])
-		if True == value.has_key("over_image"):
+		if True == ("over_image" in value):
 			window.SetOverVisual(value["over_image"])
-		if True == value.has_key("down_image"):
+		if True == ("down_image" in value):
 			window.SetDownVisual(value["down_image"])
-		if True == value.has_key("disable_image"):
+		if True == ("disable_image" in value):
 			window.SetDisableVisual(value["disable_image"])
 
-		if True == value.has_key("text"):
-			if True == value.has_key("text_height"):
+		if True == ("text" in value):
+			if True == ("text_height" in value):
 				window.SetText(value["text"], value["text_height"])
 			else:
 				window.SetText(value["text"])
 
-			if value.has_key("text_color"):
+			if "text_color" in value:
 				window.SetTextColor(value["text_color"])
 
-		if True == value.has_key("tooltip_text"):
-			if True == value.has_key("tooltip_x") and True == value.has_key("tooltip_y"):
+		if True == ("tooltip_text" in value):
+			if True == ("tooltip_x" in value) and True == ("tooltip_y" in value):
 				window.SetToolTipText(value["tooltip_text"], int(value["tooltip_x"]), int(value["tooltip_y"]))
 			else:
 				window.SetToolTipText(value["tooltip_text"])
@@ -7217,17 +7237,17 @@ class PythonScriptLoader(object):
 		if False == self.CheckKeyList(value["name"], value, self.ANI_IMAGE_KEY_LIST):
 			return False
 
-		if True == value.has_key("delay"):
+		if True == ("delay" in value):
 			window.SetDelay(value["delay"])
 
 		for image in value["images"]:
 			window.AppendImage(image)
 
-		if value.has_key("width") and value.has_key("height"):
+		if "width" in value and "height" in value:
 			window.SetSize(value["width"], value["height"])
 
 		if app.ENABLE_GROWTH_PET_SYSTEM or app.ENABLE_EVENT_MANAGER:
-			if True == value.has_key("x_scale") and True == value.has_key("y_scale"):
+			if True == ("x_scale" in value) and True == ("y_scale" in value):
 				window.SetScale(float(value["x_scale"]), float(value["y_scale"]))
 
 		self.LoadDefaultData(window, value, parentWindow)
@@ -7242,17 +7262,17 @@ class PythonScriptLoader(object):
 
 		window.LoadImage(value["image"])
 
-		if True == value.has_key("x_origin") and True == value.has_key("y_origin"):
+		if True == ("x_origin" in value) and True == ("y_origin" in value):
 			window.SetOrigin(float(value["x_origin"]), float(value["y_origin"]))
 
-		if True == value.has_key("x_scale") and True == value.has_key("y_scale"):
+		if True == ("x_scale" in value) and True == ("y_scale" in value):
 			window.SetScale(float(value["x_scale"]), float(value["y_scale"]))
 
-		if True == value.has_key("rect"):
+		if True == ("rect" in value):
 			RenderingRect = value["rect"]
 			window.SetRenderingRect(RenderingRect[0], RenderingRect[1], RenderingRect[2], RenderingRect[3])
 
-		if True == value.has_key("mode"):
+		if True == ("mode" in value):
 			mode = value["mode"]
 			if "MODULATE" == mode:
 				window.SetRenderingMode(wndMgr.RENDERING_MODE_MODULATE)
@@ -7281,10 +7301,10 @@ class PythonScriptLoader(object):
 		b = 1.0
 		a = 1.0
 
-		if True == value.has_key("image_r") and \
-			True == value.has_key("image_g") and \
-			True == value.has_key("image_b") and \
-			True == value.has_key("image_a"):
+		if True == ("image_r" in value) and \
+			True == ("image_g" in value) and \
+			True == ("image_b" in value) and \
+			True == ("image_a" in value):
 			r = float(value["image_r"])
 			g = float(value["image_g"])
 			b = float(value["image_b"])
@@ -7301,10 +7321,10 @@ class PythonScriptLoader(object):
 									int(slot["width"]),
 									int(slot["height"]))
 
-		if True == value.has_key("x_scale") and True == value.has_key("y_scale"):
+		if True == ("x_scale" in value) and True == ("y_scale" in value):
 			window.SetSlotScale(float(value["x_scale"]), float(value["y_scale"]))
 
-		if True == value.has_key("image"):
+		if True == ("image" in value):
 			wndMgr.SetSlotBaseImage(window.hWnd,
 									value["image"],
 									r, g, b, a)
@@ -7330,9 +7350,9 @@ class PythonScriptLoader(object):
 
 		xBlank = 0
 		yBlank = 0
-		if True == value.has_key("x_blank"):
+		if True == ("x_blank" in value):
 			xBlank = int(value["x_blank"])
-		if True == value.has_key("y_blank"):
+		if True == ("y_blank" in value):
 			yBlank = int(value["y_blank"])
 
 		if localeInfo.IsARABIC():
@@ -7347,22 +7367,22 @@ class PythonScriptLoader(object):
 							int(value["y_step"]),
 							xBlank,
 							yBlank)
-		if True == value.has_key("image"):
+		if True == ("image" in value):
 			r = 1.0
 			g = 1.0
 			b = 1.0
 			a = 1.0
-			if True == value.has_key("image_r") and \
-				True == value.has_key("image_g") and \
-				True == value.has_key("image_b") and \
-				True == value.has_key("image_a"):
+			if True == ("image_r" in value) and \
+				True == ("image_g" in value) and \
+				True == ("image_b" in value) and \
+				True == ("image_a" in value):
 				r = float(value["image_r"])
 				g = float(value["image_g"])
 				b = float(value["image_b"])
 				a = float(value["image_a"])
 			wndMgr.SetSlotBaseImage(window.hWnd, value["image"], r, g, b, a)
 
-		if True == value.has_key("style"):
+		if True == ("style" in value):
 			if "select" == value["style"]:
 				wndMgr.SetSlotStyle(window.hWnd, wndMgr.SLOT_STYLE_SELECT)
 
@@ -7376,11 +7396,11 @@ class PythonScriptLoader(object):
 	## Text
 	def LoadElementText(self, window, value, parentWindow):
 
-		if app.WJ_MULTI_TEXTLINE and value.has_key("multi_line"):
+		if app.WJ_MULTI_TEXTLINE and "multi_line" in value:
 			if value["multi_line"]:
 				window.SetMultiLine()
 
-		if value.has_key("fontsize"):
+		if "fontsize" in value:
 			fontSize = value["fontsize"]
 
 			if "SLARGE" == fontSize:
@@ -7394,11 +7414,11 @@ class PythonScriptLoader(object):
 			if "SMALL" == fontSize:
 				window.SetFontName(localeInfo.UI_DEF_FONT_SMALL)
 
-		elif value.has_key("fontname"):
+		elif "fontname" in value:
 			fontName = value["fontname"]
 			window.SetFontName(fontName)
 
-		if value.has_key("text_horizontal_align"):
+		if "text_horizontal_align" in value:
 			if "left" == value["text_horizontal_align"]:
 				window.SetHorizontalAlignLeft()
 			elif "center" == value["text_horizontal_align"]:
@@ -7406,7 +7426,7 @@ class PythonScriptLoader(object):
 			elif "right" == value["text_horizontal_align"]:
 				window.SetHorizontalAlignRight()
 
-		if value.has_key("text_vertical_align"):
+		if "text_vertical_align" in value:
 			if "top" == value["text_vertical_align"]:
 				window.SetVerticalAlignTop()
 			elif "center" == value["text_vertical_align"]:
@@ -7414,23 +7434,23 @@ class PythonScriptLoader(object):
 			elif "bottom" == value["text_vertical_align"]:
 				window.SetVerticalAlignBottom()
 
-		if value.has_key("all_align"):
+		if "all_align" in value:
 			window.SetHorizontalAlignCenter()
 			window.SetVerticalAlignCenter()
 			window.SetWindowHorizontalAlignCenter()
 			window.SetWindowVerticalAlignCenter()
 
-		if value.has_key("r") and value.has_key("g") and value.has_key("b"):
+		if "r" in value and "g" in value and "b" in value:
 			window.SetFontColor(float(value["r"]), float(value["g"]), float(value["b"]))
-		elif value.has_key("color"):
+		elif "color" in value:
 			window.SetPackedFontColor(value["color"])
 		else:
 			window.SetFontColor(0.8549, 0.8549, 0.8549)
 
-		if value.has_key("outline"):
+		if "outline" in value:
 			if value["outline"]:
 				window.SetOutline()
-		if True == value.has_key("text"):
+		if True == ("text" in value):
 			window.SetText(value["text"])
 
 		self.LoadDefaultData(window, value, parentWindow)
@@ -7443,21 +7463,21 @@ class PythonScriptLoader(object):
 		if False == self.CheckKeyList(value["name"], value, self.EDIT_LINE_KEY_LIST):
 			return False
 
-		if value.has_key("secret_flag"):
+		if "secret_flag" in value:
 			window.SetSecret(value["secret_flag"])
-		if value.has_key("with_codepage"):
+		if "with_codepage" in value:
 			if value["with_codepage"]:
 				window.bCodePage = True
-		if value.has_key("only_number"):
+		if "only_number" in value:
 			if value["only_number"]:
 				window.SetNumberMode()
-		if value.has_key("enable_codepage"):
+		if "enable_codepage" in value:
 			window.SetIMEFlag(value["enable_codepage"])
-		if value.has_key("enable_ime"):
+		if "enable_ime" in value:
 			window.SetIMEFlag(value["enable_ime"])
-		if value.has_key("limit_width"):
+		if "limit_width" in value:
 			window.SetLimitWidth(value["limit_width"])
-		if value.has_key("multi_line"):
+		if "multi_line" in value:
 			if value["multi_line"]:
 				window.SetMultiLine()
 
@@ -7550,7 +7570,7 @@ class PythonScriptLoader(object):
 		if False == self.CheckKeyList(value["name"], value, self.BOX_KEY_LIST):
 			return False
 
-		if True == value.has_key("color"):
+		if True == ("color" in value):
 			window.SetColor(value["color"])
 
 		window.SetSize(int(value["width"]), int(value["height"]))
@@ -7564,7 +7584,7 @@ class PythonScriptLoader(object):
 		if False == self.CheckKeyList(value["name"], value, self.BAR_KEY_LIST):
 			return False
 
-		if True == value.has_key("color"):
+		if True == ("color" in value):
 			window.SetColor(value["color"])
 
 		window.SetSize(int(value["width"]), int(value["height"]))
@@ -7578,7 +7598,7 @@ class PythonScriptLoader(object):
 		if False == self.CheckKeyList(value["name"], value, self.LINE_KEY_LIST):
 			return False
 
-		if True == value.has_key("color"):
+		if True == ("color" in value):
 			window.SetColor(value["color"])
 
 		window.SetSize(int(value["width"]), int(value["height"]))
@@ -7632,7 +7652,7 @@ class PythonScriptLoader(object):
 		if False == self.CheckKeyList(value["name"], value, self.LIST_BOX_KEY_LIST):
 			return False
 
-		if value.has_key("item_align"):
+		if "item_align" in value:
 			window.SetTextCenterAlign(value["item_align"])
 
 		window.SetSize(value["width"], value["height"])
@@ -7650,7 +7670,7 @@ class PythonScriptLoader(object):
 		window.SetSize(value["width"], value["height"])
 		self.LoadDefaultData(window, value, parentWindow)
 
-		if value.has_key("item_align"):
+		if "item_align" in value:
 			window.SetTextCenterAlign(value["item_align"])
 
 		return True
@@ -7663,13 +7683,13 @@ class PythonScriptLoader(object):
 		window.SetSize(value["width"], value["height"])
 		self.LoadDefaultData(window, value, parentWindow)
 
-		if value.has_key("itemsize_x") and value.has_key("itemsize_y"):
+		if "itemsize_x" in value and "itemsize_y" in value:
 			window.SetItemSize(int(value["itemsize_x"]), int(value["itemsize_y"]))
 
-		if value.has_key("itemstep"):
+		if "itemstep" in value:
 			window.SetItemStep(int(value["itemstep"]))
 
-		if value.has_key("viewcount"):
+		if "viewcount" in value:
 			window.SetViewItemCount(int(value["viewcount"]))
 
 		return True
@@ -7682,13 +7702,13 @@ class PythonScriptLoader(object):
 			window.SetSize(value["width"], value["height"])
 			self.LoadDefaultData(window, value, parentWindow)
 
-			if value.has_key("itemsize_x") and value.has_key("itemsize_y"):
+			if "itemsize_x" in value and "itemsize_y" in value:
 				window.SetItemSize(int(value["itemsize_x"]), int(value["itemsize_y"]))
 
-			if value.has_key("itemstep"):
+			if "itemstep" in value:
 				window.SetItemStep(int(value["itemstep"]))
 
-			if value.has_key("viewcount"):
+			if "viewcount" in value:
 				window.SetViewItemCount(int(value["viewcount"]))
 
 			return True
@@ -7705,13 +7725,13 @@ class PythonScriptLoader(object):
 
 			window.SetSize(value["width"], value["height"])
 
-			if True == value.has_key("style"):
+			if True == ("style" in value):
 				for style in value["style"]:
 					window.AddFlag(style)
 
 			self.LoadDefaultData(window, value, parentWindow)
 
-			if value.has_key("index"):
+			if "index" in value:
 				window.SetRenderTarget(int(value["index"]))
 
 			return True
@@ -7724,9 +7744,9 @@ class PythonScriptLoader(object):
 
 			xBlank = 0
 			yBlank = 0
-			if True == value.has_key("x_blank"):
+			if True == ("x_blank" in value):
 				xBlank = int(value["x_blank"])
-			if True == value.has_key("y_blank"):
+			if True == ("y_blank" in value):
 				yBlank = int(value["y_blank"])
 
 			if localeInfo.IsARABIC():
@@ -7741,22 +7761,22 @@ class PythonScriptLoader(object):
 								int(value["y_step"]),
 								xBlank,
 								yBlank)
-			if True == value.has_key("image"):
+			if True == ("image" in value):
 				r = 1.0
 				g = 1.0
 				b = 1.0
 				a = 1.0
-				if True == value.has_key("image_r") and \
-					True == value.has_key("image_g") and \
-					True == value.has_key("image_b") and \
-					True == value.has_key("image_a"):
+				if True == ("image_r" in value) and \
+					True == ("image_g" in value) and \
+					True == ("image_b" in value) and \
+					True == ("image_a" in value):
 					r = float(value["image_r"])
 					g = float(value["image_g"])
 					b = float(value["image_b"])
 					a = float(value["image_a"])
 				wndMgr.SetSlotBaseImage(window.hWnd, value["image"], r, g, b, a)
 
-			if True == value.has_key("style"):
+			if True == ("style" in value):
 				if "select" == value["style"]:
 					wndMgr.SetSlotStyle(window.hWnd, wndMgr.SLOT_STYLE_SELECT)
 			if localeInfo.IsARABIC():
@@ -7774,7 +7794,7 @@ class PythonScriptLoader(object):
 			window.SetSize(value["width"], value["height"])
 			self.LoadDefaultData(window, value, parentWindow)
 
-			if value.has_key("color"):
+			if "color" in value:
 				window.SetColor(int(value["color"]))
 
 			return True
@@ -7786,10 +7806,10 @@ class PythonScriptLoader(object):
 
 			window.SetScrollBarSize(value["size"])
 
-			if value.has_key("content_height"):
+			if "content_height" in value:
 				window.SetContentHeight(value["content_height"])
 
-			if value.has_key("width"):
+			if "width" in value:
 				window.SetWidth(value["width"])
 
 			self.LoadDefaultData(window, value, parentWindow)
@@ -7797,13 +7817,13 @@ class PythonScriptLoader(object):
 
 	if app.ENABLE_BIOLOG_SYSTEM:
 		def LoadElementCheckBox(self, window, value, parentWindow):
-			if value.has_key("text"):
+			if "text" in value:
 				window.SetText(value["text"])
 
-			if value.has_key("checked") and value["checked"] == True:
+			if "checked" in value and value["checked"] == True:
 				window.SetChecked(window.STATE_SELECTED)
 
-			if value.has_key("disabled") and value["disabled"] == True:
+			if "disabled" in value and value["disabled"] == True:
 				window.Disable()
 
 			self.LoadDefaultData(window, value, parentWindow)
@@ -7814,13 +7834,13 @@ class PythonScriptLoader(object):
 
 			window.SetSize(value["width"], value["height"])
 
-			if value.has_key("border_color"):
+			if "border_color" in value:
 				window.SetBorderColor(value["border_color"])
 
-			if value.has_key("border_size"):
+			if "border_size" in value:
 				window.SetBorderSize(value["border_size"])
 
-			if value.has_key("base_color"):
+			if "base_color" in value:
 				window.SetBaseColor(value["base_color"])
 
 			self.LoadDefaultData(window, value, parentWindow)
@@ -7844,7 +7864,7 @@ class PythonScriptLoader(object):
 			window.CreateElements()
 			self.LoadDefaultData(window, value, parentWindow)
 
-			if value.has_key("number"):
+			if "number" in value:
 				window.SetNumber(str(value["number"]))
 
 			window.Show()
@@ -8079,12 +8099,12 @@ if app.ENABLE_INGAME_WIKI:
 			return False
 
 		def SetEvent(self, func, *args) :
-			result = self.eventFunc.has_key(args[0])
+			result = args[0] in self.eventFunc
 			if result:
 				self.eventFunc[args[0]] = func
 				self.eventArgs[args[0]] = args
 			else:
-				print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+				print(("[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]))
 
 		def SetBaseCheckImage(self, image):
 			if not self.backgroundImage:
@@ -8098,12 +8118,12 @@ if app.ENABLE_INGAME_WIKI:
 					self.checkImage.Hide()
 
 					if self.eventFunc["ON_UNCKECK"]:
-						apply(self.eventFunc["ON_UNCKECK"], self.eventArgs["ON_UNCKECK"])
+						self.eventFunc["ON_UNCKECK"](*self.eventArgs["ON_UNCKECK"])
 				else:
 					self.checkImage.Show()
 
 					if self.eventFunc["ON_CHECK"]:
-						apply(self.eventFunc["ON_CHECK"], self.eventArgs["ON_CHECK"])
+						self.eventFunc["ON_CHECK"](*self.eventArgs["ON_CHECK"])
 
 RegisterToolTipWindow("TEXT", TextLine)
 
@@ -8232,7 +8252,7 @@ if app.ENABLE_BIOLOG_SYSTEM:
 			self.__Refresh()
 
 			if self.eventFunc:
-				apply(self.eventFunc, self.eventArgs)
+				self.eventFunc(*self.eventArgs)
 
 		def SetChecked(self, state):
 			self.state = state

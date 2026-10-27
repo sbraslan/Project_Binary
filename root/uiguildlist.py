@@ -232,7 +232,7 @@ class GuildListDialog(ui.ScriptWindow):
 				self.centerImg = self.GetChild("centerImg")
 				self.centerImg.SetPosition(self.GetWidth() - (self.centerImg.GetWidth()*2)+10,57+15)
 
-				for key, img in self.tabDict.items():
+				for key, img in list(self.tabDict.items()):
 					img.LeftRightReverse()
 
 			self.page1_button = self.GetChild("page1_button")
@@ -284,7 +284,7 @@ class GuildListDialog(ui.ScriptWindow):
 			import exception
 			exception.Abort("GuildWindow_GuildListWindow.__LoadWindow.SetObject")
 
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			btn.SetEvent(ui.__mem_func__(self.SelectPage), key)
 
 		self.SelectPage("EMPIRE_ALL")
@@ -472,7 +472,7 @@ class GuildListDialog(ui.ScriptWindow):
 		self.ClearBase()
 		self.isSearchResult = True
 
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			btn.SetUp()
 
 		m2netm2g.SendRequestSearchGuild(name, self.nowtype, self.nowempire)
@@ -492,11 +492,11 @@ class GuildListDialog(ui.ScriptWindow):
 
 	def SelectPage(self,arg):
 		self.GuildNameValue.SetText("")
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			if arg != key:
 				btn.SetUp()
 
-		for key, img in self.tabDict.items():
+		for key, img in list(self.tabDict.items()):
 			if arg == key:
 				img.Show()
 			else:
@@ -555,7 +555,7 @@ class GuildListDialog(ui.ScriptWindow):
 		self.isshowpromoteguild = False
 		self.isSearchResult = False
 
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			btn.SetUp()
 
 	def __SelectItem(self,arg):
@@ -582,7 +582,7 @@ class GuildListDialog(ui.ScriptWindow):
 		(allpage, nowpage, nowpagecount) = guild.GetRankingPageInfo(type, self.nowempire)
 
 		if type == guild.RANKING_INFO_APPLICANT:
-			for line, ResultSlotList in self.ResultSlotList.items():
+			for line, ResultSlotList in list(self.ResultSlotList.items()):
 				(charname, level, job, skillgroup) = guild.GetApplicantInfo(nowpage,line)
 				if "" == charname:
 					ResultSlotList[0].SetText("")
@@ -606,7 +606,7 @@ class GuildListDialog(ui.ScriptWindow):
 
 					self.ResultApplicantSlotButtonList[line][0].Show()
 		else:
-			for line, ResultSlotList in self.ResultSlotList.items():
+			for line, ResultSlotList in list(self.ResultSlotList.items()):
 				(guildname, level, ladderpoint, minmember, maxmember, promote, Ranking) = guild.GetRankingInfo(nowpage, type, self.nowempire, line)
 				if "" == guildname:
 					ResultSlotList[0].SetText("")
@@ -681,8 +681,8 @@ class GuildListDialog(ui.ScriptWindow):
 			else:
 				self.pagecount = 5 - (5 * self.bigpagecount - self.pagecount)
 
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(self.pagecount):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(self.pagecount):
 				pagebutton[i].Show()
 
 		self.pagebuttonList[0][5].Show()
@@ -697,7 +697,7 @@ class GuildListDialog(ui.ScriptWindow):
 		self.nowpagenumber = pagebuttonindex
 
 	def HidePageButton(self):
-		for line, pagebutton in self.pagebuttonList.items():
+		for line, pagebutton in list(self.pagebuttonList.items()):
 			for i in range(0,self.PAGEBUTTON_MAX_SIZE):
 				pagebutton[i].Hide()
 
@@ -750,8 +750,8 @@ class GuildListDialog(ui.ScriptWindow):
 
 		self.clearPagebuttoncolor()
 		self.bigpagecount = 1
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagebutton[i].SetText(str(i+1))
 
 		self.nowpagenumber = int(self.pagebuttonList[0][0].GetText())-1
@@ -775,8 +775,8 @@ class GuildListDialog(ui.ScriptWindow):
 		pagenumber = 5 * (self.pagecount/5)
 		if pagenumber == self.pagecount:
 			pagenumber -= 5
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagebutton[i].SetText(str(i+pagenumber+1))
 
 		self.nowpagenumber = self.pagecount-1
@@ -789,8 +789,8 @@ class GuildListDialog(ui.ScriptWindow):
 		self.clearPagebuttoncolor()
 		self.bigpagecount -= 1
 
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagenumber = int(pagebutton[i].GetText()) - 5
 				pagebutton[i].SetText(str(pagenumber))
 
@@ -802,8 +802,8 @@ class GuildListDialog(ui.ScriptWindow):
 		self.SendRequestList()
 
 	def nextbutton(self):
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagenumber = int(pagebutton[i].GetText()) + 5
 				pagebutton[i].SetText(str(pagenumber))
 
@@ -818,19 +818,19 @@ class GuildListDialog(ui.ScriptWindow):
 		self.SendRequestList()
 
 	def clearPagebuttoncolor(self):
-		for line, pagebutton in self.pagebuttonList.items():
+		for line, pagebutton in list(self.pagebuttonList.items()):
 			for i in range(0,self.PAGEBUTTON_NUMBER_SIZE):
 				pagebutton[i].SetTextColor(0xffffffff)
 				pagebutton[i].SetUp()
 				pagebutton[i].Enable()
 
 	def HidePageButton(self):
-		for line, pagebutton in self.pagebuttonList.items():
+		for line, pagebutton in list(self.pagebuttonList.items()):
 			for i in range(0,self.PAGEBUTTON_MAX_SIZE):
 				pagebutton[i].Hide()
 
 	def HideItemButton(self):
-		for line, ResultSlotList in self.ResultSlotList.items():
+		for line, ResultSlotList in list(self.ResultSlotList.items()):
 			ResultSlotList[0].SetText("")
 			ResultSlotList[1].SetText("")
 			ResultSlotList[2].SetText("")
@@ -853,8 +853,8 @@ class GuildListDialog(ui.ScriptWindow):
 		self.bigpagecount = 1
 		self.HidePageButton()
 		self.HideItemButton()
-		for line, pagebutton in self.pagebuttonList.items():
-			for i in xrange(5):
+		for line, pagebutton in list(self.pagebuttonList.items()):
+			for i in range(5):
 				pagebutton[i].SetText(str(i+1))
 
 	def OnPressEscapeKey(self):

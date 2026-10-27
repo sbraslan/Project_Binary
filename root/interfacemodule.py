@@ -748,7 +748,7 @@ class Interface(object):
 
 	if app.ENABLE_GEM_SYSTEM:
 		def __MakeItemSelectWindowEx(self):
-			print "__MakeItemSelectWindowEx"
+			print("__MakeItemSelectWindowEx")
 			self.wndItemSelectEx = uiselectitemEx.SelectItemWindowEx()
 			self.wndItemSelectEx.Hide()
 
@@ -762,7 +762,7 @@ class Interface(object):
 	# END_OF_ACCESSORY_REFINE_ADD_METIN_STONE
 
 	def MakeInterface(self):
-		self.__MakeTipBoard()	# ENABLE_12ZI ¹Ì¼Ç Ç¥½Ã°¡ ´Ù¸¥ui ¹Ø¿¡ ¿Àµµ·Ï À§Ä¡ ÀÌµ¿.
+		self.__MakeTipBoard()	# ENABLE_12ZI ë¯¸ì…˜ í‘œì‹œê°€ ë‹¤ë¥¸ui ë°‘ì— ì˜¤ë„ë¡ ìœ„ì¹˜ ì´ë™.
 		self.__MakeMessengerWindow()
 		self.__MakeGuildWindow()
 		self.__MakeChatWindow()
@@ -812,7 +812,7 @@ class Interface(object):
 		if app.ENABLE_SUNG_MAHI_TOWER:
 			self.wndSungMahiWindow.SetItemToolTip(self.tooltipItem)
 
-		# MT-818 [GF] ¾ÆÀÌÅÛ - Á¦Á¶ ¼º°øµÈ ¾ÆÀÌÅÛÀÌ Æê¸ÔÀÌ°¡ µÇ´Â ÀÌ½´
+		# MT-818 [GF] ì•„ì´í…œ - ì œì¡° ì„±ê³µëœ ì•„ì´í…œì´ í«ë¨¹ì´ê°€ ë˜ëŠ” ì´ìŠˆ
 		self.wndCube.SetInven(self.wndInventory)
 
 		if app.ENABLE_ACCE_COSTUME_SYSTEM:
@@ -951,11 +951,11 @@ class Interface(object):
 			self.dlgWhisperWithoutTarget.Destroy()
 			del self.dlgWhisperWithoutTarget
 
-		if uiQuest.QuestDialog.__dict__.has_key("QuestCurtain"):
+		if "QuestCurtain" in uiQuest.QuestDialog.__dict__:
 			uiQuest.QuestDialog.QuestCurtain.Close()
 
 		if self.wndQuestWindow:
-			for key, eachQuestWindow in self.wndQuestWindow.items():
+			for key, eachQuestWindow in list(self.wndQuestWindow.items()):
 				eachQuestWindow.nextCurtainMode = -1
 				eachQuestWindow.Hide()
 				eachQuestWindow.CloseSelf()
@@ -1320,11 +1320,11 @@ class Interface(object):
 			btn.SetEvent(0)
 		for btn in self.whisperButtonList:
 			btn.SetEvent(0)
-		for dlg in self.whisperDialogDict.itervalues():
+		for dlg in list(self.whisperDialogDict.values()):
 			dlg.Destroy()
-		for brd in self.guildScoreBoardDict.itervalues():
+		for brd in list(self.guildScoreBoardDict.values()):
 			brd.Destroy()
-		for dlg in self.equipmentDialogDict.itervalues():
+		for dlg in list(self.equipmentDialogDict.values()):
 			dlg.Destroy()
 
 		# ITEM_MALL
@@ -1561,7 +1561,7 @@ class Interface(object):
 			if self.wndCubeRenewal:
 				self.wndCubeRenewal.RefreshItems()
 
-	def RefreshCharacter(self): ## Character ÆäÀÌÁöÀÇ ¾ó±¼, Inventory ÆäÀÌÁöÀÇ Àü½Å ±×¸² µîÀÇ Refresh
+	def RefreshCharacter(self): ## Character í˜ì´ì§€ì˜ ì–¼êµ´, Inventory í˜ì´ì§€ì˜ ì „ì‹  ê·¸ë¦¼ ë“±ì˜ Refresh
 		self.wndCharacter.RefreshCharacter()
 		self.wndTaskBar.RefreshQuickSlot()
 
@@ -1797,7 +1797,7 @@ class Interface(object):
 	def RemovePartyMember(self, pid):
 		self.wndParty.RemovePartyMember(pid)
 
-		##!! 20061026.levites.Äù½ºÆ®_À§Ä¡_º¸Á¤
+		##!! 20061026.levites.í€˜ìŠ¤íŠ¸_ìœ„ì¹˜_ë³´ì •
 		self.__ArrangeQuestButton()
 
 	if app.WJ_SHOW_PARTY_ON_MINIMAP:
@@ -1816,7 +1816,7 @@ class Interface(object):
 	def ExitParty(self):
 		self.wndParty.ExitParty()
 
-		##!! 20061026.levites.Äù½ºÆ®_À§Ä¡_º¸Á¤
+		##!! 20061026.levites.í€˜ìŠ¤íŠ¸_ìœ„ì¹˜_ë³´ì •
 		self.__ArrangeQuestButton()
 
 	def PartyHealReady(self):
@@ -2083,7 +2083,7 @@ class Interface(object):
 
 		key = uiGuild.GetGVGKey(guildSelf, guildOpp)
 
-		if not self.guildScoreBoardDict.has_key(key):
+		if key not in self.guildScoreBoardDict:
 			return
 
 		self.guildScoreBoardDict[key].Destroy()
@@ -2093,7 +2093,7 @@ class Interface(object):
 	def UpdateMemberCount(self, gulidID1, memberCount1, guildID2, memberCount2):
 		key = uiGuild.GetGVGKey(gulidID1, guildID2)
 
-		if not self.guildScoreBoardDict.has_key(key):
+		if key not in self.guildScoreBoardDict:
 			return
 
 		self.guildScoreBoardDict[key].UpdateMemberCount(gulidID1, memberCount1, guildID2, memberCount2)
@@ -2102,7 +2102,7 @@ class Interface(object):
 	if app.ENABLE_GUILDRENEWAL_SYSTEM:
 		def OnRecvGuildWarPoint(self, gainGuildID, opponentGuildID, point, winpoint):
 			key = uiGuild.GetGVGKey(gainGuildID, opponentGuildID)
-			if not self.guildScoreBoardDict.has_key(key):
+			if key not in self.guildScoreBoardDict:
 				return
 
 			guildBoard = self.guildScoreBoardDict[key]
@@ -2113,7 +2113,7 @@ class Interface(object):
 	else:
 		def OnRecvGuildWarPoint(self, gainGuildID, opponentGuildID, point):
 			key = uiGuild.GetGVGKey(gainGuildID, opponentGuildID)
-			if not self.guildScoreBoardDict.has_key(key):
+			if key not in self.guildScoreBoardDict:
 				return
 
 			guildBoard = self.guildScoreBoardDict[key]
@@ -2425,7 +2425,7 @@ class Interface(object):
 		if True == self.wndChat.IsEditMode():
 			self.wndChat.CloseChat()
 		else:
-			# À¥ÆäÀÌÁö°¡ ¿­·ÈÀ»¶§´Â Ã¤ÆÃ ÀÔ·ÂÀÌ ¾ÈµÊ
+			# ì›¹í˜ì´ì§€ê°€ ì—´ë ¸ì„ë•ŒëŠ” ì±„íŒ… ì…ë ¥ì´ ì•ˆë¨
 			if self.wndWeb and self.wndWeb.IsShow():
 				pass
 			else:
@@ -2919,9 +2919,9 @@ class Interface(object):
 	def SucceedCubeWork(self, itemVnum, count):
 		self.wndCube.Clear()
 
-		print "Å¥ºê Á¦ÀÛ ¼º°ø! [%d:%d]" % (itemVnum, count)
+		print(("íë¸Œ ì œì‘ ì„±ê³µ! [%d:%d]" % (itemVnum, count)))
 
-		if 0: # °á°ú ¸Ş½ÃÁö Ãâ·ÂÀº »ı·« ÇÑ´Ù
+		if 0: # ê²°ê³¼ ë©”ì‹œì§€ ì¶œë ¥ì€ ìƒëµ í•œë‹¤
 			self.wndCubeResult.SetPosition(*self.wndCube.GetGlobalPosition())
 			self.wndCubeResult.SetCubeResultItem(itemVnum, count)
 			self.wndCubeResult.Open()
@@ -3192,8 +3192,8 @@ class Interface(object):
 			if self.wndWorldBoss:
 				hideWindows += self.wndWorldBoss,
 
-		hideWindows = filter(lambda x:x.IsShow(), hideWindows)
-		map(lambda x:x.Hide(), hideWindows)
+		hideWindows = [x for x in hideWindows if x.IsShow()]
+		list([x.Hide() for x in hideWindows])
 		import sys
 
 		self.HideAllQuestButton()
@@ -3213,7 +3213,7 @@ class Interface(object):
 
 	def __ShowWindows(self, wnds):
 		import sys
-		map(lambda x:x.Show(), wnds)
+		list([x.Show() for x in wnds])
 		global IsQBHide
 		if not IsQBHide:
 			self.ShowAllQuestButton()
@@ -3532,7 +3532,7 @@ class Interface(object):
 			self.privateShopAdvertisementBoardDict[vid] = board
 
 	def DisappearPrivateShop(self, vid):
-		if not self.privateShopAdvertisementBoardDict.has_key(vid):
+		if vid not in self.privateShopAdvertisementBoardDict:
 			return
 
 		del self.privateShopAdvertisementBoardDict[vid]
@@ -3543,7 +3543,7 @@ class Interface(object):
 
 	def OpenEquipmentDialog(self, vid):
 		if app.ENABLE_VIEW_EQUIP_RENEWAL:
-			if self.equipmentDialogDict.has_key(vid):
+			if vid in self.equipmentDialogDict:
 				self.equipmentDialogDict[vid].Destroy()
 				self.CloseEquipmentDialog(vid)
 
@@ -3760,8 +3760,8 @@ class Interface(object):
 		from _weakref import proxy
 		chatm2g.InitWhisper(proxy(self))
 
-	## Ã¤ÆÃÃ¢ÀÇ "¸Ş½ÃÁö º¸³»±â"¸¦ ´­·¶À»¶§ ÀÌ¸§ ¾ø´Â ´ëÈ­Ã¢À» ¿©´Â ÇÔ¼ö
-	## ÀÌ¸§ÀÌ ¾ø±â ¶§¹®¿¡ ±âÁ¸ÀÇ WhisperDialogDict ¿Í º°µµ·Î °ü¸®µÈ´Ù.
+	## ì±„íŒ…ì°½ì˜ "ë©”ì‹œì§€ ë³´ë‚´ê¸°"ë¥¼ ëˆŒë €ì„ë•Œ ì´ë¦„ ì—†ëŠ” ëŒ€í™”ì°½ì„ ì—¬ëŠ” í•¨ìˆ˜
+	## ì´ë¦„ì´ ì—†ê¸° ë•Œë¬¸ì— ê¸°ì¡´ì˜ WhisperDialogDict ì™€ ë³„ë„ë¡œ ê´€ë¦¬ëœë‹¤.
 	def OpenWhisperDialogWithoutTarget(self):
 		if not self.dlgWhisperWithoutTarget:
 			dlgWhisper = uiWhisper.WhisperDialog(self.MinimizeWhisperDialog, self.CloseWhisperDialog)
@@ -3778,7 +3778,7 @@ class Interface(object):
 			self.dlgWhisperWithoutTarget.SetTop()
 			self.dlgWhisperWithoutTarget.OpenWithoutTarget(self.RegisterTemporaryWhisperDialog)
 
-	## ÀÌ¸§ ¾ø´Â ´ëÈ­Ã¢¿¡¼­ ÀÌ¸§À» °áÁ¤ÇßÀ»¶§ WhisperDialogDict¿¡ Ã¢À» ³Ö¾îÁÖ´Â ÇÔ¼ö
+	## ì´ë¦„ ì—†ëŠ” ëŒ€í™”ì°½ì—ì„œ ì´ë¦„ì„ ê²°ì •í–ˆì„ë•Œ WhisperDialogDictì— ì°½ì„ ë„£ì–´ì£¼ëŠ” í•¨ìˆ˜
 	def RegisterTemporaryWhisperDialog(self, name):
 		if not self.dlgWhisperWithoutTarget:
 			return
@@ -3787,7 +3787,7 @@ class Interface(object):
 		if 0 != btn:
 			self.__DestroyWhisperButton(btn)
 
-		elif self.whisperDialogDict.has_key(name):
+		elif name in self.whisperDialogDict:
 			oldDialog = self.whisperDialogDict[name]
 			oldDialog.Destroy()
 			del self.whisperDialogDict[name]
@@ -3798,7 +3798,7 @@ class Interface(object):
 		self.__CheckGameMaster(name)
 
 	def OpenWhisperDialog(self, name):
-		if not self.whisperDialogDict.has_key(name):
+		if name not in self.whisperDialogDict:
 			dlg = self.__MakeWhisperDialog(name)
 			dlg.OpenWithTarget(name)
 			dlg.chatLine.SetFocus()
@@ -3809,9 +3809,9 @@ class Interface(object):
 			if 0 != btn:
 				self.__DestroyWhisperButton(btn)
 
-	## ´Ù¸¥ Ä³¸¯ÅÍ·ÎºÎÅÍ ¸Ş¼¼Áö¸¦ ¹Ş¾ÒÀ»¶§ ÀÏ´Ü ¹öÆ°¸¸ ¶ç¿ö µÎ´Â ÇÔ¼ö
+	## ë‹¤ë¥¸ ìºë¦­í„°ë¡œë¶€í„° ë©”ì„¸ì§€ë¥¼ ë°›ì•˜ì„ë•Œ ì¼ë‹¨ ë²„íŠ¼ë§Œ ë„ì›Œ ë‘ëŠ” í•¨ìˆ˜
 	def RecvWhisper(self, name):
-		if not self.whisperDialogDict.has_key(name):
+		if name not in self.whisperDialogDict:
 			btn = self.__FindWhisperButton(name)
 			if 0 == btn:
 				btn = self.__MakeWhisperButton(name)
@@ -3832,7 +3832,7 @@ class Interface(object):
 	def MakeWhisperButton(self, name):
 		self.__MakeWhisperButton(name)
 
-	## ¹öÆ°À» ´­·¶À»¶§ Ã¢À» ¿©´Â ÇÔ¼ö
+	## ë²„íŠ¼ì„ ëˆŒë €ì„ë•Œ ì°½ì„ ì—¬ëŠ” í•¨ìˆ˜
 	def ShowWhisperDialog(self, btn):
 		try:
 			self.__MakeWhisperDialog(btn.name)
@@ -3844,11 +3844,11 @@ class Interface(object):
 			import dbg
 			dbg.TraceError("interface.ShowWhisperDialog - Failed to find key")
 
-		## ¹öÆ° ÃÊ±âÈ­
+		## ë²„íŠ¼ ì´ˆê¸°í™”
 		self.__DestroyWhisperButton(btn)
 
-	## WhisperDialog Ã¢¿¡¼­ ÃÖ¼ÒÈ­ ¸í·ÉÀ» ¼öÇàÇßÀ»¶§ È£ÃâµÇ´Â ÇÔ¼ö
-	## Ã¢À» ÃÖ¼ÒÈ­ ÇÕ´Ï´Ù.
+	## WhisperDialog ì°½ì—ì„œ ìµœì†Œí™” ëª…ë ¹ì„ ìˆ˜í–‰í–ˆì„ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
+	## ì°½ì„ ìµœì†Œí™” í•©ë‹ˆë‹¤.
 	def MinimizeWhisperDialog(self, name):
 
 		if 0 != name:
@@ -3856,8 +3856,8 @@ class Interface(object):
 
 		self.CloseWhisperDialog(name)
 
-	## WhisperDialog Ã¢¿¡¼­ ´İ±â ¸í·ÉÀ» ¼öÇàÇßÀ»¶§ È£ÃâµÇ´Â ÇÔ¼ö
-	## Ã¢À» Áö¿ó´Ï´Ù.
+	## WhisperDialog ì°½ì—ì„œ ë‹«ê¸° ëª…ë ¹ì„ ìˆ˜í–‰í–ˆì„ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
+	## ì°½ì„ ì§€ì›ë‹ˆë‹¤.
 	def CloseWhisperDialog(self, name):
 
 		if 0 == name:
@@ -3876,7 +3876,7 @@ class Interface(object):
 			import dbg
 			dbg.TraceError("interface.CloseWhisperDialog - Failed to find key")
 
-	## ¹öÆ°ÀÇ °³¼ö°¡ ¹Ù²î¾úÀ»¶§ ¹öÆ°À» ÀçÁ¤·Ä ÇÏ´Â ÇÔ¼ö
+	## ë²„íŠ¼ì˜ ê°œìˆ˜ê°€ ë°”ë€Œì—ˆì„ë•Œ ë²„íŠ¼ì„ ì¬ì •ë ¬ í•˜ëŠ” í•¨ìˆ˜
 	def __ArrangeWhisperButton(self):
 
 		screenWidth = wndMgr.GetScreenWidth()
@@ -3893,9 +3893,9 @@ class Interface(object):
 			button.SetPosition(xPos + (int(count/yCount) * -50), yPos + (count%yCount * 63))
 			count += 1
 
-	## ÀÌ¸§À¸·Î Whisper ¹öÆ°À» Ã£¾Æ ¸®ÅÏÇØ ÁÖ´Â ÇÔ¼ö
-	## ¹öÆ°Àº µñ¼Å³Ê¸®·Î ÇÏÁö ¾Ê´Â °ÍÀº Á¤·Ä µÇ¾î ¹ö·Á ¼ø¼­°¡ À¯Áö µÇÁö ¾ÊÀ¸¸ç
-	## ÀÌ·Î ÀÎÇØ ToolTipµéÀÌ ´Ù¸¥ ¹öÆ°µé¿¡ ÀÇÇØ °¡·ÁÁö±â ¶§¹®ÀÌ´Ù.
+	## ì´ë¦„ìœ¼ë¡œ Whisper ë²„íŠ¼ì„ ì°¾ì•„ ë¦¬í„´í•´ ì£¼ëŠ” í•¨ìˆ˜
+	## ë²„íŠ¼ì€ ë”•ì…”ë„ˆë¦¬ë¡œ í•˜ì§€ ì•ŠëŠ” ê²ƒì€ ì •ë ¬ ë˜ì–´ ë²„ë ¤ ìˆœì„œê°€ ìœ ì§€ ë˜ì§€ ì•Šìœ¼ë©°
+	## ì´ë¡œ ì¸í•´ ToolTipë“¤ì´ ë‹¤ë¥¸ ë²„íŠ¼ë“¤ì— ì˜í•´ ê°€ë ¤ì§€ê¸° ë•Œë¬¸ì´ë‹¤.
 	def __FindWhisperButton(self, name):
 		for button in self.whisperButtonList:
 			if button.name == name:
@@ -3903,7 +3903,7 @@ class Interface(object):
 
 		return 0
 
-	## Ã¢À» ¸¸µì´Ï´Ù.
+	## ì°½ì„ ë§Œë“­ë‹ˆë‹¤.
 	def __MakeWhisperDialog(self, name):
 		dlgWhisper = uiWhisper.WhisperDialog(self.MinimizeWhisperDialog, self.CloseWhisperDialog)
 		dlgWhisper.BindInterface(self)
@@ -3915,7 +3915,7 @@ class Interface(object):
 
 		return dlgWhisper
 
-	## ¹öÆ°À» ¸¸µì´Ï´Ù.
+	## ë²„íŠ¼ì„ ë§Œë“­ë‹ˆë‹¤.
 	def __MakeWhisperButton(self, name):
 		whisperButton = uiWhisper.WhisperButton()
 		whisperButton.SetUpVisual("d:/ymir work/ui/game/windows/btn_mail_up.sub")
@@ -3949,19 +3949,19 @@ class Interface(object):
 			btn.Show()
 
 	def __CheckGameMaster(self, name):
-		if not self.listGMName.has_key(name):
+		if name not in self.listGMName:
 			return
-		if self.whisperDialogDict.has_key(name):
+		if name in self.whisperDialogDict:
 			dlg = self.whisperDialogDict[name]
 			dlg.SetGameMasterLook()
 
 	def RegisterGameMasterName(self, name):
-		if self.listGMName.has_key(name):
+		if name in self.listGMName:
 			return
 		self.listGMName[name] = "GM"
 
 	def IsGameMasterName(self, name):
-		if self.listGMName.has_key(name):
+		if name in self.listGMName:
 			return True
 		else:
 			return False
@@ -4532,12 +4532,12 @@ class Interface(object):
 
 	if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
 		def AttachWhisperLanguageImage(self, name, language):
-			if self.whisperDialogDict.has_key(name):
+			if name in self.whisperDialogDict:
 				dlg = self.whisperDialogDict[name]
 				dlg.AttachLanguageImage(language)
 
 		def RefreshShowLanguageImage(self, show):
-			for key, whisper in self.whisperDialogDict.items():
+			for key, whisper in list(self.whisperDialogDict.items()):
 				whisper.RefreshShowLanguageImage()
 
 	if app.ENABLE_ACHIEVEMENT_SYSTEM:

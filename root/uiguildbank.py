@@ -111,7 +111,7 @@ class GuildBankLogDialog(ui.ScriptWindow):
 		self.InfoDict = {}
 		self.InfoDataPos = 0
 
-		for i in xrange(self.SLOTLINECOUNTER):
+		for i in range(self.SLOTLINECOUNTER):
 			inverseLineIndex = self.SLOTLINECOUNTER - i - 1
 			yPos = 60 + inverseLineIndex * 20
 
@@ -160,7 +160,7 @@ class GuildBankLogDialog(ui.ScriptWindow):
 		if slotCnt >= self.SLOTLINECOUNTER:
 			slotCnt = self.SLOTLINECOUNTER
 		
-		for i in xrange(slotCnt):
+		for i in range(slotCnt):
 			line, slotList = i, self.InfoDict[i]
 			chrname, itemname, iteminout, itemcount, datatype = self.GetInfoData(line)
 
@@ -358,7 +358,7 @@ class GuildstorageWindow(ui.ScriptWindow):
 
 		text = "I"
 		pos = -int(float(pageCount-1)/2 * 52)
-		for i in xrange(pageCount):
+		for i in range(pageCount):
 			button = ui.RadioButton()
 			button.SetParent(self)
 			button.SetUpVisual("d:/ymir work/ui/game/windows/tab_button_middle_01.sub")
@@ -459,7 +459,7 @@ class GuildstorageWindow(ui.ScriptWindow):
 		getItemCount=guildbank.GetGuildBankItemCount
 		setItemID=self.wndItem.SetItemSlot
 
-		for i in xrange(guildbank.GUILDBANK_PAGE_SIZE):
+		for i in range(guildbank.GUILDBANK_PAGE_SIZE):
 			slotIndex = self.__LocalPosToGlobalPos(i)
 			itemCount = getItemCount(slotIndex)
 			if itemCount <= 1:

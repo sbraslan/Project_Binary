@@ -24,7 +24,7 @@ ERROR_MARK_CHECK_NEED_RECONNECT = "CheckMark: Reconnect to game"
 VIRTUAL_KEY_ALPHABET_LOWERS  = r"[1234567890]/qwertyuiop\=asdfghjkl;`'zxcvbnm.,"
 VIRTUAL_KEY_ALPHABET_UPPERS  = r'{1234567890}?QWERTYUIOP|+ASDFGHJKL:~"ZXCVBNM<>'
 VIRTUAL_KEY_SYMBOLS    = '!@#$%^&*()_+|{}:"<>?~'
-VIRTUAL_KEY_NUMBERS    = "1234567890-=\[];',./`"
+VIRTUAL_KEY_NUMBERS    = r"1234567890-=\[];',./`"
 
 __IS_ENGLISH	= "ENGLISH" == app.GetLocaleServiceName()
 __IS_HONGKONG	= "HONGKONG" == app.GetLocaleServiceName()
@@ -101,7 +101,7 @@ def LoadLocaleData():
 	app.LoadLocaleData(app.GetLocalePath())
 
 def IsCHEONMA():
-	return IsYMIR()		# ÀÌÁ¦ YMIR ·ÎÄÉÀÏÀº ¹«Á¶°Ç Ãµ¸¶¼­¹öÀÓ. Ãµ¸¶¼­¹ö°¡ ¹®À» ´İ±â Àü±îÁö º¯ÇÒ ÀÏ ¾øÀ½.
+	return IsYMIR()		# ì´ì œ YMIR ë¡œì¼€ì¼ì€ ë¬´ì¡°ê±´ ì²œë§ˆì„œë²„ì„. ì²œë§ˆì„œë²„ê°€ ë¬¸ì„ ë‹«ê¸° ì „ê¹Œì§€ ë³€í•  ì¼ ì—†ìŒ.
 
 # END_OF_SUPPORT_NEW_KOREA_SERVER
 
@@ -171,7 +171,7 @@ def LoadLocaleFile(srcFileName, localeDict):
 				else:
 					localeDict[tokens[0]] = tokens[1]
 			else:
-				raise RuntimeError, "Unknown TokenSize"
+				raise RuntimeError("Unknown TokenSize")
 
 			lineIndex += 1
 		except:
@@ -966,7 +966,7 @@ if app.ENABLE_SUNG_MAHI_TOWER:
 
 						#set level info
 						tempTokenInfo.append(tokens[0])
-						for tokenInfo in xrange(len(tokens)):
+						for tokenInfo in range(len(tokens)):
 							if (tokenInfo < 1):
 								continue
 

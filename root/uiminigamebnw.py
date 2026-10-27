@@ -69,7 +69,7 @@ class BNWRankingPage(ui.ScriptWindow):
 										"rankCount" : self.GetChild("rank%d_donate_count_text" % i) } )
 
 			for i, dict in enumerate(self.textList):
-				for key, value in dict.iteritems():
+				for key, value in dict.items():
 					self.textList[i][key].SetText("")
 
 			self.myRankPos = self.GetChild("rank_my_text")
@@ -92,7 +92,7 @@ class BNWRankingPage(ui.ScriptWindow):
 		self.isLoaded = 0
 
 		for i, dict in enumerate(self.textList):
-			for key, value in dict.iteritems():
+			for key, value in dict.items():
 				self.textList[i][key] = None
 
 		self.myRankPos = None
@@ -135,7 +135,7 @@ class BNWRankingPage(ui.ScriptWindow):
 
 	def ClearRanking(self):
 		for i, dict in enumerate(self.textList):
-			for key, value in dict.iteritems():
+			for key, value in dict.items():
 				self.textList[i][key].SetText("")
 
 		self.myRankPos.SetText("")

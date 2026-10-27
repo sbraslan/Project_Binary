@@ -231,7 +231,7 @@ class MessengerGroupItem(MessengerItem):
 		return member
 
 	def RemoveMember(self, item):
-		for i in xrange(len(self.memberList)):
+		for i in range(len(self.memberList)):
 			if item == self.memberList[i]:
 				del self.memberList[i]
 				return
@@ -240,17 +240,17 @@ class MessengerGroupItem(MessengerItem):
 		self.memberList = []
 
 	def FindMember(self, key):
-		list = filter(lambda argMember, argKey=key: argMember.IsSameKey(argKey), self.memberList)
-		if list:
-			return list[0]
+		for member in self.memberList:
+			if member.IsSameKey(key):
+				return member
 
 		return None
 
 	def GetLoginMemberList(self):
-		return filter(MessengerMemberItem.IsOnline, self.memberList)
+		return list(filter(MessengerMemberItem.IsOnline, self.memberList))
 
 	def GetLogoutMemberList(self):
-		return filter(lambda arg: not arg.IsOnline(), self.memberList)
+		return [arg for arg in self.memberList if not arg.IsOnline()]
 
 	def IsOpen(self):
 		return self.isOpen
@@ -263,7 +263,7 @@ class MessengerGroupItem(MessengerItem):
 		self.image.LoadImage(self.IMAGE_FILE_NAME["CLOSE"])
 		self.isOpen = False
 
-		map(ui.Window.Hide, self.memberList)
+		list(map(ui.Window.Hide, self.memberList))
 
 	def Select(self):
 
@@ -306,7 +306,7 @@ class MessengerGuildItem(MessengerMemberItem):
 		m2netm2g.SendGuildUseSkillPacket(155, self.key)
 
 	def CanRemove(self):
-		for i in xrange(guild.ENEMY_GUILD_SLOT_MAX_COUNT):
+		for i in range(guild.ENEMY_GUILD_SLOT_MAX_COUNT):
 			if guild.GetEnemyGuildName(i) != "":
 				return False
 
@@ -584,7 +584,7 @@ class MessengerWindow(ui.ScriptWindow):
 		yPos = self.START_POSITION
 		heightLimit = self.GetHeight() - (self.START_POSITION + 13)
 
-		map(ui.Window.Hide, self.showingItemList)
+		list(map(ui.Window.Hide, self.showingItemList))
 
 		for item in self.showingItemList[self.startLine:]:
 			item.SetPosition(20 + item.GetStepWidth(), yPos)
@@ -756,7 +756,7 @@ class MessengerWindow(ui.ScriptWindow):
 	def OnRemove(self):
 		if self.selectedItem:
 			if self.selectedItem.CanRemove():
-				map(lambda arg, argDeletingItem=self.selectedItem: arg.RemoveMember(argDeletingItem), self.groupList)
+				list(map(lambda arg, argDeletingItem=self.selectedItem: arg.RemoveMember(argDeletingItem), self.groupList))
 				self.selectedItem.OnRemove()
 				if not app.ENABLE_MESSENGER_LOCK_FIX:
 					self.selectedItem.UnSelect()

@@ -305,7 +305,7 @@ class AcceWindow(ui.ScriptWindow):
 		setAcceItem = self.wnditem.SetItemSlot
 		AcceItemSize = playerm2g2.GetAcceItemSize()
 
-		for i in xrange(AcceItemSize):
+		for i in range(AcceItemSize):
 			setAcceItem(i, getAcceItem(i), 1)
 			if self.type == playerm2g2.ACCE_SLOT_TYPE_COMBINE:
 

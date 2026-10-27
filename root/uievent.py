@@ -435,7 +435,7 @@ class EventOverview(ui.ScriptWindow):
 
 			self.eventRewardBar.Hide()
 
-			for (key, banner) in self.bannerDict.items():
+			for (key, banner) in list(self.bannerDict.items()):
 				banner.OnMouseOverIn = lambda selfArg = self, index = key: selfArg.ShowEventTooltip(index)
 				banner.OnMouseOverOut = lambda selfArg = self: selfArg.HideEventTooltip()
 
@@ -492,7 +492,7 @@ class EventOverview(ui.ScriptWindow):
 		self.Show()
 
 	def ClearActiveEvents(self):
-		for (key, event) in self.activeEventDict.items():
+		for (key, event) in list(self.activeEventDict.items()):
 			event.Hide()
 			del self.activeEventDict[key]
 
@@ -603,7 +603,7 @@ class EventOverview(ui.ScriptWindow):
 			bannerIndex += 1
 
 		#Hide banners which were not assigned a date
-		for (key, banner) in self.bannerDict.items():
+		for (key, banner) in list(self.bannerDict.items()):
 			if key not in ShownBanner:
 				banner.Hide()
 			else:
@@ -691,7 +691,7 @@ class EventOverview(ui.ScriptWindow):
 
 	def ArrangeEventRewardPosition(self):
 		eventCount = 0
-		for event in self.activeEventDict.itervalues():
+		for event in list(self.activeEventDict.values()):
 			event.SetPosition(0, 100 + 20 + (50 * eventCount))
 			self.SetSize(self.GetWidth(), 174 + 50 * eventCount)
 			self.board.SetSize(self.board.GetWidth(), 174 + 50 * eventCount)
@@ -710,7 +710,7 @@ class EventOverview(ui.ScriptWindow):
 
 	def __GetCurrentMonthWeek(self):
 		currentDay = datetime.date.today().day
-		for (key, weekList) in self.weekDict.items():
+		for (key, weekList) in list(self.weekDict.items()):
 			if currentDay in weekList:
 				return key
 		return DEFAULT_WEEK

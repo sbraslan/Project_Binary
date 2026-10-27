@@ -51,14 +51,14 @@ class CharacterDetailsUI(ui.ScriptWindow):
 		self.horizonBarList	= []
 		self.horizonBarNameList = []
 
-		for i in xrange(self.UI_MAX_COUNT):
+		for i in range(self.UI_MAX_COUNT):
 			self.labelList.append( self.GetChild("label%s"%i) )
 			self.labelValueList.append( self.GetChild("labelvalue%s"%i) )
 			self.labelTextList.append( self.GetChild("labelname%s"%i) )
 			self.horizonBarList.append( self.GetChild("horizontalbar%s"%i) )
 			self.horizonBarNameList.append( self.GetChild("horizontalbarName%s"%i) )
 
-		for i in xrange(self.UI_MAX_COUNT):
+		for i in range(self.UI_MAX_COUNT):
 			self.labelTextList[i].SetOverEvent( ui.__mem_func__(self.__ButtonOverIn), i )
 			self.labelTextList[i].SetOverOutEvent( ui.__mem_func__(self.__ButtonOverOut), i )
 
@@ -239,7 +239,7 @@ class CharacterDetailsUI(ui.ScriptWindow):
 		self.ScollPos = int(self.ScrollBar.GetPos() * self.Diff)
 		self.LabelLineCount = 0
 		self.startline_endlinecount = 0
-		for i in xrange(self.UI_MAX_COUNT) :
+		for i in range(self.UI_MAX_COUNT) :
 			idx = i + self.ScollPos
 
 			if idx < len(self.InfoList) :

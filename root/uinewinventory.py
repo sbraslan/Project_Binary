@@ -165,13 +165,13 @@ class CostumeWindow(ui.ScriptWindow):
 				self.visibleButtonList[4].SetToggleUpEvent(ui.__mem_func__(self.VisibleCostume), 5, 0)
 				self.visibleButtonList[4].SetToggleDownEvent(ui.__mem_func__(self.VisibleCostume), 5, 1)
 
-			for slot in xrange(5):
+			for slot in range(5):
 				self.visibleSlotList[slot].Hide()
 
 	def RefreshCostumeSlot(self):
 		getItemVNum = ReprGetItemIndex(playerm2g2.EQUIPMENT)
 
-		for i in xrange(item.COSTUME_SLOT_COUNT):
+		for i in range(item.COSTUME_SLOT_COUNT):
 			slotNumber = item.COSTUME_SLOT_START + i
 			self.wndEquip.SetItemSlot(slotNumber, getItemVNum(slotNumber), 0)
 
@@ -365,7 +365,7 @@ class BeltInventoryWindow(ui.ScriptWindow):
 			if not app.ENABLE_BELT_INVENTORY_RENEWAL and localeInfo.IsARABIC():
 				self.minBtn.SetPosition(self.minBtn.GetWidth() + 3, 15)
 
-			for i in xrange(item.BELT_INVENTORY_SLOT_COUNT):
+			for i in range(item.BELT_INVENTORY_SLOT_COUNT):
 				slotNumber = item.BELT_INVENTORY_SLOT_START + i
 				wndBeltInventorySlot.SetCoverButton(slotNumber,	"d:/ymir work/ui/game/quest/slot_button_01.sub",\
 												"d:/ymir work/ui/game/quest/slot_button_01.sub",\
@@ -403,7 +403,7 @@ class BeltInventoryWindow(ui.ScriptWindow):
 		getItemVNum	 = ReprGetItemIndex(playerm2g2.BELT_INVENTORY)
 		getItemCount = ReprGetItemCount(playerm2g2.BELT_INVENTORY)
 
-		for i in xrange(item.BELT_INVENTORY_SLOT_COUNT):
+		for i in range(item.BELT_INVENTORY_SLOT_COUNT):
 			slotNumber = item.BELT_INVENTORY_SLOT_START + i
 
 			self.wndBeltInventorySlot.SetItemSlot(slotNumber, getItemVNum(slotNumber), getItemCount(slotNumber))
@@ -822,7 +822,7 @@ class InventoryWindow(ui.ScriptWindow):
 					self.toolTip.ClearToolTip()
 
 			self.inventoryTab = []
-			for i in xrange(playerm2g2.INVENTORY_PAGE_COUNT):
+			for i in range(playerm2g2.INVENTORY_PAGE_COUNT):
 				self.inventoryTab.append(self.GetChild("Inventory_Tab_%02d" % (i+1)))
 
 			if not app.ENABLE_ADDITIONAL_EQUIPMENT_PAGE:
@@ -836,12 +836,12 @@ class InventoryWindow(ui.ScriptWindow):
 
 			if app.ENABLE_SPECIAL_INVENTORY:
 				self.inventoryTypeTab = []
-				for i in xrange(4):
+				for i in range(4):
 					self.inventoryTypeTab.append(self.GetChild("Category_Tab_%02d" % (i+1)))
 
 				self.question_button.Hide()
 			else:
-				for i in xrange(4):
+				for i in range(4):
 					self.GetChild("Category_Tab_%02d" % (i+1)).Hide()
 
 			# Belt Inventory Window
@@ -1196,11 +1196,11 @@ class InventoryWindow(ui.ScriptWindow):
 	if app.ENABLE_RUN_MOUSE_WHEEL_EVENT:
 		def OnRefreshMouseWheelEvent(self, index):
 			if app.ENABLE_SPECIAL_INVENTORY and app.IsPressed(app.DIK_LCONTROL):
-				for i in xrange(4):
+				for i in range(4):
 					self.inventoryTypeTab[i].SetUp()
 				self.inventoryTypeTab[index].Down()
 			else:
-				for i in xrange(4):
+				for i in range(4):
 					self.inventoryTab[i].SetUp()
 				self.inventoryTab[index].Down()
 
@@ -1440,7 +1440,7 @@ class InventoryWindow(ui.ScriptWindow):
 			count = playerm2g2.EX_SPECIAL_INVENTORY_STAGE_MAX
 
 		if app.ENABLE_EXTEND_INVEN_ITEM_UPGRADE_SPECIAL_INV:
-			for category in xrange(4):
+			for category in range(4):
 				for button_index in range(count):	##18 
 					ex_inven_button = ui.Button()
 			
@@ -1514,9 +1514,9 @@ class InventoryWindow(ui.ScriptWindow):
 
 		## Number of steps to show per page
 		if app.ENABLE_EXTEND_INVEN_ITEM_UPGRADE_SPECIAL_INV:
-			count = playerm2g2.EX_SPECIAL_INVENTORY_STAGE_MAX / playerm2g2.EX_SPECIAL_INVENTORY_PAGE_COUNT
+			count = playerm2g2.EX_SPECIAL_INVENTORY_STAGE_MAX // playerm2g2.EX_SPECIAL_INVENTORY_PAGE_COUNT
 		else:
-			count = playerm2g2.EX_INVENTORY_STAGE_MAX / playerm2g2.EX_INVENTORY_PAGE_COUNT
+			count = playerm2g2.EX_INVENTORY_STAGE_MAX // playerm2g2.EX_INVENTORY_PAGE_COUNT
 
 		## Min, max
 		min_range = (self.inventoryPageIndex - open_count + 1) * count
@@ -1742,8 +1742,8 @@ class InventoryWindow(ui.ScriptWindow):
 
 		counts = 0
 		for special_index in range(playerm2g2.INVENTORY_TYPE_COUNT):
-			for page in xrange(0, 4):
-				for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE):
+			for page in range(0, 4):
+				for i in range(playerm2g2.INVENTORY_PAGE_SIZE):
 					if app.ENABLE_SPECIAL_INVENTORY and special_index != playerm2g2.INVENTORY_TYPE_INVENTORY:
 						slotNumber = self.__SpecialInventoryLocalSlotPosToGlobalSlotPosCube(special_index, page, i)
 					else:
@@ -1773,14 +1773,14 @@ class InventoryWindow(ui.ScriptWindow):
 		setItemVNum=self.wndItem.SetItemSlot
 
 		## Turn off all highlights before refreshing.
-		for i in xrange(self.wndItem.GetSlotCount()):
+		for i in range(self.wndItem.GetSlotCount()):
 			self.wndItem.DeactivateSlot(i)
 
 		if app.WJ_ENABLE_TRADABLE_ICON or app.ENABLE_MOVE_COSTUME_ATTR or app.ENABLE_MAILBOX:
 			if self.interface:
 				onTopWindow = self.interface.GetOnTopWindow()
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE):
 			if app.ENABLE_SPECIAL_INVENTORY and self.inventoryTypeIndex != playerm2g2.INVENTORY_TYPE_INVENTORY:
 				slotNumber = self.__SpecialInventoryLocalSlotPosToGlobalSlotPos(i)
 			else:
@@ -1815,7 +1815,7 @@ class InventoryWindow(ui.ScriptWindow):
 			## Automatic Potion (HP: #72723 ~ #72726, SP: #72727 ~ #72730) Special treatment-This is a task for displaying activation/deactivation in the slot even though it is an item-[hyo]
 			if constInfo.IS_AUTO_POTION(itemVnum):
 				# metinSocket-[0]: Whether to be activated, [1]: Amount used, [2]: Maximum capacity
-				metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+				metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 				tempSlotNum = slotNumber
 				if tempSlotNum >= playerm2g2.INVENTORY_PAGE_SIZE:
 					tempSlotNum -= (self.inventoryPageIndex * playerm2g2.INVENTORY_PAGE_SIZE)
@@ -1877,7 +1877,7 @@ class InventoryWindow(ui.ScriptWindow):
 
 			if app.ENABLE_SOUL_SYSTEM:
 				if item.IsSoulItem( itemVnum ):
-					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 					tempSlotNum = slotNumber
 					if tempSlotNum >= playerm2g2.INVENTORY_PAGE_SIZE:
 						tempSlotNum -= (self.inventoryPageIndex * playerm2g2.INVENTORY_PAGE_SIZE)
@@ -1890,7 +1890,7 @@ class InventoryWindow(ui.ScriptWindow):
 			## [MT-662] Normal pet summon mark
 			if app.ENABLE_ACTIVE_PET_EFFECT:
 				if item.ITEM_TYPE_PET == item.GetItemType() and item.PET_PAY == item.GetItemSubType():
-					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+					metinSocket = [playerm2g2.GetItemMetinSocket(slotNumber, j) for j in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 					tempSlotNum = slotNumber
 					if tempSlotNum >= playerm2g2.INVENTORY_PAGE_SIZE:
 						tempSlotNum -= (self.inventoryPageIndex * playerm2g2.INVENTORY_PAGE_SIZE)
@@ -1934,7 +1934,7 @@ class InventoryWindow(ui.ScriptWindow):
 					getItemVNum		=ReprGetItemIndex(playerm2g2.ADDITIONAL_EQUIPMENT_1)	#playerm2g2.GetItemIndex
 					getItemCount	=ReprGetItemCount(playerm2g2.ADDITIONAL_EQUIPMENT_1)	 #playerm2g2.GetItemCount
 
-					for i in xrange(playerm2g2.WEAR_MAX):
+					for i in range(playerm2g2.WEAR_MAX):
 						itemCount = getItemCount(i)
 						if itemCount <= 1:
 							itemCount = 0
@@ -1954,7 +1954,7 @@ class InventoryWindow(ui.ScriptWindow):
 					getItemVNum		=ReprGetItemIndex(playerm2g2.EQUIPMENT)	#playerm2g2.GetItemIndex
 					getItemCount	=ReprGetItemCount(playerm2g2.EQUIPMENT) #playerm2g2.GetItemCount
 
-					for i in xrange(playerm2g2.WEAR_MAX):	## 32 ( 0 ~ 31 )
+					for i in range(playerm2g2.WEAR_MAX):	## 32 ( 0 ~ 31 )
 						itemCount = getItemCount(i)
 						if itemCount <= 1:
 							itemCount = 0
@@ -1977,7 +1977,7 @@ class InventoryWindow(ui.ScriptWindow):
 			getItemCount	=ReprGetItemCount(playerm2g2.EQUIPMENT) #playerm2g2.GetItemCount
 			setItemVNum		=self.wndEquip.SetItemSlot
 
-			for i in xrange(playerm2g2.WEAR_MAX):	## 32 ( 0 ~ 31 )
+			for i in range(playerm2g2.WEAR_MAX):	## 32 ( 0 ~ 31 )
 				itemCount = getItemCount(i)
 				if itemCount <= 1:
 					itemCount = 0
@@ -2012,7 +2012,7 @@ class InventoryWindow(ui.ScriptWindow):
 		if app.ENABLE_EXTEND_INVEN_ITEM_UPGRADE_SPECIAL_INV and self.inventoryTypeIndex != 0:
 			inventory_max = playerm2g2.GetExtendSpecialInvenMax(self.inventoryTypeIndex-1)
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE):
 			if app.ENABLE_EXTEND_INVEN_ITEM_UPGRADE_SPECIAL_INV and app.ENABLE_SPECIAL_INVENTORY and self.inventoryTypeIndex != playerm2g2.INVENTORY_TYPE_INVENTORY:
 				slotNumber = self.__SpecialInventoryLocalSlotPosToGlobalSlotPos(i)
 			else:
@@ -2839,7 +2839,7 @@ class InventoryWindow(ui.ScriptWindow):
 		if (item.ITEM_TYPE_WEAPON != item.GetItemType()) and (item.ITEM_TYPE_ARMOR != item.GetItemType()):
 			return False
 
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			if playerm2g2.GetItemMetinSocket(dstSlotWindow, dstSlotPos, i) == constInfo.ERROR_METIN_STONE:
 				return True
 
@@ -2860,7 +2860,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if item.IsAntiFlag(item.ITEM_ANTIFLAG_ENCHANT):
 				return False
 
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			if playerm2g2.GetItemAttribute(dstSlotWindow, dstSlotPos, i) != 0:
 				return True
 
@@ -2898,7 +2898,7 @@ class InventoryWindow(ui.ScriptWindow):
 					return False
 
 			attrCount = 0
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				(type, value) = playerm2g2.GetItemAttribute(dstSlotWindow, dstSlotPos, i)
 				if value != 0:
 					attrCount += 1
@@ -2980,7 +2980,7 @@ class InventoryWindow(ui.ScriptWindow):
 				return False
 
 		attrCount = 0
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			(type, value) = playerm2g2.GetItemAttribute(dstSlotWindow, dstSlotPos, i)
 			if value != 0:
 				attrCount += 1
@@ -3016,7 +3016,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if app.ENABLE_AURA_SYSTEM and item.GetItemSubType() == item.COSTUME_TYPE_AURA:
 				return False
 
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				type, value = playerm2g2.GetItemAttribute(dstSlotWindow, dstSlotPos, i)
 				if type != 0:
 					return True
@@ -3042,7 +3042,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if app.ENABLE_AURA_SYSTEM and item.GetItemSubType() == item.COSTUME_TYPE_AURA:
 				return False
 
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				type, value = playerm2g2.GetItemAttribute(dstSlotWindow, dstSlotPos, i)
 				if type != 0:
 					return True
@@ -3112,7 +3112,7 @@ class InventoryWindow(ui.ScriptWindow):
 				else:
 					loop_repeat = 10 # prevent open 200 stacks, because lag. Max 10
 
-				for x in xrange(loop_repeat):
+				for x in range(loop_repeat):
 					m2netm2g.SendItemUsePacket(window, slotIndex)
 					# m2netm2g.SendItemUsePacket(slotIndex)
 			else:
@@ -3629,7 +3629,7 @@ class InventoryWindow(ui.ScriptWindow):
 		self.__HighlightSlot_Clear()
 
 	def __HighlightSlot_Refresh(self):
-		for i in xrange(self.wndItem.GetSlotCount()):
+		for i in range(self.wndItem.GetSlotCount()):
 			if app.ENABLE_SPECIAL_INVENTORY and self.inventoryTypeIndex != playerm2g2.INVENTORY_TYPE_INVENTORY:
 				slotNumber = self.__SpecialInventoryLocalSlotPosToGlobalSlotPos(i)
 			else:
@@ -3676,7 +3676,7 @@ class InventoryWindow(ui.ScriptWindow):
 		"""
 
 	def __HighlightSlot_Clear(self):
-		for i in xrange(self.wndItem.GetSlotCount()):
+		for i in range(self.wndItem.GetSlotCount()):
 			if app.ENABLE_SPECIAL_INVENTORY and self.inventoryTypeIndex != playerm2g2.INVENTORY_TYPE_INVENTORY:
 				slotNumber = self.__SpecialInventoryLocalSlotPosToGlobalSlotPos(i)
 			else:

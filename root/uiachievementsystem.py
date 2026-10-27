@@ -152,7 +152,7 @@ class SearchInput(ui.Window):
 		key = key.lower()
 
 		return [
-			name for name in self.catalogue.values()
+			name for name in list(self.catalogue.values())
 			if name.lower().startswith(key)
 		]
 
@@ -722,7 +722,7 @@ class TitleBox(ui.ListBoxExAchievement.Item):
 
 	def __del__(self):
 		ui.ListBoxExAchievement.Item.__del__(self)
-		for key, value in self.Title.items():
+		for key, value in list(self.Title.items()):
 			value.Hide()
 			value.Destroy()
 		self.Title = {}
@@ -1047,7 +1047,7 @@ class AchievementNotification(ui.Window):
 			self.CurrentNotification.Destroy()
 			self.CurrentNotification = None
 
-		for i in xrange(len(self.Notifications)):
+		for i in range(len(self.Notifications)):
 			self.Notifications[i].Destroy()
 			self.Notifications[i] = None
 
@@ -1209,7 +1209,7 @@ class AchievementWindow(ui.ScriptWindow):
 
 			self.__RefreshCategories()
 
-			for name, button in self.Buttons.items():
+			for name, button in list(self.Buttons.items()):
 				button.SetOverEvent(ui.__mem_func__(self.ButtonOverIn), name)
 				button.SetOverOutEvent(ui.__mem_func__(self.ButtonOverOut), name)
 				button.SetEvent(ui.__mem_func__(self.SelectButton), name)
@@ -1320,7 +1320,7 @@ class AchievementWindow(ui.ScriptWindow):
 
 		ach_id = []
 
-		for id, name in catalogue.items():
+		for id, name in list(catalogue.items()):
 			if name.lower().startswith(self.SearchBox.GetText().lower()):
 				ach_id.append(id)
 
@@ -1468,7 +1468,7 @@ class AchievementWindow(ui.ScriptWindow):
 			self.Buttons[name].SetTextColor(0xFFcccccc)
 			self.CurrentPage = name
 
-			for button_name, button in self.Buttons.items():
+			for button_name, button in list(self.Buttons.items()):
 				if button_name != name:
 					button.SetUp()
 					button.SetTextColor(0xFF858585)
@@ -1476,7 +1476,7 @@ class AchievementWindow(ui.ScriptWindow):
 			self.__RefreshPage(refreshCategory)
 
 	def __RefreshPage(self, refreshCategory = True):
-		for page_name, page in self.Pages.items():
+		for page_name, page in list(self.Pages.items()):
 			page["board"].Hide()
 
 		self.Pages[self.CurrentPage]["board"].Show()

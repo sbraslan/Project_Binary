@@ -115,7 +115,7 @@ class MyShopDecoration(ui.ScriptWindow):
 		btnNum = self.LeftButtonMax
 		btnGap = 6
 
-		if self.Diff <= 0: # 1 ~ 10°³
+		if self.Diff <= 0: # 1 ~ 10ê°œ
 			btnNum = len(self.DecoObjList)
 			btnGap = 0
 			self.ScrollBar.Hide()
@@ -124,7 +124,7 @@ class MyShopDecoration(ui.ScriptWindow):
 			self.ScrollBar.SetScrollStep( stepSize )
 			self.ScrollBar.Show()
 
-		for i  in xrange(self.LeftButtonMax):
+		for i  in range(self.LeftButtonMax):
 			if btnNum > i:
 				x = 13 - btnGap
 				y = 6 + i*26
@@ -137,7 +137,7 @@ class MyShopDecoration(ui.ScriptWindow):
 		self.SelectButton(0)
 
 	def __CreateButton(self):
-		for i in xrange(self.LeftButtonMax):
+		for i in range(self.LeftButtonMax):
 			btn = ui.Button()
 			btn.SetParent(self.LeftBoard)
 			btn.SetPosition(13, 6 + i*26)
@@ -157,7 +157,7 @@ class MyShopDecoration(ui.ScriptWindow):
 		self.PrevBtn.SetEvent(ui.__mem_func__(self.UsePrevButton))
 		self.CompleteBtn.SetEvent(ui.__mem_func__(self.UseCompleteButton))
 
-		for i in xrange(len(self.ModelBtnList)):
+		for i in range(len(self.ModelBtnList)):
 			self.ModelBtnList[i].SetEvent(ui.__mem_func__(self.SelectButton), i)
 
 	def SelectButton(self, idx):
@@ -183,7 +183,7 @@ class MyShopDecoration(ui.ScriptWindow):
 	def OnScroll(self): 
 		self.ScollPos = int(self.ScrollBar.GetPos() * self.Diff)
 
-		for i in xrange(len(self.ModelBtnList)):
+		for i in range(len(self.ModelBtnList)):
 			self.ModelBtnList[i].SetText(self.DecoObjList[i + self.ScollPos].GetName())
 
 		for btn in self.ModelBtnList:
@@ -236,7 +236,7 @@ class MyShopDecoration(ui.ScriptWindow):
 	def SelectTitleModel(self, idx):
 		self.TitleType = idx
 
-		for i in xrange(len(self.DecoObjList)):
+		for i in range(len(self.DecoObjList)):
 			if i == idx:
 				self.DecoObjList[i].GetInfo().Show()
 			else:
@@ -247,11 +247,11 @@ class MyShopDecoration(ui.ScriptWindow):
 			self.ShopModelList.append(DecoObj(l[0], l[1]))
 
 		self.ShopTitleList.append(DecoObj(uiScriptLocale.MYSHOP_DECO_DEFAULT, ui.ThinBoard(), self.RenderTarget))
-		for i in xrange(len(DECO_SHOP_TITLE_LIST)):
+		for i in range(len(DECO_SHOP_TITLE_LIST)):
 			self.ShopTitleList.append(DecoObj(DECO_SHOP_TITLE_LIST[i][0], ui.ShopDecoTitle(i), self.RenderTarget))
 
 	def __AllShopTitleHide(self):
-		for i in xrange(len(self.DecoObjList)):
+		for i in range(len(self.DecoObjList)):
 			self.DecoObjList[i].GetInfo().Hide()
 
 	def __ShopModelListSetting(self):

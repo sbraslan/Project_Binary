@@ -192,7 +192,7 @@ class FloorLimitTimeWindow(ui.ScriptWindow):
 		m2netm2g.SendChatPacket("/jumpfloor")
 
 	def NextMission(self):
-		m2netm2g.SendChatPacket("/nextfloor") # ºˆ¡§¿Ã « ø‰«‘.
+		m2netm2g.SendChatPacket("/nextfloor") # ÏàòÏ†ïÏù¥ ÌïÑÏöîÌï®.
 		self.btnJump.Hide()
 
 	def Close(self):
@@ -266,7 +266,7 @@ class Reward12ziWindow(ui.ScriptWindow):
 		elif "mouse_over_out" == event_type :
 			self.OverOutToolTipButton()
 		else :
-			print " New_introSelect.py ::EventProgress : FALSE"
+			print(" New_introSelect.py ::EventProgress : FALSE")
 			
 	def SetItemToolTip(self, tooltipItem):
 		from _weakref import proxy
@@ -303,7 +303,7 @@ class Reward12ziWindow(ui.ScriptWindow):
 		self.GetChild("bg_weekly_column").SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", localeInfo.CZ_REWARD_TOOLTIP_WEEKLY)
 		self.GetChild("bg_weekly_column").SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_out", "")
 		
-		for i in xrange(6):
+		for i in range(6):
 			self.GetChild("bg_weekly_row_%d" % (i+1)).SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", self.WEEKLY_ROW_LIST[i])
 			self.GetChild("bg_weekly_row_%d" % (i+1)).SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_out", "")
 			self.GetChild("bg_weekly_column_%d" % (i+1)).SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", self.WEEKLY_COLUMN_LIST[i])
@@ -312,14 +312,14 @@ class Reward12ziWindow(ui.ScriptWindow):
 		self.GetChild("bg_charm_12zi").SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", localeInfo.CZ_REWARD_TOOLTIP_12ZI)
 		self.GetChild("bg_charm_12zi").SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_out", "")
 
-		for i in xrange(self.COLUMN_SIZE):
+		for i in range(self.COLUMN_SIZE):
 			self.GetChild("bg_charm_12zi_%d" % (i+1)).SetEvent(ui.__mem_func__(self.ItemToolTipEvent), "mouse_over_in", self.COLUMN_ITEM_LIST[i])
 			self.GetChild("bg_charm_12zi_%d" % (i+1)).SetEvent(ui.__mem_func__(self.ItemToolTipEvent), "mouse_over_out", "")
 
 		self.GetChild("bg_charm_10gan").SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_in", localeInfo.CZ_REWARD_TOOLTIP_10GAN)
 		self.GetChild("bg_charm_10gan").SetEvent(ui.__mem_func__(self.EventProgress), "mouse_over_out", "")
 
-		for i in xrange(self.ROW_SIZE):
+		for i in range(self.ROW_SIZE):
 			self.GetChild("bg_charm_10gan_%d" % (i+1)).SetEvent(ui.__mem_func__(self.ItemToolTipEvent), "mouse_over_in", self.ROW_ITEM_LIST[i])
 			self.GetChild("bg_charm_10gan_%d" % (i+1)).SetEvent(ui.__mem_func__(self.ItemToolTipEvent), "mouse_over_out", "")
 
@@ -376,14 +376,14 @@ class Reward12ziWindow(ui.ScriptWindow):
 			self.btnAll.LeftRightReverse()
 
 		if len(self.COLUMN_ITEM_COUNT) == 0:
-			for i in xrange(self.COLUMN_SIZE):
+			for i in range(self.COLUMN_SIZE):
 				TempText = ui.MakeTextLine(self.GetChild("12zi%d" % (i+1)))
 				TempText.SetPosition( 0, -21)
 				TempText.SetText("%d" % (0))
 				self.COLUMN_ITEM_COUNT[i] = TempText
 				self.InsertChild("12ziCount%d" % (i), TempText)
 
-			for i in xrange(self.ROW_SIZE):
+			for i in range(self.ROW_SIZE):
 				TempText = ui.MakeTextLine(self.GetChild("10gan%d" % (i+1)))
 				if localeInfo.IsARABIC():
 					TempText.SetPosition( 28, 7)
@@ -396,8 +396,8 @@ class Reward12ziWindow(ui.ScriptWindow):
 		if self.CheckButtonWindow.GetChildCount() != 0:
 			return
 		else:
-			for i in xrange(self.COLUMN_SIZE):
-				for j in xrange(self.ROW_SIZE):
+			for i in range(self.COLUMN_SIZE):
+				for j in range(self.ROW_SIZE):
 					if i%2 == j%2:
 						if j%2 == 0:
 							if localeInfo.IsARABIC():
@@ -465,7 +465,7 @@ class Reward12ziWindow(ui.ScriptWindow):
 		constInfo.SET_ITEM_QUESTION_DIALOG_STATUS(0)
 
 	def Open(self, yellowmark, greenmark, yellowreward, greenreward, goldreward):
-		for i in xrange(self.COLUMN_SIZE):
+		for i in range(self.COLUMN_SIZE):
 			itemCount = playerm2g2.GetItemCountByVnum(self.COLUMN_ITEM_LIST[i])
 			self.COLUMN_ITEM_COUNT[i].SetText("%d" % itemCount)
 			
@@ -474,7 +474,7 @@ class Reward12ziWindow(ui.ScriptWindow):
 			else:
 				self.COLUMN_ITEM[i] = False
 
-		for i in xrange(self.ROW_SIZE):
+		for i in range(self.ROW_SIZE):
 			itemCount = playerm2g2.GetItemCountByVnum(self.ROW_ITEM_LIST[i])
 			self.ROW_ITEM_COUNT[i].SetText("%d" % itemCount)
 			
@@ -486,8 +486,8 @@ class Reward12ziWindow(ui.ScriptWindow):
 		self.enableYellow = True
 		self.enableGreen = True
 
-		for i in xrange(self.COLUMN_SIZE):
-			for j in xrange(self.ROW_SIZE):
+		for i in range(self.COLUMN_SIZE):
+			for j in range(self.ROW_SIZE):
 				if i%2 == j%2:
 					color = i%2
 					index = i/2+(j/2)*6

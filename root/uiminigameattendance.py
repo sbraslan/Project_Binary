@@ -268,7 +268,7 @@ class MiniGameAttendance(ui.ScriptWindow):
 
 			if self.number_button[number].IsIn():
 				if self.tooltipitem:
-					if self.reward_dict.has_key(number):
+					if number in self.reward_dict:
 						(item_vnum, item_count) = self.reward_dict[number]
 						self.tooltipitem.SetAttendanceRewardItem( item_vnum ) # ITEM_COUNT, REVIEW
 						self.show_tooltip = True

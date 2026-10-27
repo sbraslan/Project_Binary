@@ -158,11 +158,11 @@ def RegisterSkill(race, group, empire=0):
 	job = chr.RaceToJob(race)
 
 	## Character Skill
-	if SKILL_INDEX_DICT.has_key(job):
-		if SKILL_INDEX_DICT[job].has_key(group):
+	if job in SKILL_INDEX_DICT:
+		if group in SKILL_INDEX_DICT[job]:
 			activeSkillList = SKILL_INDEX_DICT[job][group]
 
-			for i in xrange(len(activeSkillList)):
+			for i in range(len(activeSkillList)):
 				skillIndex = activeSkillList[i]
 
 				## Skills 7 and 8 should not be set here (and 9th eiter)
@@ -179,26 +179,26 @@ def RegisterSkill(race, group, empire=0):
 
 			supportSkillList = SKILL_INDEX_DICT[job]["SUPPORT"]
 
-			for i in xrange(len(supportSkillList)):
+			for i in range(len(supportSkillList)):
 				playerm2g2.SetSkill(i+101, supportSkillList[i])
 
 	## Language Skill
 	if 0 != empire:
 		languageSkillList = []
-		for i in xrange(3):
+		for i in range(3):
 			if (i+1) != empire:
 				languageSkillList.append(playerm2g2.SKILL_INDEX_LANGUAGE1+i)
-		for i in xrange(len(languageSkillList)):
+		for i in range(len(languageSkillList)):
 			if app.ENABLE_NINETH_SKILL:
 				playerm2g2.SetSkill(101+i, languageSkillList[i])
 			else:
 				playerm2g2.SetSkill(107+i, languageSkillList[i])
 
 	## Guild Skill
-	for i in xrange(len(PASSIVE_GUILD_SKILL_INDEX_LIST)):
+	for i in range(len(PASSIVE_GUILD_SKILL_INDEX_LIST)):
 		playerm2g2.SetSkill(200+i, PASSIVE_GUILD_SKILL_INDEX_LIST[i])
 
-	for i in xrange(len(ACTIVE_GUILD_SKILL_INDEX_LIST)):
+	for i in range(len(ACTIVE_GUILD_SKILL_INDEX_LIST)):
 		playerm2g2.SetSkill(210+i, ACTIVE_GUILD_SKILL_INDEX_LIST[i])
 
 def RegisterSkillAt(race, group, pos, num):
@@ -319,8 +319,8 @@ def __InitData():
 	#chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_SUCCESS, "",			"season1/effect/success.mse")
 	#chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_FAIL, "",	"season1/effect/fail.mse")
 
-	chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_LEVELUP_ON_14_FOR_GERMANY, "","season1/effect/paymessage_warning.mse")	#∑π∫ßæ˜ 14¿œ∂ß ( µ∂¿œ¿¸øÎ )
-	chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_LEVELUP_UNDER_15_FOR_GERMANY, "", "season1/effect/paymessage_decide.mse" )#∑π∫ßæ˜ 15¿œ∂ß ( µ∂¿œ¿¸øÎ )
+	chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_LEVELUP_ON_14_FOR_GERMANY, "","season1/effect/paymessage_warning.mse")	#Î†àÎ≤®ÏóÖ 14ÏùºÎïå ( ÎèÖÏùºÏ†ÑÏö© )
+	chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_LEVELUP_UNDER_15_FOR_GERMANY, "", "season1/effect/paymessage_decide.mse" )#Î†àÎ≤®ÏóÖ 15ÏùºÎïå ( ÎèÖÏùºÏ†ÑÏö© )
 
 	chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_PERCENT_DAMAGE1, "", "d:/ymir work/effect/hit/percent_damage1.mse")
 	chrmgrm2g.RegisterCacheEffect(chrmgrm2g.EFFECT_PERCENT_DAMAGE2, "", "d:/ymir work/effect/hit/percent_damage2.mse")
@@ -494,21 +494,21 @@ def __LoadGameEffect():
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+0, "Bip01", localeInfo.FN_GM_MARK)
 	# END_OF_LOCALE
 
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_POISON, "Bip01", "d:/ymir work/effect/hit/blow_poison/poison_loop.mse") ## ¡ﬂµ∂
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_POISON, "Bip01", "d:/ymir work/effect/hit/blow_poison/poison_loop.mse") ## Ï§ëÎèÖ
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_SLOW, "", "d:/ymir work/effect/affect/slow.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_STUN, "Bip01 Head", "d:/ymir work/effect/etc/stun/stun_loop.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_DUNGEON_READY, "", "d:/ymir work/effect/etc/ready/ready.mse")
 	#chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BUILDING_CONSTRUCTION_SMALL, "", "d:/ymir work/guild/effect/10_construction.mse")
 	#chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BUILDING_CONSTRUCTION_LARGE, "", "d:/ymir work/guild/effect/20_construction.mse")
 	#chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BUILDING_UPGRADE, "", "d:/ymir work/guild/effect/20_upgrade.mse")
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_CHEONGEUN, "", "d:/ymir work/pc/warrior/effect/gyeokgongjang_loop.mse") ## √µ±Ÿ√ﬂ (πÿø°µµ ¿÷µ˚-_-)
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_GYEONGGONG, "", "d:/ymir work/pc/assassin/effect/gyeonggong_loop.mse") ## ¿⁄∞¥ - ∞Ê∞¯
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_CHEONGEUN, "", "d:/ymir work/pc/warrior/effect/gyeokgongjang_loop.mse") ## Ï≤úÍ∑ºÏ∂î (Î∞ëÏóêÎèÑ ÏûàÎî∞-_-)
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_GYEONGGONG, "", "d:/ymir work/pc/assassin/effect/gyeonggong_loop.mse") ## ÏûêÍ∞ù - Í≤ΩÍ≥µ
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_GWIGEOM, "Bip01 R Finger2", "d:/ymir work/pc/sura/effect/gwigeom_loop.mse")
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_GONGPO, "", "d:/ymir work/pc/sura/effect/fear_loop.mse") ## ºˆ∂Û - ∞¯∆˜
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_JUMAGAP, "", "d:/ymir work/pc/sura/effect/jumagap_loop.mse") ## ºˆ∂Û - ¡÷∏∂∞©
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_HOSIN, "", "d:/ymir work/pc/shaman/effect/3hosin_loop.mse") ## π´¥Á - »£Ω≈
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BOHO, "", "d:/ymir work/pc/shaman/effect/boho_loop.mse") ## π´¥Á - ∫∏»£
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_KWAESOK, "", "d:/ymir work/pc/shaman/effect/10kwaesok_loop.mse") ## π´¥Á - ƒËº”
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_GONGPO, "", "d:/ymir work/pc/sura/effect/fear_loop.mse") ## ÏàòÎùº - Í≥µÌè¨
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_JUMAGAP, "", "d:/ymir work/pc/sura/effect/jumagap_loop.mse") ## ÏàòÎùº - Ï£ºÎßàÍ∞ë
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_HOSIN, "", "d:/ymir work/pc/shaman/effect/3hosin_loop.mse") ## Î¨¥Îãπ - Ìò∏Ïã†
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BOHO, "", "d:/ymir work/pc/shaman/effect/boho_loop.mse") ## Î¨¥Îãπ - Î≥¥Ìò∏
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_KWAESOK, "", "d:/ymir work/pc/shaman/effect/10kwaesok_loop.mse") ## Î¨¥Îãπ - ÏæåÏÜç
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_HEUKSIN, "", "d:/ymir work/pc/sura/effect/heuksin_loop.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_MUYEONG, "", "d:/ymir work/pc/sura/effect/muyeong_loop.mse")
 
@@ -520,14 +520,14 @@ def __LoadGameEffect():
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_GICHEON, "Bip01 R Hand", "d:/ymir work/pc/shaman/effect/6gicheon_hand.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_JEUNGRYEOK, "Bip01 L Hand", "d:/ymir work/pc/shaman/effect/jeungryeok_hand.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_PABEOP, "Bip01 Head", "d:/ymir work/pc/sura/effect/pabeop_loop.mse")
-	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_FALLEN_CHEONGEUN, "", "d:/ymir work/pc/warrior/effect/gyeokgongjang_loop.mse") ## √µ±Ÿ√ﬂ (Fallen)
+	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_FALLEN_CHEONGEUN, "", "d:/ymir work/pc/warrior/effect/gyeokgongjang_loop.mse") ## Ï≤úÍ∑ºÏ∂î (Fallen)
 	## 34 Polymoph
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_WAR_FLAG1, "", "d:/ymir work/effect/etc/guild_war_flag/flag_red.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_WAR_FLAG2, "", "d:/ymir work/effect/etc/guild_war_flag/flag_blue.mse")
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_WAR_FLAG3, "", "d:/ymir work/effect/etc/guild_war_flag/flag_yellow.mse")
 
 	if app.ENABLE_WOLFMAN_CHARACTER:
-		chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BLEEDING, "Bip01", "d:/ymir work/effect/hit/blow_poison/bleeding_loop.mse") ## √‚«˜
+		chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BLEEDING, "Bip01", "d:/ymir work/effect/hit/blow_poison/bleeding_loop.mse") ## Ï∂úÌòà
 		chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_RED_POSSESSION, "Bip01", "d:/ymir work/effect/hit/blow_flame/flame_loop_w.mse")
 		chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_AFFECT+chr.AFFECT_BLUE_POSSESSION, "", "d:/ymir work/pc3/common/effect/gyeokgongjang_loop_w.mse")
 
@@ -751,31 +751,31 @@ def __LoadGameEffect():
 	EmoticonStr = "d:/ymir work/effect/etc/emoticon/"
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+0, "", EmoticonStr+"sweat.mse")
-	m2netm2g.RegisterEmoticonString("(»≤¥Á)")
+	m2netm2g.RegisterEmoticonString("(Ìô©Îãπ)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+1, "", EmoticonStr+"money.mse")
-	m2netm2g.RegisterEmoticonString("(µ∑)")
+	m2netm2g.RegisterEmoticonString("(Îèà)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+2, "", EmoticonStr+"happy.mse")
-	m2netm2g.RegisterEmoticonString("(±‚ª›)")
+	m2netm2g.RegisterEmoticonString("(Í∏∞ÏÅ®)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+3, "", EmoticonStr+"love_s.mse")
-	m2netm2g.RegisterEmoticonString("(¡¡æ∆)")
+	m2netm2g.RegisterEmoticonString("(Ï¢ãÏïÑ)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+4, "", EmoticonStr+"love_l.mse")
-	m2netm2g.RegisterEmoticonString("(ªÁ∂˚)")
+	m2netm2g.RegisterEmoticonString("(ÏÇ¨Îûë)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+5, "", EmoticonStr+"angry.mse")
-	m2netm2g.RegisterEmoticonString("(∫–≥Î)")
+	m2netm2g.RegisterEmoticonString("(Î∂ÑÎÖ∏)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+6, "", EmoticonStr+"aha.mse")
-	m2netm2g.RegisterEmoticonString("(æ∆«œ)")
+	m2netm2g.RegisterEmoticonString("(ÏïÑÌïò)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+7, "", EmoticonStr+"gloom.mse")
-	m2netm2g.RegisterEmoticonString("(øÏøÔ)")
+	m2netm2g.RegisterEmoticonString("(Ïö∞Ïö∏)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+8, "", EmoticonStr+"sorry.mse")
-	m2netm2g.RegisterEmoticonString("(¡Àº€)")
+	m2netm2g.RegisterEmoticonString("(Ï£ÑÏÜ°)")
 
 	chrmgrm2g.RegisterEffect(chrmgrm2g.EFFECT_EMOTICON+9, "", EmoticonStr+"!_mix_back.mse")
 	m2netm2g.RegisterEmoticonString("(!)")
@@ -868,7 +868,7 @@ if app.ENABLE_WOLFMAN_CHARACTER:
 
 		## SKILL
 		chrmgrm2g.SetPathName(path + "skill/")
-		for i in xrange(skill.SKILL_EFFECT_COUNT):
+		for i in range(skill.SKILL_EFFECT_COUNT):
 			END_STRING = ""
 			if i != 0: END_STRING = "_%d" % (i)
 			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+1, "split_slash" + END_STRING + ".msa")
@@ -995,7 +995,7 @@ def __LoadGameWarriorEx(race, path):
 
 	## SKILL
 	chrmgrm2g.SetPathName(path + "skill/")
-	for i in xrange(skill.SKILL_EFFECT_COUNT):
+	for i in range(skill.SKILL_EFFECT_COUNT):
 		END_STRING = ""
 		if i != 0: END_STRING = "_%d" % (i+1)
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+1, "samyeon" + END_STRING + ".msa")
@@ -1184,7 +1184,7 @@ def __LoadGameAssassinEx(race, path):
 
 	## SKILL
 	chrmgrm2g.SetPathName(path + "skill/")
-	for i in xrange(skill.SKILL_EFFECT_COUNT):
+	for i in range(skill.SKILL_EFFECT_COUNT):
 		END_STRING = ""
 		if i != 0: END_STRING = "_%d" % (i+1)
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+1, "amseup" + END_STRING + ".msa")
@@ -1401,7 +1401,7 @@ def __LoadGameSuraEx(race, path):
 	chrmgrm2g.SetPathName(path + "skill/")
 	# chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+4, "geongon.msa")
 
-	for i in xrange(skill.SKILL_EFFECT_COUNT):
+	for i in range(skill.SKILL_EFFECT_COUNT):
 		END_STRING = ""
 		if i != 0: END_STRING = "_%d" % (i+1)
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+1, "swaeryeong" + END_STRING + ".msa")
@@ -1631,23 +1631,28 @@ def __LoadGameShamanEx(race, path):
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+24, "chunwoon.msa")
 
 	START_INDEX = 0
-	#skill.SKILL_EFFECT_COUNT ±Ó¡ˆ//
-	for i in xrange(skill.SKILL_EFFECT_COUNT):
+	#skill.SKILL_EFFECT_COUNT ÍπåÏßÄ//
+	for i in range(skill.SKILL_EFFECT_COUNT):
 		END_STRING = ""
 		if i != 0: END_STRING = "_%d" % (i+1)
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+1,	"bipabu" + END_STRING + ".msa")
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+2,	"yongpa" + END_STRING + ".msa")
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+3,	"paeryong" + END_STRING + ".msa")
-		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+4,	"hosin" + END_STRING + ".msa")
-		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+5,	"boho" + END_STRING + ".msa")
-		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+6,	"gicheon" + END_STRING + ".msa")
+		if i != 0:
+			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+4,	"hosin" + END_STRING + ".msa")
+		if i != 0:
+			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+5,	"boho" + END_STRING + ".msa")
+		if i != 0:
+			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+6,	"gicheon" + END_STRING + ".msa")
 		if app.ENABLE_NINETH_SKILL:
 			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+9, "meteo" + END_STRING + ".msa")
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+16,	"noejeon" + END_STRING + ".msa")
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+17,	"byeorak" + END_STRING + ".msa")
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+18,	"pokroe" + END_STRING + ".msa")
-		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+19,	"jeongeop" + END_STRING + ".msa")
-		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+20,	"kwaesok" + END_STRING + ".msa")
+		if i != 0:
+			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+19,	"jeongeop" + END_STRING + ".msa")
+		if i != 0:
+			chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+20,	"kwaesok" + END_STRING + ".msa")
 		chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+21,	"jeungryeok" + END_STRING + ".msa")
 		#chrmgrm2g.RegisterCacheMotionData(chr.MOTION_MODE_GENERAL, chr.MOTION_SKILL+(i*skill.SKILL_GRADEGAP)+10,	"budong" + END_STRING + ".msa")
 		if app.ENABLE_NINETH_SKILL:
@@ -1830,7 +1835,7 @@ def LoadGuildBuildingList(filename):
 
 	handle = app.OpenTextFile(filename)
 	count = app.GetTextFileLineCount(handle)
-	for i in xrange(count):
+	for i in range(count):
 		line = app.GetTextFileLine(handle, i)
 		tokens = line.split("\t")
 
@@ -1908,7 +1913,7 @@ def LoadGuildBuildingList(filename):
 				elif itemID == uiGuild.MATERIAL_PLYWOOD_ID:
 					materialList[uiGuild.MATERIAL_PLYWOOD_INDEX] = count
 
-		## GuildSymbol ¿∫ ¿œπ› NPC µÈ∞˙ «‘≤≤ µÓ∑œ«—¥Ÿ.
+		## GuildSymbol ÏùÄ ÏùºÎ∞ò NPC Îì§Í≥º Ìï®Íªò Îì±Î°ùÌïúÎã§.
 		import chrmgrm2g
 		chrmgrm2g.RegisterRaceSrcName(name, folderName)
 		chrmgrm2g.RegisterRaceName(vnum, name)
@@ -1960,7 +1965,7 @@ def LoadGameData(name):
 		try:
 			load()
 		except:
-			print name
+			print(name)
 			import exception
 			exception.Abort("LoadGameData")
 			raise
@@ -2119,7 +2124,7 @@ def OLD_SetNPC():
 	SetGuard(20347, "jinno_patrol_spear")
 
 	## Warp
-	for i in xrange(18):
+	for i in range(18):
 		SetWarp(10001 + i)
 
 	SetGuard(11000, "gangyo_patrol_spear")

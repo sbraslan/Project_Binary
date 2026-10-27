@@ -69,7 +69,7 @@ class TextLink(ui.Window):
 
 	def OnMouseLeftButtonUp(self):
 		if self.eventFunc:
-			apply(self.eventFunc, self.eventArgs)
+			self.eventFunc(*self.eventArgs)
 		self.OnMouseOverOut()
 
 	def SetEvent(self, event, *args):
@@ -114,7 +114,7 @@ class TicketBoardAdmin(ui.ScriptWindow):
 	def __SetMode(self, __type):
 		_k, _v = [0,1,2,3], [1,2,3,4]
 
-		for i in xrange(len(_k)-4, len(_v)):
+		for i in range(len(_k)-4, len(_v)):
 			if __type == _k[i]:
 				main.ObjectD["mode"][0] = _v[i]
 				main.WindowC["SortMode"][i][0].SetCheck(1)
@@ -146,7 +146,7 @@ class TicketBoardAdmin(ui.ScriptWindow):
 			0xff8ae4ec, 0xff9ff972, 0xffff5555,	0xffff7e12
 		]
 
-		for i in xrange(len(main.ObjectC["Buttons"])):
+		for i in range(len(main.ObjectC["Buttons"])):
 			if main.ObjectC["Buttons"][i].IsIn():
 				main.WindowC["ToolTip_%d", i] = Description.ToolTip()
 				main.WindowC["ToolTip_%d", i].SetPosition(x+5*9, y)
@@ -313,8 +313,8 @@ class TicketBoardInformationsID(ui.ScriptWindow):
 		__passed = [
 			4, 8, 12, 16, 20, 24, 28, 32, 36]
 
-		for i in xrange(0, 4):
-			for j in xrange(1, 10 + 1):
+		for i in range(0, 4):
+			for j in range(1, 10 + 1):
 				if __page == 1:
 					self.__ReloadPacketLogs(i, i)
 				else:
@@ -358,7 +358,7 @@ class TicketBoardInformationsID(ui.ScriptWindow):
 		# self.__ResetFields()
 
 	def AppendLogs(self):
-		for row in xrange(ticket.TICKET_MAX_LOGS_FROM_REPLY):
+		for row in range(ticket.TICKET_MAX_LOGS_FROM_REPLY):
 			__resRow = ticket.GetLogsReply(row)
 			__reply_from, __reply_content, __reply_date = str(__resRow[0]), str(__resRow[1]), str(__resRow[2])
 
@@ -537,14 +537,14 @@ class TicketBoard(ui.ScriptWindow):
 
 		__list = ["ticked_id", "title", "priority", "status", "content", "create_date", "char_name"]
 
-		for row in xrange(len(__list)):
+		for row in range(len(__list)):
 			main.WindowD[__list[row]] = main.LoadingDataA[__list[row]].get(__startValues)
 		main.LiveStatus = __startValues
 
 	def __ReloadPacketLogs(self, __startValues, __endValues):
 		__list = ["ticked_id", "title", "priority", "create_date", "status"]
 
-		for row in xrange(len(__list)):
+		for row in range(len(__list)):
 			main.TextLineA[__list[row]][__startValues].SetText(main.LoadingDataA[__list[row]].get(__endValues))
 
 	def __SetUsablePage(self, __page):
@@ -560,8 +560,8 @@ class TicketBoard(ui.ScriptWindow):
 			160,
 			180
 		]
-		for i in xrange(0, ticket.TICKET_LOGS_PER_PAGE):
-			for j in xrange(1, ticket.TICKET_MAX_PAGE_LOGS + 1):
+		for i in range(0, ticket.TICKET_LOGS_PER_PAGE):
+			for j in range(1, ticket.TICKET_MAX_PAGE_LOGS + 1):
 				if __page == 1:
 					self.__ReloadPacketLogs(i, i)
 				else:
@@ -573,7 +573,7 @@ class TicketBoard(ui.ScriptWindow):
 	def __SetUsablePageAdmin(self, __page):
 		self.__page = __page
 
-		for i in xrange(0, ticket.TICKET_LOGS_PER_PAGE):
+		for i in range(0, ticket.TICKET_LOGS_PER_PAGE):
 			self.__ReloadPacketLogs(i, i)
 
 		main.WindowA["CurrentPage"].SetText(localeInfo.TICKET_CURRENT_PAGE_A % (self.__page, ticket.TICKET_MAX_PAGE_LOGS_ADMIN))	
@@ -608,7 +608,7 @@ class TicketBoard(ui.ScriptWindow):
 	def __SetTypePriority(self, __type):
 		_k, _v = [0,1,2], [1,2,3]
 
-		for i in xrange(len(_k)-3, len(_v)):
+		for i in range(len(_k)-3, len(_v)):
 			if __type == _k[i]:
 				main.ObjectD["selected"][0] = _v[i]
 				main.WindowA["priority"][i][0].SetCheck(1)
@@ -640,7 +640,7 @@ class TicketBoard(ui.ScriptWindow):
 		# self.__ResetFields()
 
 	def AppendLogs(self):
-		for row in xrange(ticket.TICKET_MAX_LOGS_GENERAL):
+		for row in range(ticket.TICKET_MAX_LOGS_GENERAL):
 			__resRow = ticket.GetLogByID(row)
 			__ticked_id, __title, __content, __priority, __create_date, __status = str(__resRow[0]), str(__resRow[1]), str(__resRow[2]), int(__resRow[3]), str(__resRow[4]), int(__resRow[5])
 
@@ -718,7 +718,7 @@ class TicketBoard(ui.ScriptWindow):
 			0xffffce00
 		]
 
-		for i in xrange(len(main.ObjectA["Buttons"])):
+		for i in range(len(main.ObjectA["Buttons"])):
 			if main.ObjectA["Buttons"][i].IsIn():
 				main.WindowA["ToolTip_%d", i] = Description.ToolTip()
 				main.WindowA["ToolTip_%d", i].SetPosition(x+25*2, y)

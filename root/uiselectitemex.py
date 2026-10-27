@@ -44,7 +44,7 @@ class SelectItemWindowEx(ui.ScriptWindow):
 		self.itemSlot.SetOverOutItemEvent(ui.__mem_func__(self.OverOutItem))
 
 	def Open(self):
-		print "Open"
+		print("Open")
 		self.RefreshSlot()
 		self.Show()
 
@@ -87,7 +87,7 @@ class SelectItemWindowEx(ui.ScriptWindow):
 			else:
 				ITEM_SLOT_COUNT = playerm2g2.ITEM_SLOT_COUNT
 
-			for i in xrange(ITEM_SLOT_COUNT):	## 45 * 4
+			for i in range(ITEM_SLOT_COUNT):	## 45 * 4
 				slotNumber = i
 
 				itemVNum = getItemVNum(slotNumber)
@@ -108,7 +108,7 @@ class SelectItemWindowEx(ui.ScriptWindow):
 				if slotPos > 54:
 					break
 		else: 
-			for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*2):
+			for i in range(playerm2g2.INVENTORY_PAGE_SIZE*2):
 				slotNumber = i
 
 				itemVNum = getItemVNum(slotNumber)
@@ -143,7 +143,7 @@ class SelectItemWindowEx(ui.ScriptWindow):
 				lineCount += 1
 			self.SetTableSize(lineCount)
 
-		for selectWndPos, inventoryPos in self.inventorySlotPosDict.items():
+		for selectWndPos, inventoryPos in list(self.inventorySlotPosDict.items()):
 			itemVNum = getItemVNum(inventoryPos)
 			itemCount = getItemCount(inventoryPos)
 

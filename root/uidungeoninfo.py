@@ -388,7 +388,7 @@ class DungeonRankingWindow(ui.ScriptWindow):
 		myRank = 0
 		myPoints = 0
 
-		for line, slot in self.resultSlotList.items():
+		for line, slot in list(self.resultSlotList.items()):
 			nowIndex = line
 
 			if nowIndex >= dungeonInfo.GetRankingCount():
@@ -437,7 +437,7 @@ class DungeonRankingWindow(ui.ScriptWindow):
 					self.myResultSlotList[self.SLOT_POINT].SetText(myPoints)
 
 	def AllClear(self):
-		for line, resultSlotList in self.resultSlotList.items():
+		for line, resultSlotList in list(self.resultSlotList.items()):
 			resultSlotList[self.SLOT_RANKING].SetText("")
 			resultSlotList[self.SLOT_NAME].SetText("")
 			resultSlotList[self.SLOT_LEVEL].SetText("")
@@ -706,7 +706,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 			self.popUp = popUp
 
 			chatm2g.AppendChat(7, "DungeonI Count %d" % dungeonInfo.GetCount())
-		for key in xrange(min(dungeonInfo.MAX_DUNGEON_SCROLL, dungeonInfo.GetCount())):
+		for key in range(min(dungeonInfo.MAX_DUNGEON_SCROLL, dungeonInfo.GetCount())):
 			toggleButton = ListToggleButton(self.buttonListThinBoard, key)
 
 			toggleButton.SetKey(key)
@@ -773,7 +773,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 		scrollLineCount = max(0, count - dungeonInfo.MAX_DUNGEON_SCROLL)
 		self.scrollPos = int(scrollLineCount * self.scrollBar.GetPos())
 
-		for key in xrange(min(dungeonInfo.MAX_DUNGEON_SCROLL, dungeonInfo.GetCount())):
+		for key in range(min(dungeonInfo.MAX_DUNGEON_SCROLL, dungeonInfo.GetCount())):
 			scrollKey = key + self.scrollPos
 
 			try:
@@ -834,7 +834,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 			renderTarget.SetZoom(RENDER_BACKGROUND_INDEX, self.previewZoom)
 
 	def CheckDungeonStatus(self):
-		for key in xrange(len(self.toggleButtonObjList)):
+		for key in range(len(self.toggleButtonObjList)):
 			try:
 				toggleBtn = self.toggleButtonObjList[key]
 				realKey = toggleBtn.GetKey()
@@ -865,7 +865,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 		try:
 			toggleBtn = self.toggleButtonObjList[key]
 			key = toggleBtn.GetKey()
-			print key
+			print(key)
 
 			self.titleNameText.SetText("%s" % localeInfo.GetMiniMapZoneNameByIdx(dungeonInfo.GetMapIndex(key)))
 			self.previewNameText.SetText("%s" % nonplayer.GetMonsterName(dungeonInfo.GetBossVnum(key)))
@@ -924,7 +924,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 			# />
 
 			# Required Item Slot
-			for slotPos in xrange(self.reqItemSlot.GetSlotCount()):
+			for slotPos in range(self.reqItemSlot.GetSlotCount()):
 				itemVnum = dungeonInfo.GetRequiredItemVnum(key, slotPos)
 				itemCount = dungeonInfo.GetRequiredItemCount(key, slotPos)
 
@@ -1212,12 +1212,12 @@ class DungeonInfoWindow(ui.ScriptWindow):
 
 			# Set metin slot.
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(0)
 
 			# Set attr. slot.
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append((0, 0))
 
 			# Set tooltip item data.
@@ -1294,7 +1294,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 	# Clear boss box inventory.
 	def ClearBoxInventory(self):
 		# Clear all slots from box inventory.
-		for slotPos in xrange(self.boxItemSlot.GetSlotCount()):
+		for slotPos in range(self.boxItemSlot.GetSlotCount()):
 			self.boxItemSlot.ClearSlot(slotPos)
 			self.boxItemSlot.HideSlotBaseImage(slotPos)
 			self.boxItemSlot.EnableCoverButton(slotPos)
@@ -1323,7 +1323,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 
 		# Check if there are drops.
 		if bossDropCount != 0:
-			for slotPos in xrange(self.boxItemSlot.GetSlotCount()):
+			for slotPos in range(self.boxItemSlot.GetSlotCount()):
 				try:
 					globalPos = slotPos #self.__GetBoxGridGlobalSlotPos(slotPos)
 
@@ -1370,7 +1370,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 			if attBonusCount != 0:
 				self.toolTip.SetTitle(localeInfo.DUNGEON_INFO_ELEMENT_ATK_BONUS)
 
-				for index in xrange(attBonusCount):
+				for index in range(attBonusCount):
 					# Get affect type of att. bonus.
 					affectType = dungeonInfo.GetAttBonus(key, index)
 					if affectType != 0:
@@ -1507,7 +1507,7 @@ class DungeonInfoWindow(ui.ScriptWindow):
 		toolTip = uiToolTip.ToolTip()
 		toolTip.SetTitle(title)
 
-		for desc in descList.itervalues():
+		for desc in list(descList.values()):
 			if desc == "[ENTER]":
 				# Show horizontal line if token is found in desc.
 				toolTip.AppendHorizontalLine()

@@ -213,8 +213,8 @@ class ListBoxItems(ui.Window):
 			self.text_rows = []
 
 			line_count = 0
-			for row_lines in xrange(len(lines)):
-				for sub_lines in xrange(len(lines[row_lines])):
+			for row_lines in range(len(lines)):
+				for sub_lines in range(len(lines[row_lines])):
 					row_image = ui.MakeExpandedImageBox(self, IMAGE_PATH + "patchnote_middle.png", 0, 22 + 15 * line_count, "not_pick")
 					row_image.SetParent(self)
 					row_image.Show()
@@ -270,10 +270,10 @@ class ListBoxItems(ui.Window):
 				self.textVersion.Show()
 				self.textDate.Show()
 
-			for i in xrange(len(self.text_backgrounds)):
+			for i in range(len(self.text_backgrounds)):
 				self.text_backgrounds[i].SetClipRect(xList, yList, xList + self.parent.GetWidth(), yList + self.parent.GetHeight())
 
-			for i in xrange(len(self.text_rows)):
+			for i in range(len(self.text_rows)):
 				xText, yText = self.text_rows[i].GetGlobalPosition()
 				wText, hText = self.text_rows[i].GetWidth(), 13
 
@@ -299,7 +299,7 @@ class ListBoxItems(ui.Window):
 
 	def GetObjectCount(self):
 		count = 0
-		for i in xrange(len(self.object_list)):
+		for i in range(len(self.object_list)):
 			count += 1
 		return count
 
@@ -316,7 +316,7 @@ class ListBoxItems(ui.Window):
 
 		totalHeight -= self.GetHeight()
 
-		for i in xrange(len(self.object_list)):
+		for i in range(len(self.object_list)):
 			x, y = self.object_list[i].GetLocalPosition()
 			xB, yB = self.object_list[i].GetBasePosition()
 			setPos = yB - int(scrollPos * totalHeight)
@@ -327,8 +327,8 @@ class ListBoxItems(ui.Window):
 		item = self.Item(self, self.index_list, title, lines)
 
 		line_count = 0
-		for row_lines in xrange(len(lines)):
-			for sub_lines in xrange(len(lines[row_lines])):
+		for row_lines in range(len(lines)):
+			for sub_lines in range(len(lines[row_lines])):
 				line_count += 15
 
 		item.SetSize(639, 30 + line_count + 4 + 4)

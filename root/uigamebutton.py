@@ -21,7 +21,7 @@ class GameButtonWindow(ui.ScriptWindow):
 		try:
 			pyScrLoader = ui.PythonScriptLoader()
 			pyScrLoader.LoadScriptFile(self, filename)
-		except Exception, msg:
+		except Exception as msg:
 			import dbg
 			dbg.TraceError("GameButtonWindow.LoadScript - %s" % (msg))
 			app.Abort()
@@ -53,7 +53,7 @@ class GameButtonWindow(ui.ScriptWindow):
 				posx, posy = self.gameButtonDict["EXIT_OBSERVER"].GetGlobalPosition()
 				self.gameButtonDict["EXIT_OBSERVER"].SetPosition(posx, posy - 25 )
 
-		except Exception, msg:
+		except Exception as msg:
 			import dbg
 			dbg.TraceError("GameButtonWindow.LoadScript - %s" % (msg))
 			app.Abort()
@@ -104,8 +104,8 @@ class GameButtonWindow(ui.ScriptWindow):
 	def SetButtonEvent(self, name, event):
 		try:
 			self.gameButtonDict[name].SetEvent(event)
-		except Exception, msg:
-			print "GameButtonWindow.LoadScript - %s" % (msg)
+		except Exception as msg:
+			print(("GameButtonWindow.LoadScript - %s" % (msg)))
 			app.Abort()
 			return
 
@@ -155,7 +155,7 @@ class GameButtonWindow(ui.ScriptWindow):
 		m2netm2g.SendChatPacket("/observer_exit")
 
 	def __HideAllGameButton(self):
-		for btn in self.gameButtonDict.values():
+		for btn in list(self.gameButtonDict.values()):
 			btn.Hide()
 
 	if app.ENABLE_GUILDRENEWAL_SYSTEM:

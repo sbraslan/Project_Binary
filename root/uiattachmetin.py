@@ -101,11 +101,11 @@ class AttachMetinDialog(ui.ScriptWindow):
 
 			## Old Item ToolTip (left side)
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetItemMetinSocket(targetItemWindow, targetItemPos, i))
 
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(playerm2g2.GetItemAttribute(targetItemWindow, targetItemPos, i))
 
 			#if app.ENABLE_REFINE_ELEMENT:
@@ -113,11 +113,11 @@ class AttachMetinDialog(ui.ScriptWindow):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				apply_random_list = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(playerm2g2.GetItemApplyRandom(targetItemWindow, targetItemPos, i))
 
 				randomValue = []
-				for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randomValue.append(playerm2g2.GetRandomValue(targetItemWindow, targetItemPos, i))
 
 			if app.ENABLE_SET_ITEM:
@@ -131,16 +131,16 @@ class AttachMetinDialog(ui.ScriptWindow):
 			metinSubType = item.GetItemSubType()
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetItemMetinSocket(targetItemWindow, targetItemPos, i))
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				slotData = metinSlot[i]
 				if self.CanAttachMetin(slotData, metinSubType):
 					metinSlot[i] = metinIndex
 					break
 
 			attrSlot = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				attrSlot.append(playerm2g2.GetItemAttribute(targetItemWindow, targetItemPos, i))
 
 			#if app.ENABLE_REFINE_ELEMENT:
@@ -148,11 +148,11 @@ class AttachMetinDialog(ui.ScriptWindow):
 
 			if app.ENABLE_YOHARA_SYSTEM:
 				apply_random_list = []
-				for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(playerm2g2.GetItemApplyRandom(targetItemWindow, targetItemPos, i))
 
 				randomValue = []
-				for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randomValue.append(playerm2g2.GetRandomValue(targetItemWindow, targetItemPos, i))
 
 			if app.ENABLE_SET_ITEM:
@@ -184,7 +184,7 @@ class AttachMetinDialog(ui.ScriptWindow):
 
 			## Old Item ToolTip
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetItemMetinSocket(targetItemPos, i))
 			self.oldToolTip.AddItemData(itemIndex, metinSlot)
 
@@ -193,9 +193,9 @@ class AttachMetinDialog(ui.ScriptWindow):
 			metinSubType = item.GetItemSubType()
 
 			metinSlot = []
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetItemMetinSocket(targetItemPos, i))
-			for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				slotData = metinSlot[i]
 				if self.CanAttachMetin(slotData, metinSubType):
 					metinSlot[i] = metinIndex

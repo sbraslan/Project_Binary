@@ -165,7 +165,7 @@ class WikiScrollBar(ui.Window):
 		self.sizeScale = 1.0
 
 		self.bars = []
-		for i in xrange(self.BAR_NUMB):
+		for i in range(self.BAR_NUMB):
 			br = ui.Bar()
 			br.SetParent(self)
 			br.AddFlag("attach")
@@ -349,7 +349,7 @@ class WikiBuildGrid(ui.ScriptWindow):
 			main_grid_height = self.grid_elements[0].GetHeight()
 			main_grid_final_pos = main_grid_height + main_grid_pos_y
 
-			for i in xrange(REFACT_COUNT):
+			for i in range(REFACT_COUNT):
 				tmpGrid = ui.ExpandedImageBoxWiki()
 				tmpGrid.SetParent(self.backgroundParent)
 				tmpGrid.AddFlag("attach")
@@ -391,7 +391,7 @@ class SubCategObject(ui.Window):
 		new_text = ""
 		self.bannerFileName = None
 
-		if type(text) == types.ListType:
+		if type(text) == list:
 			new_text = text[0]
 			self.mArgs = text[1]
 			if len(text) > 2:
@@ -543,7 +543,7 @@ class WikiCategory(ui.Window):
 		self.expandWnd.Show()
 
 		self.bars = []
-		for i in xrange(self.TICK_COUNT):
+		for i in range(self.TICK_COUNT):
 			br = ui.Bar()
 			br.SetParent(self.expandWnd)
 			br.AddFlag("attach")
@@ -578,7 +578,7 @@ class WikiCategory(ui.Window):
 				wikiClass.header.Hide()
 
 		if self.clickEvent:
-			apply(self.clickEvent, elem.mArgs)
+			self.clickEvent(*elem.mArgs)
 
 	def UnselectSubCategory(self):
 		self.categList.SelectIndex(-1)
@@ -711,7 +711,7 @@ class WikiCategories(ui.Window):
 			ind = (self.elements.index(obj) + 1)
 
 		if ind < len(self.elements):
-			for i in xrange(ind, len(self.elements)):
+			for i in range(ind, len(self.elements)):
 				pos_y = (self.elements[(i - 1)].GetLocalPosition()[1] + self.elements[(i - 1)].GetHeight() + self.CATEGORY_PADDING)
 				self.elements[i].SetPosition(0, pos_y)
 
@@ -808,12 +808,12 @@ class WikiMainWeaponWindow(ui.Window):
 		for idx in range(STARTING_MAT_COUNT + 1, wiki.REFINE_MATERIAL_MAX_NUM + 1):
 			ROW_HEIGHTS_EXPANDED.update({idx : ([21, 44, 42, 22], [])})
 
-			for insert_values in xrange(idx - STARTING_MAT_COUNT):
+			for insert_values in range(idx - STARTING_MAT_COUNT):
 				ROW_HEIGHTS_EXPANDED[idx][0].insert((2 + insert_values), 47)
 
-			for build_pos in xrange(len(ROW_HEIGHTS_EXPANDED[idx][0])):
+			for build_pos in range(len(ROW_HEIGHTS_EXPANDED[idx][0])):
 				new_pos = 0
-				for idx_pos in xrange(build_pos):
+				for idx_pos in range(build_pos):
 					new_pos += (ROW_HEIGHTS_EXPANDED[idx][0][idx_pos] + 1)
 
 				ROW_HEIGHTS_EXPANDED[idx][1].append(new_pos)
@@ -825,7 +825,7 @@ class WikiMainWeaponWindow(ui.Window):
 
 			wikiBase = wiki.GetBaseClass()
 			if id(self) not in wikiBase.objList:
-				wikiBase.objList[long(id(self))] = proxy(self)
+				wikiBase.objList[int(id(self))] = proxy(self)
 
 			self.scrollBoard = None
 			self.scrollBar = None
@@ -870,7 +870,7 @@ class WikiMainWeaponWindow(ui.Window):
 				tmp.refineMat = []
 				tmp.refineMatText = []
 
-				for j in xrange(self.STARTING_MAT_COUNT):
+				for j in range(self.STARTING_MAT_COUNT):
 					tmp.refineMat.append(ui.ExpandedImageBoxWiki())
 					tmp.refineMat[j].SetParent(tmp)
 					tmp.refineMat[j].Show()
@@ -901,7 +901,7 @@ class WikiMainWeaponWindow(ui.Window):
 			self.upgradeText.SetPosition(49 + 81 / 2 - self.upgradeText.GetTextSize()[0] / 2, 21 + self.ROW_START_Y[0] + self.ROW_HEIGHTS[0] / 2 - self.upgradeText.GetTextSize()[1] / 2 - 1)
 			self.upgradeText.Show()
 
-			for i in xrange(item.LIMIT_MAX_NUM):
+			for i in range(item.LIMIT_MAX_NUM):
 				(limitType, limitValue) = item.GetLimit(i)
 				if item.LIMIT_LEVEL == limitType:
 					self.levelLimit = limitValue
@@ -946,14 +946,14 @@ class WikiMainWeaponWindow(ui.Window):
 
 		def __del__(self):
 			if wiki.GetBaseClass():
-				wiki.GetBaseClass().objList.pop(long(id(self)))
+				wiki.GetBaseClass().objList.pop(int(id(self)))
 
 			ui.Window.__del__(self)
 
 		def GetMaterialCount(self, refine_count, retInfo):
 			maxMat = self.STARTING_MAT_COUNT
 
-			for i in xrange(refine_count):
+			for i in range(refine_count):
 				curr = 0
 
 				for j in retInfo[i][1]:
@@ -970,7 +970,7 @@ class WikiMainWeaponWindow(ui.Window):
 			return maxMat
 
 		def ProcessRetInfo(self, retInfo, maxMat, moneyRow, useHeight, useStart, starting_col = 0):
-			for i in xrange(wiki.MAX_REFINE_COUNT):
+			for i in range(wiki.MAX_REFINE_COUNT):
 				money = MakeMoneyText(retInfo[(i+starting_col)][0])
 
 				currWindow = self.cols[i+1]
@@ -1060,7 +1060,7 @@ class WikiMainWeaponWindow(ui.Window):
 				tmp.refineMat = []
 				tmp.refineMatText = []
 
-				for j in xrange(materialCount):
+				for j in range(materialCount):
 					tmp.refineMat.append(ui.ExpandedImageBoxWiki())
 					tmp.refineMat[j].SetParent(tmp)
 					tmp.refineMat[j].Show()
@@ -1142,7 +1142,7 @@ class WikiMainWeaponWindow(ui.Window):
 			if wiki.IsSet(self.vnum) or not hasattr(self.parent, "loadFrom") or\
 				self.parent.loadFrom == self.parent.loadTo:
 				self.additionalLoaded = True
-				wiki.LoadInfo(long(id(self)), self.vnum)
+				wiki.LoadInfo(int(id(self)), self.vnum)
 
 	"""Static values!
 		Please dont touch on them."""
@@ -1280,7 +1280,7 @@ class WikiMainWeaponWindow(ui.Window):
 			return
 
 		self.toolTip.ClearToolTip()
-		self.toolTip.AddItemData(vnum, [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+		self.toolTip.AddItemData(vnum, [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 
 	def OnOverOut(self):
 		if not self.toolTip:
@@ -1344,7 +1344,7 @@ class WikiMainWeaponWindow(ui.Window):
 		if totalElem > 0:
 			lastIndex = 0
 
-			for i in xrange(totalElem):
+			for i in range(totalElem):
 				if self.elements[i].levelLimit < tmp.levelLimit or self.elements[i].levelLimit == tmp.levelLimit and self.elements[i].vnum < tmp.vnum:
 					break
 
@@ -1353,7 +1353,7 @@ class WikiMainWeaponWindow(ui.Window):
 			self.elements.insert(lastIndex, tmp)
 			totalElem += 1
 
-			for i in xrange(lastIndex, totalElem):
+			for i in range(lastIndex, totalElem):
 				self.elements[i].SetPosition(0,\
 							(0 if i == 0 else self.elements[i - 1].GetLocalPosition()[1] + self.elements[i - 1].GetHeight() + self.ELEM_PADDING))
 
@@ -1451,7 +1451,7 @@ class ChestPeekWindow(ui.Window):
 		if not self.scrollBar:
 			self.RegisterScrollBar()
 
-		metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]
+		metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]
 		if vnumFrom == 8:
 			vnumFrom = 70104
 			metinSlot[0] = vnumTo
@@ -1507,12 +1507,12 @@ class ChestPeekWindow(ui.Window):
 			totalLine = (currAdd % self.ELEM_PER_LINE)
 			currH = (math.floor(currAdd / self.ELEM_PER_LINE) * (32 + self.ELEM_PADDING))
 
-			for i in xrange(tmp.itemSize):
+			for i in range(tmp.itemSize):
 				self.posMap[currAdd + i * self.ELEM_PER_LINE] = True
 
 			tmp.SetPosition(1 + totalLine * (36 + self.ELEM_X_PADDING), 0 + currH)
 		else:
-			for i in xrange(tmp.itemSize):
+			for i in range(tmp.itemSize):
 				self.posMap[i * self.ELEM_PER_LINE] = True
 
 			tmp.SetPosition(1, 0)
@@ -1579,7 +1579,7 @@ class WikiMainChestWindow(ui.Window):
 
 			wikiBase = wiki.GetBaseClass()
 			if id(self) not in wikiBase.objList:
-				wikiBase.objList[long(id(self))] = proxy(self)
+				wikiBase.objList[int(id(self))] = proxy(self)
 
 			self.base = ui.ExpandedImageBoxWiki()
 			self.base.SetParent(self)
@@ -1636,7 +1636,7 @@ class WikiMainChestWindow(ui.Window):
 
 		def __del__(self):
 			if wiki.GetBaseClass():
-				wiki.GetBaseClass().objList.pop(long(id(self)))
+				wiki.GetBaseClass().objList.pop(int(id(self)))
 
 			ui.Window.__del__(self)
 
@@ -1709,7 +1709,7 @@ class WikiMainChestWindow(ui.Window):
 				size = item.GetItemSize()[1]
 
 				lastPos = 0
-				for k in xrange(len(sizeLst)):
+				for k in range(len(sizeLst)):
 					if sizeLst[k] < size:
 						break
 
@@ -1731,7 +1731,7 @@ class WikiMainChestWindow(ui.Window):
 
 			if wiki.IsSet(self.vnum) or self.parent.loadFrom == self.parent.loadTo:
 				self.additionalLoaded = True
-				wiki.LoadInfo(long(id(self)), self.vnum)
+				wiki.LoadInfo(int(id(self)), self.vnum)
 
 	"""Static values!
 		Please dont touch on them."""
@@ -1806,7 +1806,7 @@ class WikiMainChestWindow(ui.Window):
 			self.scrollBoard.SetSize(0, 0)
 			self.UpdateScrollbar()
 
-	def OnOverIn(self, vnum, metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]):
+	def OnOverIn(self, vnum, metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]):
 		if not self.toolTip:
 			return
 
@@ -1821,8 +1821,8 @@ class WikiMainChestWindow(ui.Window):
 
 	def OnUpdate(self):
 		if self.loadFrom < self.loadTo:
-			for i in xrange(self.loadFrom, min(self.loadTo, self.loadFrom + self.ITEM_LOAD_PER_UPDATE)):
-				if type(self.chestVnums[i]) == types.ListType:
+			for i in range(self.loadFrom, min(self.loadTo, self.loadFrom + self.ITEM_LOAD_PER_UPDATE)):
+				if type(self.chestVnums[i]) == list:
 					for idx in self.chestVnums[i]:
 						self.AddItem(idx)
 				else:
@@ -1849,7 +1849,7 @@ class WikiMainChestWindow(ui.Window):
 			self.elements.insert(lastIndex, tmp)
 			totalElem += 1
 
-			for i in xrange(lastIndex, totalElem):
+			for i in range(lastIndex, totalElem):
 				self.elements[i].SetPosition(0,\
 					(0 if i == 0 else self.elements[i - 1].GetLocalPosition()[1] + self.elements[i - 1].GetHeight() + self.ELEM_PADDING))
 
@@ -1913,7 +1913,7 @@ class WikiMainBossWindow(ui.Window):
 
 			wikiBase = wiki.GetBaseClass()
 			if id(self) not in wikiBase.objList:
-				wikiBase.objList[long(id(self))] = proxy(self)
+				wikiBase.objList[int(id(self))] = proxy(self)
 
 			self.additionalLoaded = False
 
@@ -1971,7 +1971,7 @@ class WikiMainBossWindow(ui.Window):
 
 		def __del__(self):
 			if wiki.GetBaseClass():
-				wiki.GetBaseClass().objList.pop(long(id(self)))
+				wiki.GetBaseClass().objList.pop(int(id(self)))
 
 			ui.Window.__del__(self)
 
@@ -2027,7 +2027,7 @@ class WikiMainBossWindow(ui.Window):
 				size = item.GetItemSize()[1]
 
 				lastPos = 0
-				for k in xrange(len(sizeLst)):
+				for k in range(len(sizeLst)):
 					if sizeLst[k] < size:
 						break
 
@@ -2050,7 +2050,7 @@ class WikiMainBossWindow(ui.Window):
 				self.modelView.SetModel(self.vnum)
 				self.modelView.Show()
 
-				wiki.LoadInfo(long(id(self)), self.vnum, True)
+				wiki.LoadInfo(int(id(self)), self.vnum, True)
 
 	"""Static values!
 		Please dont touch on them."""
@@ -2121,7 +2121,7 @@ class WikiMainBossWindow(ui.Window):
 	def Hide(self):
 		wndMgr.Hide(self.hWnd)
 
-	def OnOverIn(self, vnum, metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]):
+	def OnOverIn(self, vnum, metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]):
 		if not self.toolTip:
 			return
 
@@ -2158,7 +2158,7 @@ class WikiMainBossWindow(ui.Window):
 		if totalElem > 0:
 			lastIndex = 0
 
-			for i in xrange(totalElem):
+			for i in range(totalElem):
 				if self.elements[i].vnum < tmp.vnum:
 					break
 
@@ -2167,7 +2167,7 @@ class WikiMainBossWindow(ui.Window):
 			self.elements.insert(lastIndex, tmp)
 			totalElem += 1
 
-			for i in xrange(lastIndex, totalElem):
+			for i in range(lastIndex, totalElem):
 				self.elements[i].SetPosition(0,\
 						(0 if i ==0 else self.elements[i - 1].GetLocalPosition()[1] + self.elements[i - 1].GetHeight() + self.ELEM_PADDING))
 
@@ -2310,11 +2310,11 @@ class WikiMonsterBonusInfoWindow(ui.Window):
 		dwImmuneFlag = nonplayer.GetMonsterImmuneFlag(self.vnum)
 
 		immuneflags = ""
-		for i in xrange(nonplayer.IMMUNE_FLAG_MAX_NUM):
+		for i in range(nonplayer.IMMUNE_FLAG_MAX_NUM):
 			curFlag = 1 << i
 
 			if HAS_FLAG(dwImmuneFlag, curFlag):
-				if self.IMMUNE_FLAG_TO_NAME.has_key(curFlag):
+				if curFlag in self.IMMUNE_FLAG_TO_NAME:
 					immuneflags += self.IMMUNE_FLAG_TO_NAME[curFlag] + ", "
 
 		immuneflags = (immuneflags[:-2] if len(immuneflags) else localeInfo.WIKI_MONSTERINFO_IMMUNE_NOTHING)
@@ -2324,11 +2324,11 @@ class WikiMonsterBonusInfoWindow(ui.Window):
 		dwRaceFlag = nonplayer.GetMonsterRaceFlag(self.vnum)
 		(mainrace, subrace) = ("", "")
 
-		for i in xrange(nonplayer.RACE_FLAG_MAX_NUM):
+		for i in range(nonplayer.RACE_FLAG_MAX_NUM):
 			curFlag = 1 << i
 
 			if HAS_FLAG(dwRaceFlag, curFlag):
-				if self.RACE_FLAG_TO_NAME.has_key(curFlag):
+				if curFlag in self.RACE_FLAG_TO_NAME:
 					mainrace += self.RACE_FLAG_TO_NAME[curFlag] + ", "
 
 		if nonplayer.IsMonsterStone(self.vnum):
@@ -2371,7 +2371,7 @@ class WikiMonsterBonusInfoWindow(ui.Window):
 			self.elements.insert(lastIndex, tmp)
 			totalElem += 1
 
-			for i in xrange(lastIndex, totalElem):
+			for i in range(lastIndex, totalElem):
 				self.elements[i].SetPosition(0,\
 					(0 if i == 0 else self.elements[i - 1].GetLocalPosition()[1] + self.elements[i - 1].GetHeight() + self.ELEM_PADDING))
 
@@ -2519,7 +2519,7 @@ class WikiItemOriginInfo(ui.Window):
 			self.elements.insert(lastIndex, tmp)
 			totalElem += 1
 
-			for i in xrange(lastIndex, totalElem):
+			for i in range(lastIndex, totalElem):
 				self.elements[i].SetPosition(0,
 						(0 if i == 0 else self.elements[i - 1].GetLocalPosition()[1] + self.elements[i - 1].GetHeight() + self.ELEM_PADDING))
 			
@@ -2585,7 +2585,7 @@ class SpecialPageWindow(ui.Window):
 
 		wikiBase = wiki.GetBaseClass()
 		if id(self) not in wikiBase.objList:
-			wikiBase.objList[long(id(self))] = proxy(self)
+			wikiBase.objList[int(id(self))] = proxy(self)
 
 		self.vnum = vnum
 		self.isMonster = isMonster
@@ -2715,7 +2715,7 @@ class SpecialPageWindow(ui.Window):
 
 	def __del__(self):
 		if wiki.GetBaseClass():
-			wiki.GetBaseClass().objList.pop(long(id(self)))
+			wiki.GetBaseClass().objList.pop(int(id(self)))
 
 		ui.Window.__del__(self)
 
@@ -2741,7 +2741,7 @@ class SpecialPageWindow(ui.Window):
 		if self.bonusScrollBoard:
 			self.bonusScrollBoard.SetPosition(0, curr)
 
-	def OnOverIn(self, vnum, metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]):
+	def OnOverIn(self, vnum, metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]):
 		if not self.toolTip:
 			return
 
@@ -2770,7 +2770,7 @@ class SpecialPageWindow(ui.Window):
 			return
 
 		if not wiki.IsSet(self.vnum, True):
-			wiki.LoadInfo(long(id(self)), self.vnum, True)
+			wiki.LoadInfo(int(id(self)), self.vnum, True)
 			return
 
 		lst = wiki.GetMobInfo(self.vnum)
@@ -2788,7 +2788,7 @@ class SpecialPageWindow(ui.Window):
 			size = item.GetItemSize()[1]
 
 			lastPos = 0
-			for k in xrange(len(sizeLst)):
+			for k in range(len(sizeLst)):
 				if sizeLst[k] < size:
 					break
 
@@ -2868,13 +2868,13 @@ class SimpleTextLoader(ui.Window):
 	def GetColorFromString(self, strCol):
 		retData = []
 		dNum = 4
-		hCol = long(strCol, 16)
+		hCol = int(strCol, 16)
 
 		if hCol <= 0xFFFFFF:
 			retData.append(1.0)
 			dNum = 3
 
-		for i in xrange(dNum):
+		for i in range(dNum):
 			retData.append(float((hCol >> (8 * i)) & 0xFF) / 255.0)
 
 		retData.reverse()
@@ -2894,14 +2894,14 @@ class SimpleTextLoader(ui.Window):
 			(ret, tokenMap, i) = self.ParseToken(i)
 
 			if ret:
-				if tokenMap.has_key("banner_img"):
+				if "banner_img" in tokenMap:
 					if wiki.GetBaseClass():
 						wiki.GetBaseClass().header.LoadImage(tokenMap["banner_img"])
 						wiki.GetBaseClass().header.Show()
 
 					tokenMap.pop("banner_img")
 
-				if tokenMap.has_key("img"):
+				if "img" in tokenMap:
 					cimg = ui.ExpandedImageBoxWiki()
 					cimg.SetParent(self.scrollBoard)
 					cimg.AddFlag("attach")
@@ -2912,19 +2912,19 @@ class SimpleTextLoader(ui.Window):
 					tokenMap.pop("img")
 
 					x = 0
-					if tokenMap.has_key("x"):
+					if "x" in tokenMap:
 						x = int(tokenMap["x"])
 						tokenMap.pop("x")
 
 					y = 0
-					if tokenMap.has_key("y"):
+					if "y" in tokenMap:
 						y = int(tokenMap["y"])
 						tokenMap.pop("y")
 
-					if tokenMap.has_key("center_align"):
+					if "center_align" in tokenMap:
 						cimg.SetPosition(self.peekWindow.GetWidth() / 2 - cimg.GetWidth() / 2, y)
 						tokenMap.pop("center_align")
-					elif tokenMap.has_key("right_align"):
+					elif "right_align" in tokenMap:
 						cimg.SetPosition(self.peekWindow.GetWidth() - cimg.GetWidth(), y)
 						tokenMap.pop("right_align")
 					else:
@@ -2942,7 +2942,7 @@ class SimpleTextLoader(ui.Window):
 
 			tmp.txt = ui.TextLine()
 			tmp.txt.SetParent(tmp)
-			if tokenMap.has_key("font_size"):
+			if "font_size" in tokenMap:
 				splt = localeInfo.UI_DEF_FONT.split(":")
 				tmp.txt.SetFontName(splt[0]+":"+tokenMap["font_size"])
 				tokenMap.pop("font_size")
@@ -2967,7 +2967,7 @@ class SimpleTextLoader(ui.Window):
 
 				tmp.txt.SetPosition(tmp.img.GetWidth() + 5, abs(tmp.GetHeight() / 2 - tmp.txt.GetTextSize()[1] / 2) - 1)
 
-			if tokenMap.has_key("color"):
+			if "color" in tokenMap:
 				fontColor = self.GetColorFromString(tokenMap["color"])
 				tmp.txt.SetPackedFontColor(grp.GenerateColor(fontColor[0], fontColor[1], fontColor[2], fontColor[3]))
 
@@ -2976,7 +2976,7 @@ class SimpleTextLoader(ui.Window):
 			addPadding = 0
 			totalElem = len(self.elements)
 
-			if tokenMap.has_key("y_padding"):
+			if "y_padding" in tokenMap:
 				addPadding = int(tokenMap["y_padding"])
 				tokenMap.pop("y_padding")
 
@@ -2986,20 +2986,20 @@ class SimpleTextLoader(ui.Window):
 				self.elements.insert(lastIndex, tmp)
 				totalElem += 1
 
-				for i in xrange(lastIndex, totalElem):
+				for i in range(lastIndex, totalElem):
 					self.elements[i].SetPosition(0,\
 						(0 if i ==0 else self.elements[i - 1].GetLocalPosition()[1] + self.elements[i - 1].GetHeight() + addPadding))
 			else:
 				self.elements.append(tmp)
 				tmp.SetPosition(0, addPadding)
 
-			if tokenMap.has_key("center_align"):
+			if "center_align" in tokenMap:
 				tmp.SetPosition(self.peekWindow.GetWidth() / 2 - tmp.GetWidth() / 2, tmp.GetLocalPosition()[1])
 				tokenMap.pop("center_align")
-			elif tokenMap.has_key("right_align"):
+			elif "right_align" in tokenMap:
 				tmp.SetPosition(self.peekWindow.GetWidth() - tmp.GetWidth(), tmp.GetLocalPosition()[1])
 				tokenMap.pop("right_align")
-			elif tokenMap.has_key("x_padding"):
+			elif "x_padding" in tokenMap:
 				tmp.SetPosition(int(tokenMap["x_padding"]), tmp.GetLocalPosition()[1])
 				tokenMap.pop("x_padding")
 
@@ -3147,14 +3147,14 @@ class WikiMainCostumeWindow(ui.Window):
 
 		extractedLists = []
 		for i in vnums:
-			if type(i) == types.ListType:
+			if type(i) == list:
 				extractedLists.append(i)
 
 		for i in extractedLists:
 			pos = vnums.index(i)
 
 			vnums.remove(i)
-			for j in xrange(len(i)):
+			for j in range(len(i)):
 				vnums.insert(pos + j, i[j])
 
 		isChanged = (not len(vnums) == len(self.costumeVnums))
@@ -3241,12 +3241,12 @@ class WikiMainCostumeWindow(ui.Window):
 			return ITEM_CHARACTERS[app.GetRandom(0, len(ITEM_CHARACTERS) - 1)][ITEM_SEX[app.GetRandom(0, len(ITEM_SEX) - 1)]]
 
 	def GetCharTypeHairCamera(self, char_type):
-		if not uiInGameWikiConfig.HAIRSTYLE_CAMERA_CFG.has_key(char_type):
+		if char_type not in uiInGameWikiConfig.HAIRSTYLE_CAMERA_CFG:
 			return tuple([], [])
 
 		return uiInGameWikiConfig.HAIRSTYLE_CAMERA_CFG[char_type]
 
-	def OnOverIn(self, vnum, metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)]):
+	def OnOverIn(self, vnum, metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)]):
 		if not self.toolTip:
 			return
 
@@ -3294,7 +3294,7 @@ class WikiMainCostumeWindow(ui.Window):
 
 	def OnUpdate(self):
 		if self.loadFrom < self.loadTo:
-			for i in xrange(self.loadFrom, min(self.loadTo, self.loadFrom + self.ITEM_LOAD_PER_UPDATE)):
+			for i in range(self.loadFrom, min(self.loadTo, self.loadFrom + self.ITEM_LOAD_PER_UPDATE)):
 				self.AddItem(self.costumeVnums[i])
 				self.loadFrom += 1
 
@@ -3374,14 +3374,14 @@ def InitMainWindow(self):
 	self.AddFlag('float')
 
 	for i in uiInGameWikiConfig.ITEM_BLACKLIST:
-		if type(i) == types.ListType:
+		if type(i) == list:
 			for k in i:
 				wiki.RegisterItemBlacklist(k)
 		else:
 			wiki.RegisterItemBlacklist(i)
 
 	for i in uiInGameWikiConfig.MOB_BLACKLIST:
-		if type(i) == types.ListType:
+		if type(i) == list:
 			for k in i:
 				wiki.RegisterMonsterBlacklist(k)
 		else:
@@ -3560,7 +3560,7 @@ def BuildBaseMain(self):
 
 	for i in uiInGameWikiConfig.WIKI_CATEGORIES:
 		ret = self.categ.AddCategory(i[0])
-		for j in xrange(len(i[1])):
+		for j in range(len(i[1])):
 			ret.AddSubCategory(j, i[1][j])
 
 		curr = uiInGameWikiConfig.WIKI_CATEGORIES.index(i)

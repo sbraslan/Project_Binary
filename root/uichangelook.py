@@ -350,7 +350,7 @@ class ChangeLookWindow(ui.ScriptWindow):
 		setChangeLookItem = self.wnditem.SetItemSlot
 		getChangeLookItem = playerm2g2.GetChangeLookItemID
 
-		for i in xrange(self.CHANGELOOK_SLOT_MAX):
+		for i in range(self.CHANGELOOK_SLOT_MAX):
 			ChangeLookSlotVnum = getChangeLookItem(i)
 			if not ChangeLookSlotVnum == playerm2g2.ITEM_SLOT_COUNT:
 				setChangeLookItem(i, ChangeLookSlotVnum, 1)

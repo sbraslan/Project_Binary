@@ -15,7 +15,7 @@ import constInfo
 import chr
 import nonplayer
 
-## NPC ªÛ¡° ##
+## NPC ÏÉÅÏ†ê ##
 class ShopDialog(ui.ScriptWindow):
 
 	def __init__(self):
@@ -60,7 +60,7 @@ class ShopDialog(ui.ScriptWindow):
 		getItemID=shop.GetItemID
 		getItemCount=shop.GetItemCount
 		setItemID=self.itemSlotWindow.SetItemSlot
-		for i in xrange(shop.SHOP_SLOT_COUNT):
+		for i in range(shop.SHOP_SLOT_COUNT):
 			idx = self.__GetRealIndex(i)
 			itemCount = getItemCount(idx)
 			if itemCount <= 1:
@@ -602,7 +602,7 @@ class ShopDialog(ui.ScriptWindow):
 			itemIndex = playerm2g2.GetItemIndex(slotIndex)
 
 			if itemIndex:
-				if app.ENABLE_SOULBIND_SYSTEM and playerm2g2.GetItemSealDate(playerm2g2.INVENTORY, slotIndex) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP: #∫¿¿Œæ∆¿Ã≈€ ∞…∑Ø≥ø.
+				if app.ENABLE_SOULBIND_SYSTEM and playerm2g2.GetItemSealDate(playerm2g2.INVENTORY, slotIndex) != item.E_SEAL_DATE_DEFAULT_TIMESTAMP: #Î¥âÏù∏ÏïÑÏù¥ÌÖú Í±∏Îü¨ÎÉÑ.
 					return True
 				return playerm2g2.IsAntiFlagBySlot(slotIndex, item.ANTIFLAG_SELL)
 			return False

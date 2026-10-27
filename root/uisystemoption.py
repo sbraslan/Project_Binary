@@ -733,13 +733,13 @@ class OptionDialog(ui.ScriptWindow):
 			self.__AdjustLanguageSelectWindowPosition()
 
 		def __GetCurLanguageKey(self):
-			for key in self.LANGUAGE_DICT.keys():
+			for key in list(self.LANGUAGE_DICT.keys()):
 				localeName = self.LANGUAGE_DICT[key]["locale"]
 				if app.GetLocaleName() == localeName:
 					return key
 
 		def __GetStringCurLanguage(self):
-			for key in self.LANGUAGE_DICT.keys():
+			for key in list(self.LANGUAGE_DICT.keys()):
 				localeName = self.LANGUAGE_DICT[key]["locale"]
 				if app.GetLocaleName() == localeName:
 					return localeName
@@ -752,7 +752,7 @@ class OptionDialog(ui.ScriptWindow):
 					self.language_select_window_bar.SetSize(210, self.language_select_window_height)
 					self.language_select_window_bar.Show()
 
-				for button in self.language_button_dict.values():
+				for button in list(self.language_button_dict.values()):
 					button.Show()
 			else:
 				self.language_select_list_open = False
@@ -760,7 +760,7 @@ class OptionDialog(ui.ScriptWindow):
 				if self.language_select_window_bar:
 					self.language_select_window_bar.SetSize(210, 0)
 
-				for button in self.language_button_dict.values():
+				for button in list(self.language_button_dict.values()):
 					button.Hide()
 
 		def __OnClickLanguageButtonOver(self, index):
@@ -792,7 +792,7 @@ class OptionDialog(ui.ScriptWindow):
 					self.LanguageChange()
 
 		def __OnClickLanguageSelect(self, index):
-			for button in self.language_button_dict.values():
+			for button in list(self.language_button_dict.values()):
 				button.Hide()
 
 			self.__LanguageSelectShowHide(False)

@@ -618,7 +618,7 @@ class MiniGameFindMMainUI(ui.ScriptWindow):
 				self.doneHint = []
 				self.hintTime = 0
 			else:
-				for key, value in self.processHint.iteritems():
+				for key, value in self.processHint.items():
 					if value["show"] and value["hide"] and not key in self.doneHint:
 						self.doneHint.append(key)
 						continue

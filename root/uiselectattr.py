@@ -73,8 +73,8 @@ class SelectAttrWindow(ui.ScriptWindow):
 		self.SelectBtn[0].SetEvent(ui.__mem_func__(self.SelectButton), 0)
 		self.SelectBtn[1].SetEvent(ui.__mem_func__(self.SelectButton), 1)
 
-		CurAttr = [playerm2g2.GetItemAttribute(self.window_type, self.slotIdx, i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
-		ChangedAttr = [playerm2g2.GetItemChangedAttribute(i) for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+		CurAttr = [playerm2g2.GetItemAttribute(self.window_type, self.slotIdx, i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
+		ChangedAttr = [playerm2g2.GetItemChangedAttribute(i) for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM)]
 
 		self.CurrentTextList = []
 		self.ChangedTextList = []
@@ -82,14 +82,14 @@ class SelectAttrWindow(ui.ScriptWindow):
 		self.ChangedTextList = self.GetAttributeStringList(ChangedAttr)
 
 		CurTotalLines = len(self.CurrentTextList)
-		for i in xrange(len(self.lTextList)) :
+		for i in range(len(self.lTextList)) :
 			if(i < CurTotalLines) :
 				self.lTextList[i].SetText(self.CurrentTextList[i])
 			else :
 				self.lTextList[i].Hide()
 
 		ChangedTotalLines = len(self.ChangedTextList)
-		for i in xrange(len(self.rTextList)) :
+		for i in range(len(self.rTextList)) :
 			if(i < ChangedTotalLines) :
 				self.rTextList[i].SetText(self.ChangedTextList[i])
 			else :
@@ -118,7 +118,7 @@ class SelectAttrWindow(ui.ScriptWindow):
 	def GetAttributeStringList(self, attrSlot):
 		if 0 != attrSlot:
 			toolTipString = []
-			for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				type = attrSlot[i][0]
 				value = attrSlot[i][1]
 

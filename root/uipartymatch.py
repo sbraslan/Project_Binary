@@ -17,7 +17,7 @@ REQUIRED_ITEM_MAX = playerm2g2.PARTY_MATCH_REQUIRED_ITEM_MAX
 
 PARTY_MEMBER_MAX = 8
 
-## ÆÄÆ¼¸ÅÄª
+## íŒŒí‹°ë§¤ì¹­
 class PartyMatch(ui.ScriptWindow):
 	def __init__(self):
 		ui.ScriptWindow.__init__(self, "UI")
@@ -223,7 +223,7 @@ class PartyMatch(ui.ScriptWindow):
 		self.dungeon_select_window_height = dict_len * button_height
 
 		## key
-		for i, key in enumerate( sorted(self.dungeon_dict.iterkeys()) ):
+		for i, key in enumerate( sorted(self.dungeon_dict.keys()) ):
 			button = ui.Button()
 			button.SetParent( self.dungeon_select_window )
 			button.SetPosition( 0, button_height * i )
@@ -248,7 +248,7 @@ class PartyMatch(ui.ScriptWindow):
 			button.SetEvent( ui.__mem_func__(self.__ClickDungeonSelect), key )
 			button.SetOverEvent( ui.__mem_func__(self.__ClickDungeonButtonOver), key )
 			button.SetOverOutEvent( ui.__mem_func__(self.__ClickDungeonButtonOverOut), key )
-			if localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX.has_key( key ):
+			if key in localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX:
 				button.SetText( localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX[key] )
 			button.Hide()
 
@@ -281,7 +281,7 @@ class PartyMatch(ui.ScriptWindow):
 		if not map_index in self.dungeon_dict:
 			return
 
-		for button in self.dungeon_button_dict.values():
+		for button in list(self.dungeon_button_dict.values()):
 			button.Hide()
 
 		self.__DungeonSelectWindow( False )
@@ -290,7 +290,7 @@ class PartyMatch(ui.ScriptWindow):
 		self.selected_dungeon = map_index
 
 		if self.dungeon_select_text:
-			if localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX.has_key( map_index ):
+			if map_index in localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX:
 				self.dungeon_select_text.SetText( localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX[map_index] )
 
 		( map_idx, limit_level, items ) = self.dungeon_dict[map_index]
@@ -308,13 +308,13 @@ class PartyMatch(ui.ScriptWindow):
 			if self.dungeon_select_window:
 				self.dungeon_select_window.SetSize( 130, self.dungeon_select_window_height )
 
-			for button in self.dungeon_button_dict.values():
+			for button in list(self.dungeon_button_dict.values()):
 				button.Show()
 		else:
 			self.dungeon_select_list_open = False
 			if self.dungeon_select_window:
 				self.dungeon_select_window.SetSize( 130, 0 )
-			for button in self.dungeon_button_dict.values():
+			for button in list(self.dungeon_button_dict.values()):
 				button.Hide()
 
 	def __ClickDungeonSelectButton(self):
@@ -363,7 +363,7 @@ class PartyMatch(ui.ScriptWindow):
 			self.time_check				= True
 			return
 
-		if not self.dungeon_dict.has_key( self.selected_dungeon ):
+		if self.selected_dungeon not in self.dungeon_dict:
 			return
 
 		if MATCH_STATE_NONE == self.match_state:
@@ -430,7 +430,7 @@ class PartyMatch(ui.ScriptWindow):
 			self.__SetInfo(data)
 			#Custom
 			self.Close()
-			if localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX.has_key( data ):
+			if data in localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX:
 				chatm2g.AppendChat( chatm2g.CHAT_TYPE_INFO, localeInfo.PARTY_MATCH_START % localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX[data] )
 		#elif playerm2g2.PARTY_MATCH_INFO_MEBMER == type:
 		#	self.__SetInfoMember(data)
@@ -460,7 +460,7 @@ class PartyMatch(ui.ScriptWindow):
 		#		chatm2g.AppendChat( chatm2g.CHAT_TYPE_INFO, localeInfo.PARTY_MATCH_START % localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX[add_info] )
 		#	return
 		elif playerm2g2.PARTY_MATCH_CANCEL_SUCCESS == msg_type:
-			if localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX.has_key( add_info ):
+			if add_info in localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX:
 				chatm2g.AppendChat( chatm2g.CHAT_TYPE_INFO, localeInfo.PARTY_MATCH_CANCEL % localeInfo.MINIMAP_ZONE_NAME_DICT_BY_IDX[add_info] )
 		elif playerm2g2.PARTY_MATCH_FAIL_NO_ITEM == msg_type:
 			item.SelectItem( add_info )

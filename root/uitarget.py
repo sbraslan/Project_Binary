@@ -255,16 +255,16 @@ class TargetBoard(ui.ThinBoard):
 				subrace = ""
 				race_range = 17 ## PythonNonPlayer.h -> ERaceFlags +1
 
-				for i in xrange(race_range):
+				for i in range(race_range):
 					curFlag = 1 << i
 					if HAS_FLAG(dwRaceFlag, curFlag):
-						if self.RACE_FLAG_TO_NAME.has_key(curFlag):
+						if curFlag in self.RACE_FLAG_TO_NAME:
 							mainrace += self.RACE_FLAG_TO_NAME[curFlag] + ", "
 
 				if app.ENABLE_ELEMENT_ADD:
-					for i in xrange(nonplayer.MOB_ELEMENTAL_MAX_NUM):
+					for i in range(nonplayer.MOB_ELEMENTAL_MAX_NUM):
 						if nonplayer.GetMonsterEnchantElement(race, i) >= 1:
-							if self.SUB_RACE_FLAG_TO_NAME.has_key(i):
+							if i in self.SUB_RACE_FLAG_TO_NAME:
 								subrace += self.SUB_RACE_FLAG_TO_NAME[i] + ", "
 
 				if nonplayer.IsMonsterStone(race):
@@ -292,7 +292,7 @@ class TargetBoard(ui.ThinBoard):
 						itemListBox.SetSize(self.GetWidth() - 15 * 2 - ui.ScrollBar.SCROLLBAR_WIDTH, (32 + 5) * self.MAX_ITEM_COUNT)
 						height = 0
 						for curItem in MONSTER_INFO_DATA[race]["items"]:
-							if curItem.has_key("vnum_list"):
+							if "vnum_list" in curItem:
 								height += self.AppendItem(itemListBox, curItem["vnum_list"], curItem["count"])
 							else:
 								height += self.AppendItem(itemListBox, curItem["vnum"], curItem["count"])
@@ -549,7 +549,7 @@ class TargetBoard(ui.ThinBoard):
 		if app.ENABLE_ELEMENT_ADD:
 			self.element_enchants_dict = {}
 			self.elementImgDict = {}
-			for element, path in self.ELEMENT_IMG_PATH.items():
+			for element, path in list(self.ELEMENT_IMG_PATH.items()):
 				elementImg = ui.ExpandedImageBox()
 				elementImg.SetParent(self)
 				elementImg.LoadImage( path )
@@ -636,7 +636,7 @@ class TargetBoard(ui.ThinBoard):
 	def __del__(self):
 		ui.ThinBoard.__del__(self)
 
-		print "===================================================== DESTROYED TARGET BOARD"
+		print("===================================================== DESTROYED TARGET BOARD")
 
 	def __Initialize(self):
 		self.nameString = ""
@@ -821,7 +821,7 @@ class TargetBoard(ui.ThinBoard):
 			if affectContainer and not affectContainer.HasActiveAffects():
 				del self.targetAffectIconContainers[self.vid]
 
-		for btn in self.buttonDict.values():
+		for btn in list(self.buttonDict.values()):
 			btn.Hide()
 
 		self.__Initialize()
@@ -869,7 +869,7 @@ class TargetBoard(ui.ThinBoard):
 		nameFront = ""
 		if -1 != level:
 			nameFront += "Lv." + str(level) + " "
-		if self.GRADE_NAME.has_key(grade):
+		if grade in self.GRADE_NAME:
 			nameFront += "(" + self.GRADE_NAME[grade] + ") "
 
 		self.SetTargetName(nameFront + name)
@@ -1001,7 +1001,7 @@ class TargetBoard(ui.ThinBoard):
 
 	def __ShowButton(self, name):
 
-		if not self.buttonDict.has_key(name):
+		if name not in self.buttonDict:
 			return
 
 		if app.ENABLE_PREMIUM_PRIVATE_SHOP:
@@ -1013,7 +1013,7 @@ class TargetBoard(ui.ThinBoard):
 
 	def __HideButton(self, name):
 
-		if not self.buttonDict.has_key(name):
+		if name not in self.buttonDict:
 			return
 
 		button = self.buttonDict[name]
@@ -1224,7 +1224,7 @@ class TargetBoard(ui.ThinBoard):
 
 	if app.ENABLE_ELEMENT_ADD:
 		def __HideAllElementImg(self):
-			for elementImg in self.elementImgDict.values():
+			for elementImg in list(self.elementImgDict.values()):
 				elementImg.Hide()
 
 		def AdjustPositionElementImage(self):
@@ -1305,7 +1305,7 @@ if app.ENABLE_TARGET_AFFECT_SHOWER:
 				self.toolTip = uiToolTip.ToolTip(100)
 				self.toolTip.HideToolTip()
 
-				if self.AFFECT_DATA_DICT.has_key(affectNum):
+				if affectNum in self.AFFECT_DATA_DICT:
 					self.affectName = self.AFFECT_DATA_DICT[affectNum][0]
 
 					image = self.AFFECT_DATA_DICT[affectNum][1]
@@ -1355,7 +1355,7 @@ if app.ENABLE_TARGET_AFFECT_SHOWER:
 			ui.Window.__del__(self)
 
 		def SetAffect(self, affectNum, duration):
-			if self.affectIcons.has_key(affectNum):
+			if affectNum in self.affectIcons:
 				if duration > 0:
 					self.UpdateAffect(affectNum, duration)
 				else:
@@ -1373,7 +1373,7 @@ if app.ENABLE_TARGET_AFFECT_SHOWER:
 				self.AdjustSize()
 
 		def RemoveAffect(self, affectNum):
-			if self.affectIcons.has_key(affectNum):
+			if affectNum in self.affectIcons:
 				del self.affectIcons[affectNum]
 
 			self.AdjustSize()
@@ -1386,7 +1386,7 @@ if app.ENABLE_TARGET_AFFECT_SHOWER:
 		def AdjustSize(self):
 			i = 0
 			space = 3
-			for affectNum in self.affectIcons.keys():
+			for affectNum in list(self.affectIcons.keys()):
 				affectIcon = self.affectIcons.get(affectNum)
 				if affectIcon:
 					affectIcon.SetPosition((32 * 0.7 + space) * i, 0)
@@ -1398,7 +1398,7 @@ if app.ENABLE_TARGET_AFFECT_SHOWER:
 			return any(self.affectIcons)
 
 		def OnUpdate(self):
-			for affectNum in self.affectIcons.keys():
+			for affectNum in list(self.affectIcons.keys()):
 				affectIcon = self.affectIcons.get(affectNum)
 				if not affectIcon:
 					continue

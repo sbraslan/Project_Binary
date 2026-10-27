@@ -11,7 +11,7 @@ from _weakref import proxy
 class WonExchangeWindow(ui.ScriptWindow):
 	WON_NAME_VALUE = 100000000
 	TAX_NAME_MUL = 3
-	PAGE_DESC, PAGE_SELL, PAGE_BUY = range(3)
+	PAGE_DESC, PAGE_SELL, PAGE_BUY = list(range(3))
 
 	class DescriptionWindow(ui.ScriptWindow):
 		LINE_CUT_WIDTH_LIMIT = 31
@@ -221,10 +221,10 @@ class WonExchangeWindow(ui.ScriptWindow):
 		self.dlgQuestion.Close()
 
 	def __BindEvent(self):
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			tabButton.SetEvent(ui.__mem_func__(self.__OnClickTabButton), tabKey)
 
-		for titleBarValue in self.titleBarDict.itervalues():
+		for titleBarValue in list(self.titleBarDict.values()):
 			titleBarValue.SetCloseEvent(ui.__mem_func__(self.Close))
 
 		self.inputWon.OnIMEUpdate = ui.__mem_func__(self.__CustomeIMEUpdate)
@@ -233,7 +233,7 @@ class WonExchangeWindow(ui.ScriptWindow):
 	def __CustomeIMEUpdate(self):
 		ui.EditLine.OnIMEUpdate(self.inputWon)
 		try:
-			self.resultGold.SetText("%s" % (localeInfo.NumberToMoneyStringEx(long(((1.0 + self.TAX_NAME_MUL / 100.0) if self.page == self.PAGE_BUY else 1.0) * self.WON_NAME_VALUE) * long(self.inputWon.GetText()))))
+			self.resultGold.SetText("%s" % (localeInfo.NumberToMoneyStringEx(int(((1.0 + self.TAX_NAME_MUL / 100.0) if self.page == self.PAGE_BUY else 1.0) * self.WON_NAME_VALUE) * int(self.inputWon.GetText()))))
 		except:
 			self.resultGold.SetText("")
 
@@ -253,17 +253,17 @@ class WonExchangeWindow(ui.ScriptWindow):
 	def SetPage(self, pageKey):
 		self.page = pageKey
 
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			if pageKey!=tabKey:
 				tabButton.SetUp()
 
-		for tabValue in self.tabDict.itervalues():
+		for tabValue in list(self.tabDict.values()):
 			tabValue.Hide()
 
-		for pageValue in self.pageDict.itervalues():
+		for pageValue in list(self.pageDict.values()):
 			pageValue.Hide()
 
-		for titleBarValue in self.titleBarDict.itervalues():
+		for titleBarValue in list(self.titleBarDict.values()):
 			titleBarValue.Hide()
 
 		self.titleBarDict[pageKey].Show()
@@ -277,7 +277,7 @@ class WonExchangeWindow(ui.ScriptWindow):
 		self.dlgQuestion.SetAcceptEvent(ui.__mem_func__(self.__Accept))
 		self.dlgQuestion.SetCancelEvent(ui.__mem_func__(self.__Cancel))
 
-		args = (int(self.inputWon.GetText()), localeInfo.NumberToMoneyStringEx(long(((1.0 + self.TAX_NAME_MUL / 100.0) if self.page == self.PAGE_BUY else 1.0) * self.WON_NAME_VALUE) * long(self.inputWon.GetText())))
+		args = (int(self.inputWon.GetText()), localeInfo.NumberToMoneyStringEx(int(((1.0 + self.TAX_NAME_MUL / 100.0) if self.page == self.PAGE_BUY else 1.0) * self.WON_NAME_VALUE) * int(self.inputWon.GetText())))
 		if self.page == self.PAGE_SELL:
 			self.dlgQuestion.SetText1(localeInfo.WONEXCHANGE_CONFIRM_QUESTION_1 % args)
 		elif self.page == self.PAGE_BUY:

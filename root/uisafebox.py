@@ -342,7 +342,7 @@ class SafeboxWindow(ui.ScriptWindow):
 
 		text = "I"
 		pos = -int(float(pageCount-1)/2 * 52)
-		for i in xrange(pageCount):
+		for i in range(pageCount):
 			button = ui.RadioButton()
 			button.SetParent(self)
 			button.SetUpVisual("d:/ymir work/ui/game/windows/tab_button_middle_01.sub")
@@ -396,7 +396,7 @@ class SafeboxWindow(ui.ScriptWindow):
 		getItemCount=safebox.GetItemCount
 		setItemID=self.wndItem.SetItemSlot
 
-		for i in xrange(safebox.SAFEBOX_PAGE_SIZE):
+		for i in range(safebox.SAFEBOX_PAGE_SIZE):
 			slotIndex = self.__LocalPosToGlobalPos(i)
 			itemCount = getItemCount(slotIndex)
 			if itemCount <= 1:
@@ -530,23 +530,23 @@ class SafeboxWindow(ui.ScriptWindow):
 
 	if app.ENABLE_SAFEBOX_IMPROVING:
 		def __GetCurrentItemGrid(self):
-			itemGrid = [[False for cell in xrange(safebox.SAFEBOX_PAGE_SIZE)] for page in xrange(self.pageCount)]
-			for page in xrange(self.pageCount):
-				for slot in xrange(safebox.SAFEBOX_PAGE_SIZE):
+			itemGrid = [[False for cell in range(safebox.SAFEBOX_PAGE_SIZE)] for page in range(self.pageCount)]
+			for page in range(self.pageCount):
+				for slot in range(safebox.SAFEBOX_PAGE_SIZE):
 					itemVnum = safebox.GetItemID(slot + page * safebox.SAFEBOX_PAGE_SIZE)
-					if itemVnum <> 0:
+					if itemVnum != 0:
 						item.SelectItem(itemVnum)
 						(w, h) = item.GetItemSize()
-						for i in xrange(h):
+						for i in range(h):
 							itemGrid[page][slot + i * safebox.SAFEBOX_SLOT_X_COUNT] = True
 			return itemGrid
 
 		def __FindEmptyCellForSize(self, itemGrid, size):
-			for page in xrange(self.pageCount):
-				for slot in xrange(safebox.SAFEBOX_PAGE_SIZE):
+			for page in range(self.pageCount):
+				for slot in range(safebox.SAFEBOX_PAGE_SIZE):
 					if itemGrid[page][slot] == False:
 						possible = True
-						for i in xrange(size):
+						for i in range(size):
 							p = slot + safebox.SAFEBOX_SLOT_X_COUNT * i
 							try:
 								if itemGrid[page][p] == True:
@@ -741,7 +741,7 @@ class MallWindow(ui.ScriptWindow):
 			self.pageButtonList = []
 
 			pos = -int(float(pageCount-1)/2 * 32)
-			for i in xrange(pageCount):
+			for i in range(pageCount):
 				text = self.PAGE_TEXT[i]
 				button = ui.RadioButton()
 				button.SetParent(self)
@@ -778,7 +778,7 @@ class MallWindow(ui.ScriptWindow):
 		setItemID=self.wndItem.SetItemSlot
 
 		if app.ENABLE_EXTEND_MALLBOX:
-			for i in xrange(safebox.SAFEBOX_PAGE_SIZE):
+			for i in range(safebox.SAFEBOX_PAGE_SIZE):
 				slotIndex = self.__LocalPosToGlobalPos(i)
 				itemCount = getItemCount(slotIndex)
 				if itemCount <= 1:
@@ -792,7 +792,7 @@ class MallWindow(ui.ScriptWindow):
 					else:
 						self.wndItem.EnableSlotCoverImage(i,False)
 		else:
-			for i in xrange(safebox.GetMallSize()):
+			for i in range(safebox.GetMallSize()):
 				itemID = getItemID(i)
 				itemCount = getItemCount(i)
 				if itemCount <= 1:

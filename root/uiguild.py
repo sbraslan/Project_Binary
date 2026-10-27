@@ -74,7 +74,7 @@ def GetGVGKey(srcGuildID, dstGuildID):
 	return minID*1000 + maxID
 
 def unsigned32(n):
-	return n & 0xFFFFFFFFL
+	return n & 0xFFFFFFFF
 
 if app.ENABLE_GUILDRENEWAL_SYSTEM and app.ENABLE_GUILD_DONATE_ATTENDANCE:
 	class DonateGuildDialog(ui.ScriptWindow):
@@ -156,7 +156,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM and app.ENABLE_GUILD_DONATE_ATTENDANCE:
 			self.normal_donate_get_item_slot = getObject("normal_donate_get_item_slot")
 			self.middle_donate_get_item_slot = getObject("middle_donate_get_item_slot")
 			self.high_donate_get_item_slot = getObject("high_donate_get_item_slot")
-			for i in xrange(3):
+			for i in range(3):
 				self.normal_donate_get_item_slot.SetItemSlot(i, MATERIAL_STONE_ID+i, 3)
 				self.middle_donate_get_item_slot.SetItemSlot(i, MATERIAL_STONE_ID+i, 5)
 				self.high_donate_get_item_slot.SetItemSlot(i, MATERIAL_STONE_ID+i, 15)
@@ -374,7 +374,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM and app.ENABLE_GUILD_DONATE_ATTENDANCE:
 			elif "mouse_over_out" == event_type :
 				self.OverOutToolTipButton()
 			else :
-				print " uiGuild.py ::EventProgress : FALSE"
+				print(" uiGuild.py ::EventProgress : FALSE")
 
 		def OnPressEscapeKey(self):
 			self.Close()
@@ -434,7 +434,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			self.Guild1SetButtonList.append(self.GetChild("Guild1SetButton4"))
 			self.Guild1SetButtonList.append(self.GetChild("Guild1SetButton5"))
 
-			for i in xrange(5):
+			for i in range(5):
 				self.Guild1SetButtonList[i].Disable()
 				self.Guild1SetButtonList[i].Down()
 
@@ -445,7 +445,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			self.Guild2SetButtonList.append(self.GetChild("Guild2SetButton4"))
 			self.Guild2SetButtonList.append(self.GetChild("Guild2SetButton5"))
 
-			for i in xrange(5):
+			for i in range(5):
 				self.Guild2SetButtonList[i].Disable()
 				self.Guild2SetButtonList[i].Down()
 
@@ -467,7 +467,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			elif self.OppGuildId == gainGuildId:
 				self.OppGuildScore.SetText(str(point))
 
-			for i in xrange(winpoint):
+			for i in range(winpoint):
 				if self.MyGuildId == gainGuildId:
 					self.Guild1SetButtonList[i].SetUp()
 				elif self.OppGuildId == gainGuildId:
@@ -478,11 +478,11 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			self.OppGuildScore.SetText("")
 			self.OppGuildName.SetText("")
 
-			for i in xrange(5):
+			for i in range(5):
 				self.Guild2SetButtonList[i].SetUp()
 				self.Guild2SetButtonList[i].Down()
 
-			for i in xrange(5):
+			for i in range(5):
 				self.Guild1SetButtonList[i].SetUp()
 				self.Guild1SetButtonList[i].Down()
 		
@@ -546,7 +546,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			self.WarTypeButtonList.append(getObject("Defense_Button"))
 			self.WarTypeButtonList.append(getObject("Time_Button"))
 
-			for i in xrange(6):
+			for i in range(6):
 				self.WarTypeButtonList[i].SetEvent(ui.__mem_func__(self.__OnTypeButtonClick),i)
 
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
@@ -726,7 +726,7 @@ class DeclareGuildWarDialog(ui.ScriptWindow):
 			exception.Abort("DeclareGuildWarWindow.__CreateDialog - BindObject")
 
 		if app.ENABLE_GUILDRENEWAL_SYSTEM:
-			for i in xrange(3):
+			for i in range(3):
 				self.warwinButtonList[i].SAFE_SetEvent(self.__OnClickTypeWarWin,i+1,self.warwinButtonList)
 				self.warscoreButtonList[i].SAFE_SetEvent(self.__OnClickTypeWarWin,i+1,self.warscoreButtonList)
 				self.wartimeButtonList[i].SAFE_SetEvent(self.__OnClickTypeWarWin,i+1,self.wartimeButtonList)
@@ -1390,7 +1390,7 @@ if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			if not self.Enable:
 				return
 
-			for line, slotList in self.page.memberDict.items():
+			for line, slotList in list(self.page.memberDict.items()):
 				if self != slotList[0]:
 					slotList[0].mouseReflector.Hide()
 					slotList[0].Enable = True
@@ -1643,7 +1643,7 @@ class CommentSlot(ui.Window):
 			if self.len > self.textwidthlimit:
 				lineCount = grpText.GetSplitingTextLineCount(text, 1)
 				self.SplitingTextCount = 0
-				for i in xrange(lineCount):
+				for i in range(lineCount):
 					temptext = grpText.GetSplitingTextLine(text, i, 0)
 					self.slotFullText.SetText(temptext)
 					width, height = self.slotFullText.GetTextSize()
@@ -1908,7 +1908,7 @@ class GuildWindow(ui.ScriptWindow):
 			self.changeGradeNameDialog.ClearDictionary()
 
 		if self.pageWindow:
-			for window in self.pageWindow.values():
+			for window in list(self.pageWindow.values()):
 				window.ClearDictionary()
 
 		self.__Initialize()
@@ -1956,7 +1956,7 @@ class GuildWindow(ui.ScriptWindow):
 				"GRADE"			: self.PageWindow(self, "uiscript/guildwindow_gradepage.py"),
 			}
 
-			for window in self.pageWindow.values():
+			for window in list(self.pageWindow.values()):
 				pyScrLoader.LoadScriptFile(window, window.GetScriptFileName())
 
 		except:
@@ -2037,7 +2037,7 @@ class GuildWindow(ui.ScriptWindow):
 
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
-					for key, img in self.tabDict.items():
+					for key, img in list(self.tabDict.items()):
 							img.LeftRightReverse()
 
 		except:
@@ -2051,10 +2051,10 @@ class GuildWindow(ui.ScriptWindow):
 		self.__MakeSkillPage()
 		self.__MakeGradePage()
 
-		for page in self.pageWindow.values():
+		for page in list(self.pageWindow.values()):
 			page.UpdateRect()
 
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			btn.SetEvent(ui.__mem_func__(self.SelectPage), key)
 
 		if app.ENABLE_GUILDRENEWAL_SYSTEM==0:
@@ -2154,7 +2154,7 @@ class GuildWindow(ui.ScriptWindow):
 				self.enemyGuildName = page.GetChild("EnemyGuildName")
 
 				yPos = 158
-				for i in xrange(4):
+				for i in range(4):
 					expbonusSlotImage = ui.MakeSlotBar(page, 188+self.PLUS_WIDTH/2, yPos, 167+self.PLUS_WIDTH/2, 17)
 					expbonusSlot = ui.MakeTextLine(expbonusSlotImage)
 					page.Children.append(expbonusSlotImage)
@@ -2215,7 +2215,7 @@ class GuildWindow(ui.ScriptWindow):
 
 		page.boardDict = {}
 
-		for i in xrange(12):
+		for i in range(12):
 
 			yPos = 25 + i * lineStep
 
@@ -2324,7 +2324,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.GetChild("IndexGeneral").OnMouseOverIn = lambda arg = localeInfo.GUILD_MEMBER_KNIGHT : self.OverInToolTipButton(arg)
 			page.GetChild("IndexGeneral").OnMouseOverOut = lambda : self.OverOutToolTipButton()
 
-		for i in xrange(self.MEMBER_LINE_COUNT):
+		for i in range(self.MEMBER_LINE_COUNT):
 			inverseLineIndex = self.MEMBER_LINE_COUNT - i - 1
 			yPos = 28 + inverseLineIndex*lineStep
 			## Name
@@ -2385,7 +2385,7 @@ class GuildWindow(ui.ScriptWindow):
 					nameSlot.SetPosition(332,yPos)
 
 			## General Enable
-			event = lambda argSelf=proxy(self), argIndex=inverseLineIndex: apply(argSelf.OnEnableGeneral, (argIndex,))
+			event = lambda argSelf=proxy(self), argIndex=inverseLineIndex: argSelf.OnEnableGeneral(*(argIndex,))
 			if localeInfo.IsARABIC():
 				generalEnableCheckBox = CheckBox(page, 22, yPos, event, "d:/ymir work/ui/public/Parameter_Slot_00.sub")
 			else:
@@ -2445,7 +2445,7 @@ class GuildWindow(ui.ScriptWindow):
 					page.categoryList.SetPosition(0,1)
 					page.categoryList.SetWindowHorizontalAlignCenter()
 		else:
-			for i in xrange(GUILD_BUILDING_MAX_NUM):
+			for i in range(GUILD_BUILDING_MAX_NUM):
 				nameSlotImage = ui.MakeSlotBar(page, 15, yPos, 78, 17)
 				nameSlot = ui.MakeTextLine(nameSlotImage)
 				page.Children.append(nameSlotImage)
@@ -2459,7 +2459,7 @@ class GuildWindow(ui.ScriptWindow):
 				gradeSlot.SetText(localeInfo.GUILD_BUILDING_GRADE)
 
 				RESOURCE_MAX_NUM = 6
-				for j in xrange(RESOURCE_MAX_NUM):
+				for j in range(RESOURCE_MAX_NUM):
 					resourceSlotImage = ui.MakeSlotBar(page, 131 + 29*j, yPos, 26, 17)
 					resourceSlot = ui.MakeTextLine(resourceSlotImage)
 					page.Children.append(resourceSlotImage)
@@ -2541,7 +2541,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.GuildWarRederPoint = page.GetChild("guildwar_RadderPoint")
 			page.GuildWarRanking = page.GetChild("guildwar_Ranking")
 
-			for i in xrange(6):
+			for i in range(6):
 				page.GuildWarListName.InsertItem(i, "%s" % (self.WAR_NAME.get(i)))
 
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
@@ -2581,7 +2581,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.btnHealGSP.SetEvent(ui.__mem_func__(self.__OnOpenHealGSPBoard))
 
 		## Active
-		for i in xrange(len(playerSettingModule.ACTIVE_GUILD_SKILL_INDEX_LIST)):
+		for i in range(len(playerSettingModule.ACTIVE_GUILD_SKILL_INDEX_LIST)):
 			slotIndex = page.activeSlot.GetStartIndex()+i
 			skillIndex = playerSettingModule.ACTIVE_GUILD_SKILL_INDEX_LIST[i]
 			page.activeSlot.SetSkillSlot(slotIndex, skillIndex, 0)
@@ -2639,7 +2639,7 @@ class GuildWindow(ui.ScriptWindow):
 				page.GradeName.SetPosition(self.GetWidth()-265,4)
 				page.GradeNumber.SetPosition(self.GetWidth()-343,4)
 
-		for i in xrange(15):
+		for i in range(15):
 			yPos = 22 + i*lineStep
 			index = i+1
 
@@ -2674,7 +2674,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.Children.append(gradeNameSlot)
 
 			## Invite Authority
-			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<0: apply(argSelf.OnCheckAuthority, (argIndex,argAuthority))
+			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<0: argSelf.OnCheckAuthority(*(argIndex,argAuthority))
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
 					inviteAuthorityCheckBox = CheckBox(page, 180, yPos, event)
@@ -2685,7 +2685,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.Children.append(inviteAuthorityCheckBox)
 
 			## DriveOut Authority
-			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<1: apply(argSelf.OnCheckAuthority, (argIndex,argAuthority))
+			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<1: argSelf.OnCheckAuthority(*(argIndex,argAuthority))
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
 					driveoutAuthorityCheckBox = CheckBox(page, 141, yPos, event)
@@ -2696,7 +2696,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.Children.append(driveoutAuthorityCheckBox)
 
 			## Notice Authority
-			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<2: apply(argSelf.OnCheckAuthority, (argIndex,argAuthority))
+			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<2: argSelf.OnCheckAuthority(*(argIndex,argAuthority))
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
 					noticeAuthorityCheckBox = CheckBox(page, 102, yPos, event)
@@ -2707,7 +2707,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.Children.append(noticeAuthorityCheckBox)
 
 			## Skill Authority
-			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<3: apply(argSelf.OnCheckAuthority, (argIndex,argAuthority))
+			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<3: argSelf.OnCheckAuthority(*(argIndex,argAuthority))
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
 					skillAuthorityCheckBox = CheckBox(page, 63, yPos, event)
@@ -2718,7 +2718,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.Children.append(skillAuthorityCheckBox)
 
 			## War Authority
-			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<4: apply(argSelf.OnCheckAuthority, (argIndex,argAuthority))
+			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<4: argSelf.OnCheckAuthority(*(argIndex,argAuthority))
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
 					warAuthorityCheckBox = CheckBox(page, 24, yPos, event)
@@ -2729,7 +2729,7 @@ class GuildWindow(ui.ScriptWindow):
 			page.Children.append(warAuthorityCheckBox)
 
 			## Bank Authority
-			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<5: apply(argSelf.OnCheckAuthority, (argIndex,argAuthority))
+			event = lambda argSelf=proxy(self), argIndex=index, argAuthority=1<<5: argSelf.OnCheckAuthority(*(argIndex,argAuthority))
 			if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				if localeInfo.IsARABIC():
 					bankAuthorityCheckBox = CheckBox(page, -15, yPos, event)
@@ -2824,7 +2824,7 @@ class GuildWindow(ui.ScriptWindow):
 		self.currentPage = ""
 
 		if self.pageWindow:
-			for window in self.pageWindow.values():
+			for window in list(self.pageWindow.values()):
 				window.ClearDictionary()
 
 		self.pageWindow = None
@@ -2865,15 +2865,15 @@ class GuildWindow(ui.ScriptWindow):
 
 		self.currentPage = arg
 
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			if arg != key:
 				btn.SetUp()
-		for key, img in self.tabDict.items():
+		for key, img in list(self.tabDict.items()):
 			if arg == key:
 				img.Show()
 			else:
 				img.Hide()
-		for key, page in self.pageWindow.items():
+		for key, page in list(self.pageWindow.items()):
 			if arg == key:
 				page.Show()
 			else:
@@ -2887,7 +2887,7 @@ class GuildWindow(ui.ScriptWindow):
 		if app.ENABLE_GUILDRENEWAL_SYSTEM:
 			page.Name =""
 
-		for key, slotList in page.memberDict.items():
+		for key, slotList in list(page.memberDict.items()):
 			slotList[1].CloseListBox()
 
 	def RefreshGuildInfoPage(self):
@@ -2951,7 +2951,7 @@ class GuildWindow(ui.ScriptWindow):
 			else:
 				self.enemyGuildName.SetText(localeInfo.GUILD_INFO_ENEMY_GUILD_EMPTY)
 		else:
-			for i in xrange(guild.ENEMY_GUILD_SLOT_MAX_COUNT):
+			for i in range(guild.ENEMY_GUILD_SLOT_MAX_COUNT):
 				name = guild.GetEnemyGuildName(i)
 				nameTextLine = self.enemyGuildNameList[i]
 				if name:
@@ -2990,7 +2990,7 @@ class GuildWindow(ui.ScriptWindow):
 		lineIndex = 0
 
 		commentCount = guild.GetGuildBoardCommentCount()
-		for i in xrange(commentCount):
+		for i in range(commentCount):
 			commentID, chrName, comment = self.__GetGuildBoardCommentData(i)
 
 			if not comment:
@@ -3009,7 +3009,7 @@ class GuildWindow(ui.ScriptWindow):
 
 			lineIndex += 1
 
-		for i in xrange(self.BOARD_LINE_MAX_NUM - lineIndex):
+		for i in range(self.BOARD_LINE_MAX_NUM - lineIndex):
 			slotList = page.boardDict[lineIndex+i]
 			slotList[0].Hide()
 			slotList[1].SetText("")
@@ -3039,7 +3039,7 @@ class GuildWindow(ui.ScriptWindow):
 
 		page = self.pageWindow["MEMBER"]
 
-		for line, slotList in page.memberDict.items():
+		for line, slotList in list(page.memberDict.items()):
 			gradeComboBox = slotList[1]
 			gradeComboBox.Disable()
 
@@ -3079,7 +3079,7 @@ class GuildWindow(ui.ScriptWindow):
 		page = self.pageWindow["MEMBER"]
 
 		self.CAN_CHANGE_GRADE_COUNT = 15 - 1
-		for key, slotList in page.memberDict.items():
+		for key, slotList in list(page.memberDict.items()):
 			gradeComboBox = slotList[1]
 			gradeComboBox.Disable()
 
@@ -3091,7 +3091,7 @@ class GuildWindow(ui.ScriptWindow):
 				continue
 
 			gradeComboBox.ClearItem()
-			for i in xrange(self.CAN_CHANGE_GRADE_COUNT):
+			for i in range(self.CAN_CHANGE_GRADE_COUNT):
 				gradeComboBox.InsertItem(i+2, guild.GetGradeName(i+2))
 			gradeComboBox.SetCurrentItem(guild.GetGradeName(grade))
 			if 1 != grade:
@@ -3104,7 +3104,7 @@ class GuildWindow(ui.ScriptWindow):
 
 			page = self.pageWindow["MEMBER"]
 			page.Name = ""
-			for line, slotList in page.memberDict.items():
+			for line, slotList in list(page.memberDict.items()):
 				slotList[0].mouseReflector.Hide()
 				slotList[0].Enable = True
 
@@ -3129,7 +3129,7 @@ class GuildWindow(ui.ScriptWindow):
 		page.activeSlot.HideAllSlotButton()
 
 		## Active
-		for i in xrange(len(playerSettingModule.ACTIVE_GUILD_SKILL_INDEX_LIST)):
+		for i in range(len(playerSettingModule.ACTIVE_GUILD_SKILL_INDEX_LIST)):
 			slotIndex = page.activeSlot.GetStartIndex()+i
 			skillIndex = playerSettingModule.ACTIVE_GUILD_SKILL_INDEX_LIST[i]
 			skillLevel = guild.GetSkillLevel(slotIndex)
@@ -3152,7 +3152,7 @@ class GuildWindow(ui.ScriptWindow):
 
 		page = self.pageWindow["GRADE"]
 
-		for key, slotList in page.gradeDict.items():
+		for key, slotList in list(page.gradeDict.items()):
 			name, authority = guild.GetGradeData(int(key))
 
 			slotList[self.GRADE_SLOT_NAME].SetText(name)
@@ -3187,7 +3187,7 @@ class GuildWindow(ui.ScriptWindow):
 			allall = 0
 			drawall = 0
 
-			for index in xrange(3):	#6
+			for index in range(3):	#6
 				win, lose, draw, all = guild.GetWarRecode(index)
 				page.GuildWarList.InsertItem(index, localeInfo.GUILDWAR_RECODE_ALL % (all, win, lose, draw))
 
@@ -4063,7 +4063,7 @@ if app.ENABLE_SECOND_GUILDRENEWAL_SYSTEM:
 				self.Scrollbar.Hide()
 
 			index = 0
-			for line in xrange(guild.GetbuildingSize()):
+			for line in range(guild.GetbuildingSize()):
 				for data in BUILDING_DATA_LIST:
 					if data["VNUM"] == guild.GetbuildingInfoChangeWIndow(line):
 						self.ChangeBuildingList.InsertItem(index, data["LOCAL_NAME"])
@@ -4386,12 +4386,12 @@ class BuildGuildBuildingWindow(ui.ScriptWindow):
 		self.__CreateWallBlock(lineBlock, line_startX+line_width*1, eyPos)
 		self.__CreateWallBlock(lineBlock, line_startX+line_width*2, eyPos)
 		self.__CreateWallBlock(lineBlock, line_startX+line_width*3, eyPos)
-		for i in xrange(X_SIZE_STEP):
+		for i in range(X_SIZE_STEP):
 			self.__CreateWallBlock(lineBlock, line_startX+line_width*(3+i+1), eyPos)
-		for i in xrange(X_SIZE_STEP/2):
+		for i in range(X_SIZE_STEP/2):
 			self.__CreateWallBlock(lineBlock, door_minX - line_maxX - line_width*i, syPos)
 			self.__CreateWallBlock(lineBlock, door_maxX - line_minX + line_width*i, syPos)
-		for i in xrange(Y_SIZE_STEP):
+		for i in range(Y_SIZE_STEP):
 			self.__CreateWallBlock(lineBlock, sxPos, line_minX + corner_minX - line_width*i, 90.0)
 			self.__CreateWallBlock(lineBlock, exPos, line_minX + corner_minX - line_width*i, 90.0)
 
@@ -4503,7 +4503,7 @@ class BuildGuildBuildingWindow(ui.ScriptWindow):
 		## /build c vnum x y x_rot y_rot z_rot
 		## /build d vnum
 		if "BUILDIN" == self.type:
-			for i in xrange(len(self.raceList)):
+			for i in range(len(self.raceList)):
 				race = self.raceList[i]
 				xPos, yPos = self.posList[i]
 				rot = self.rotList[i]
@@ -4865,7 +4865,7 @@ class BuildGuildBuildingWindow(ui.ScriptWindow):
 		self.posValueX.SetText(str(int(x)))
 		self.posValueY.SetText(str(int(y)))
 
-		for i in xrange(len(self.indexList)):
+		for i in range(len(self.indexList)):
 			idx = self.indexList[i]
 			xPos, yPos = self.posList[i]
 

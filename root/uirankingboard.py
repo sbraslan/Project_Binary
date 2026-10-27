@@ -21,7 +21,7 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 			1 :		("" ,	"" ,	""), #SOLO_RK_CATEGORY_BF_TOTAL
 		}
 
-		PARTY_RANK_BOARD_NAME = {0 :		("" ,	localeInfo.CLEAR_FLOOR ,	localeInfo.CLEAR_TIME),} # ÀÓ½Ã µ¥ÀÌÅÍ.
+		PARTY_RANK_BOARD_NAME = {0 :		("" ,	localeInfo.CLEAR_FLOOR ,	localeInfo.CLEAR_TIME),} # ì„ì‹œ ë°ì´í„°.
 
 		if app.ENABLE_GUILD_DRAGONLAIR_PARTY_SYSTEM:
 			RANK_1 = 0
@@ -93,7 +93,7 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 				pyScrLoader = ui.PythonScriptLoader()
 				pyScrLoader.LoadScriptFile(self, "UIScript/RankingBoardWindow.py")
 
-				## Å¸ÀÌÆ² ¹× ÄÃ·³ÀÌ¸§
+				## íƒ€ì´í‹€ ë° ì»¬ëŸ¼ì´ë¦„
 				self.TitleBar = self.GetChild("board")
 				self.ColumnNameRank = self.GetChild("ColumnNameRank")
 				self.ColumnNamePlayer = self.GetChild("ColumnNamePlayer")
@@ -156,35 +156,35 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 				self.ColumnNameUpdateTime.SetText(localeInfo.UPDATE_TIME)
 
 		def __MakeResultSlotUI(self, yPos):
-			## ¼øÀ§
+			## ìˆœìœ„
 			RankingSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", 23, yPos)
 			RankingSlotImage.SetAlpha(0)
 			RankingSlot = ui.MakeTextLine(RankingSlotImage)
 			self.Children.append(RankingSlotImage)
 			self.Children.append(RankingSlot)
 
-			## ÀÌ¸§
+			## ì´ë¦„
 			NameImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_04.sub", 77, yPos)
 			NameImage.SetAlpha(0)			
 			NameSlot = ui.MakeTextLine(NameImage)
 			self.Children.append(NameImage)
 			self.Children.append(NameSlot)
 
-			## ±â·Ï 1¼øÀ§
+			## ê¸°ë¡ 1ìˆœìœ„
 			RecordSlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", 205, yPos)
 			RecordSlotImage.SetAlpha(0)
 			RecordSlot = ui.MakeTextLine(RecordSlotImage)
 			self.Children.append(RecordSlotImage)
 			self.Children.append(RecordSlot)
 
-			## ±â·Ï 2¼øÀ§
+			## ê¸°ë¡ 2ìˆœìœ„
 			Record2SlotImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_00.sub", 270, yPos)
 			Record2SlotImage.SetAlpha(0)
 			Record2Slot = ui.MakeTextLine(Record2SlotImage)
 			self.Children.append(Record2SlotImage)
 			self.Children.append(Record2Slot)
 
-			## °»½Å½Ã°£
+			## ê°±ì‹ ì‹œê°„
 			UpdateTimeImage = ui.MakeImageBox(self, "d:/ymir work/ui/public/parameter_slot_01.sub", 357, yPos)
 			UpdateTimeImage.SetAlpha(0)
 			UpdateTimeSlot = ui.MakeTextLine(UpdateTimeImage)
@@ -298,7 +298,7 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 				GetInfo = ranking.GetHighRankingInfoParty
 				GetMyinfo = ranking.GetMyRankingInfoParty
 
-			for line, ResultSlotList in self.ResultSlotList.items():
+			for line, ResultSlotList in list(self.ResultSlotList.items()):
 				(charname, record0, record1, time, empire) = GetInfo(self.curCategory, line)
 				if "" == charname:
 					ResultSlotList[0].SetText("")
@@ -382,7 +382,7 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 			if "mouse_over_in" == event_type :
 				self.ResutlSlotCoverList[slot][0].SetAlpha(1)
 
-				# ÆÄÆ¼ÀÏ¶§¸¸ ¸¶¿ì½º ¿À¹ö½Ã ¸â¹ö¸íÀ» Ç¥½ÃÇØÁØ´Ù.
+				# íŒŒí‹°ì¼ë•Œë§Œ ë§ˆìš°ìŠ¤ ì˜¤ë²„ì‹œ ë©¤ë²„ëª…ì„ í‘œì‹œí•´ì¤€ë‹¤.
 				if self.curType == ranking.TYPE_RK_PARTY:
 					membername = ranking.GetPartyMemberName(self.curCategory, slot)
 					if membername != "":
@@ -395,16 +395,16 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 				self.ResutlSlotCoverList[slot][0].SetAlpha(0.5)
 				self.toolTipMemberName.HideToolTip()
 			else :
-				print " uiRankingBoard.py ::EventProgress : FALSE"
+				print(" uiRankingBoard.py ::EventProgress : FALSE")
 
 		def MyEventProgress(self, event_type) :
 			self.toolTipMemberName.ClearToolTip()
 			if "mouse_over_in" == event_type :
 				self.MyResultSlotCoverList[0].SetAlpha(1)
 
-				# ÆÄÆ¼ÀÏ¶§¸¸ ¸¶¿ì½º ¿À¹ö½Ã ¸â¹ö¸íÀ» Ç¥½ÃÇØÁØ´Ù.
+				# íŒŒí‹°ì¼ë•Œë§Œ ë§ˆìš°ìŠ¤ ì˜¤ë²„ì‹œ ë©¤ë²„ëª…ì„ í‘œì‹œí•´ì¤€ë‹¤.
 				if self.curType == ranking.TYPE_RK_PARTY:
-					# ³ªÀÇ ÆÄÆ¼¿ø Á¤º¸ °¡Á®¿À±â.
+					# ë‚˜ì˜ íŒŒí‹°ì› ì •ë³´ ê°€ì ¸ì˜¤ê¸°.
 					membername = ranking.GetMyPartyMemberName(self.curCategory)
 					if membername != "":
 						tooltipTitleColor = ui.GenerateColor(colorInfo.CHAT_RGB_PARTY[0], colorInfo.CHAT_RGB_PARTY[1], colorInfo.CHAT_RGB_PARTY[2])
@@ -416,4 +416,4 @@ if app.ENABLE_RANKING_SYSTEM and app.ENABLE_RANKING_SYSTEM_PARTY:
 				self.MyResultSlotCoverList[0].SetAlpha(0.5)
 				self.toolTipMemberName.HideToolTip()
 			else :
-				print " uiRankingBoard.py ::MyEventProgress : FALSE"
+				print(" uiRankingBoard.py ::MyEventProgress : FALSE")

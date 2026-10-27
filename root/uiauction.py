@@ -20,9 +20,9 @@ class AuctionWindow(ui.ScriptWindow):
 		pyScrLoader.LoadScriptFile(self, "uiscript/auctionwindow.py")
 
 		self.pageName = {
-			"LIST"				: "∏≈∏≈ ∏ÆΩ∫∆Æ",
-			"REGISTER"			: "∏≈∏≈ µÓ∑œ",
-			"UNIQUE_AUCTION"	: "¿Ø¥œ≈© ∞Ê∏≈",
+			"LIST"				: "Îß§Îß§ Î¶¨Ïä§Ìä∏",
+			"REGISTER"			: "Îß§Îß§ Îì±Î°ù",
+			"UNIQUE_AUCTION"	: "Ïú†ÎãàÌÅ¨ Í≤ΩÎß§",
 		}
 		self.pageWindow = {
 			"LIST"				: self.PageWindow(self, "uiscript/auctionwindow_listpage.py"),
@@ -41,9 +41,9 @@ class AuctionWindow(ui.ScriptWindow):
 			"REGISTER"			: self.GetChild("Tab_Button_02"),
 			"UNIQUE_AUCTION"	: self.GetChild("Tab_Button_03"),
 		}
-		for page in self.pageWindow.values():
+		for page in list(self.pageWindow.values()):
 			pyScrLoader.LoadScriptFile(page, page.GetScriptFileName())
-		for key, button in self.tabButtonDict.items():
+		for key, button in list(self.tabButtonDict.items()):
 			button.SetEvent(self.SelectPage, key)
 
 		self.__MakeListPage()
@@ -61,7 +61,7 @@ class AuctionWindow(ui.ScriptWindow):
 
 		AUCTION_LINE_COUNT = 10
 
-		for i in xrange(AUCTION_LINE_COUNT):
+		for i in range(AUCTION_LINE_COUNT):
 
 			numberSlotImage = ui.MakeImageBox(page, "d:/ymir work/ui/public/Parameter_Slot_00.sub", 11, yPos)
 			numberSlot = ui.MakeTextLine(numberSlotImage)
@@ -84,7 +84,7 @@ class AuctionWindow(ui.ScriptWindow):
 			deleteButton.SetUpVisual("d:/ymir work/ui/public/small_button_01.sub")
 			deleteButton.SetOverVisual("d:/ymir work/ui/public/small_button_02.sub")
 			deleteButton.SetDownVisual("d:/ymir work/ui/public/small_button_03.sub")
-			deleteButton.SetText("±∏¿‘")
+			deleteButton.SetText("Íµ¨ÏûÖ")
 			deleteButton.Show()
 			page.Children.append(deleteButton)
 
@@ -99,7 +99,7 @@ class AuctionWindow(ui.ScriptWindow):
 
 		LINE_COUNT = 3
 
-		for i in xrange(LINE_COUNT):
+		for i in range(LINE_COUNT):
 
 			yPos = 5 + 99*i
 
@@ -109,19 +109,19 @@ class AuctionWindow(ui.ScriptWindow):
 			itemName = ui.MakeTextLine(page, False, 117, yPos + 14)
 			page.Children.append(itemName)
 			## Temporary
-			itemName.SetText("º±≥‡¿« ∫Ò≥‡")
+			itemName.SetText("ÏÑ†ÎÖÄÏùò ÎπÑÎÖÄ")
 			## Temporary
 
 			curPrice = ui.MakeTextLine(page, False, 117, yPos + 31)
 			page.Children.append(curPrice)
 			## Temporary
-			curPrice.SetText("«ˆ¿Á∞° : 20æÔ 1234∏∏ 1234≥…")
+			curPrice.SetText("ÌòÑÏû¨Í∞Ä : 20Ïñµ 1234Îßå 1234ÎÉ•")
 			## Temporary
 
 			lastTime = ui.MakeTextLine(page, False, 117, yPos + 48)
 			page.Children.append(lastTime)
 			## Temporary
-			lastTime.SetText("≥´¬˚±Ó¡ˆ ≥≤¿∫ Ω√∞£ : 19∫– 28√ ")
+			lastTime.SetText("ÎÇôÏ∞∞ÍπåÏßÄ ÎÇ®ÏùÄ ÏãúÍ∞Ñ : 19Î∂Ñ 28Ï¥à")
 			## Temporary
 
 			priceSlotImage = ui.MakeImageBox(page, "d:/ymir work/ui/public/Parameter_Slot_05.sub", 117, yPos + 65)
@@ -129,19 +129,19 @@ class AuctionWindow(ui.ScriptWindow):
 			page.Children.append(priceSlotImage)
 			page.Children.append(priceSlot)
 			## Temporary
-			priceSlot.SetText("20æÔ 1234∏∏ 1234≥…")
+			priceSlot.SetText("20Ïñµ 1234Îßå 1234ÎÉ•")
 			## Temporary
 
 	def SelectPage(self, arg):
-		for key, btn in self.tabButtonDict.items():
+		for key, btn in list(self.tabButtonDict.items()):
 			if arg != key:
 				btn.SetUp()
-		for key, img in self.tabDict.items():
+		for key, img in list(self.tabDict.items()):
 			if arg == key:
 				img.Show()
 			else:
 				img.Hide()
-		for key, page in self.pageWindow.items():
+		for key, page in list(self.pageWindow.items()):
 			if arg == key:
 				page.Show()
 			else:

@@ -53,7 +53,7 @@ class AuraWindow(ui.ScriptWindow):
 			playerm2g2.AURA_WINDOW_TYPE_EVOLVE	: localeInfo.AURA_TITLE_EVOLUTION
 		}
 
-		if pyScriptFileNames.has_key(type):
+		if type in pyScriptFileNames:
 			try:
 				pyScrLoader = ui.PythonScriptLoader()
 				pyScrLoader.LoadScriptFile(self, pyScriptFileNames[type])
@@ -374,7 +374,7 @@ class AuraWindow(ui.ScriptWindow):
 		AuraItemSize = playerm2g2.GetAuraCurrentItemSlotCount()
 		self.ClearAuraLevelUpWindowToolTip()
 		[self.wndItem.ClearSlot(i) for i in range(playerm2g2.AURA_SLOT_MAX)]
-		for i in xrange(AuraItemSize):
+		for i in range(AuraItemSize):
 			itemCount = getAuraCount(i)
 			if 1 == itemCount:
 				itemCount = 0

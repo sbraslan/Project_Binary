@@ -17,7 +17,7 @@ def GetMaxMultipler(infoDict):
 	iMaxMultipler = 0
 
 	while True:
-		for i in xrange(1, 6):
+		for i in range(1, 6):
 			key = 'item%d' % i
 			cubeKey = "count_elements_%d" % i 
 			if key in infoDict and infoDict:
@@ -47,7 +47,7 @@ def GetItemGrade(itemVnum, infoDict):
 def GetTotalRefinesNum(infoDict):
 	requiredCount = []
 	hasCount = []
-	for i in xrange(1, 6):
+	for i in range(1, 6):
 		key = 'item%d' % i
 		if key in infoDict:
 			requiredCount.append(infoDict[key][1])
@@ -82,7 +82,7 @@ def GetTotalRefinesNum(infoDict):
 def GetTotalRefines(infoDict):
 	requiredCount = []
 	hasCount = []
-	for i in xrange(1, 6):
+	for i in range(1, 6):
 		key = 'item%d' % i
 		if key in infoDict:
 			requiredCount.append(infoDict[key][1])
@@ -255,7 +255,7 @@ class Category(mainItem):
 		self.OpenFunc = False
 		if localeInfo.IsARABIC():
 			self.image.SetPosition(285,3)
-		map(ui.Window.Hide, self.SubCategories)
+		list(map(ui.Window.Hide, self.SubCategories))
 
 	def IsOpen(self):
 		return self.OpenFunc
@@ -329,7 +329,7 @@ class SubCategory(mainItem):
 		if localeInfo.IsARABIC():
 			self.image.SetPosition(255,5)
 
-		map(ui.Window.Hide, self.SubCategoryObjects)
+		list(map(ui.Window.Hide, self.SubCategoryObjects))
 
 	def IsOpen(self):
 		return self.OpenFunc
@@ -472,7 +472,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 
 			self.GetChild("board").SetCloseEvent(ui.__mem_func__(self.Close))
 			self.cube_elements = {}
-			for i in xrange(1,6):
+			for i in range(1,6):
 				self.cube_elements["count_elements_%d" % i] = self.GetChild("material_qty_text_%d"%i)
 
 			self.slot_improve = ui.SlotWindow()
@@ -501,7 +501,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 
 			self.cube_list_scroll_bar.SetScrollEvent(ui.__mem_func__(self.OnScroll))
 
-			for i in xrange(6):
+			for i in range(6):
 				self.icons_items.AppendSlot(i+1,46*i+62,0,32,32*3)
 
 			self.icons_items.Show()
@@ -601,7 +601,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 				# itemIndex = i
 				# break
 		reqItemsArg = list()
-		for i in xrange(5):
+		for i in range(5):
 			key = 'item%d' % (i+1)
 			if key in self.infoDict:
 				reqItemsArg.append(self.infoDict[key][0])
@@ -619,7 +619,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 
 	def Reset(self):
 		if len(self.showingItemList) > 0:
-			map(ui.Window.Hide, self.showingItemList)
+			list(map(ui.Window.Hide, self.showingItemList))
 
 		for group in self.CategoryList:
 			group.Close()
@@ -627,7 +627,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 			for categorias in group.GetSubCategories():
 				categorias.Close()
 
-		for i in xrange(0,6):
+		for i in range(0,6):
 			self.icons_items.ClearSlot(i)
 			if i > 0:
 				self.cube_elements["count_elements_%d"%i].Hide()
@@ -671,7 +671,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 
 	def GetCategory(self, name):
 		for cat in self.CategoryList:
-			name_cat = cat.text.GetText()
+			name_cat = ui.DecodeLocaleText(cat.GetName())
 
 			if name.find(name_cat) != -1:
 				return cat
@@ -692,7 +692,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 	def LoadCategories(self):
 		# import dbg
 		if len(self.showingItemList) > 0:
-			map(ui.Window.Hide, self.showingItemList)
+			list(map(ui.Window.Hide, self.showingItemList))
 
 		for group in self.CategoryList:
 			group.Close()
@@ -700,7 +700,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 			for categorias in group.GetSubCategories():
 				categorias.Close()
 
-		for i in xrange(0,6):
+		for i in range(0,6):
 			self.icons_items.ClearSlot(i)
 			if i > 0:
 				self.cube_elements["count_elements_%d"%i].Hide()
@@ -739,6 +739,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 			if info['category'] in categoryNames:
 				info['category'] = categoryNames[info['category']]
 
+			info['category'] = ui.DecodeLocaleText(info['category'])
 			tempCat = self.GetCategory(info['category'])
 
 			if tempCat == None:
@@ -773,7 +774,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 					'npc' : info['npcVnum'],
 					'allow_copy' : info['allow_copy'],
 				}
-				for i in xrange(0, 5):
+				for i in range(0, 5):
 					if 'item%d' % i in info:
 						infoDict['item%d' % (i+1) ] = info['item%d' % i ]
 				refineCount = GetMaxMultipler(infoDict)
@@ -846,7 +847,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 		if infoDict:
 			self.icons_items.SetItemSlot(0, infoDict['reward'][0], infoDict['reward'][1] * self.multiplier)
 
-		for i in xrange(1, 6):
+		for i in range(1, 6):
 			self.icons_items.ClearSlot(i)
 			key = 'item%d' % i
 			if key in infoDict:
@@ -861,7 +862,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 
 		self.result_qty.Show()
 
-		for i in xrange(1, 6):
+		for i in range(1, 6):
 			key = 'item%d' % i
 			cubeKey = "count_elements_%d" % i 
 			if key in infoDict and infoDict:
@@ -934,7 +935,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 				self.cube_list_scroll_bar.SetMiddleBarSize(float(self.MaxElements) / float(len(self.showingItemList)))
 			self.cube_list_scroll_bar.Show()
 
-		map(ui.Window.Hide, self.showingItemList)
+		list(map(ui.Window.Hide, self.showingItemList))
 
 		yPos = 11
 		heightLimit = 240
@@ -958,7 +959,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 		self.inventoryHandler = proxy(inventoryHandler)
 
 	def GetAttrCopyNextItem(self, vnum):
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
 			if playerm2g2.GetItemSetValue(playerm2g2.INVENTORY, i):
 				continue
 
@@ -984,7 +985,7 @@ class CubeRenewalWindows(ui.ScriptWindow):
 		check_item = -1
 
 		if infoDict['set_value'] or infoDict['allow_copy'] and index in (0, 1):
-			for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
+			for i in range(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
 				iVnum = playerm2g2.GetItemIndex(i)
 				if playerm2g2.GetItemSetValue(playerm2g2.INVENTORY, i):
 					continue
@@ -999,37 +1000,37 @@ class CubeRenewalWindows(ui.ScriptWindow):
 			apply_random_list = []
 			randValue = []
 
-		for i in xrange(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
+		for i in range(playerm2g2.INVENTORY_PAGE_SIZE*playerm2g2.INVENTORY_PAGE_COUNT):
 			item_vnum = playerm2g2.GetItemIndex(i)
 
 			if 'item%d' % index in infoDict and item_vnum == infoDict['item%d' % index][0] and check_item == -1:
 				check_item = i
 
 		if check_item != -1:
-			for c in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for c in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(playerm2g2.GetItemMetinSocket(check_item,c))
 
-			for b in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for b in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				AttrList.append(playerm2g2.GetItemAttribute(check_item,b))
 
 			if app.ENABLE_YOHARA_SYSTEM:
-				for d in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for d in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append(playerm2g2.GetItemApplyRandom(check_item, d))
 
-				for r in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for r in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randValue.append(playerm2g2.GetRandomValue(check_item,r))
 		else:
-			for c in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+			for c in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 				metinSlot.append(0)
 
-			for b in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+			for b in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 				AttrList.append((0,0))
 
 			if app.ENABLE_YOHARA_SYSTEM:
-				for d in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+				for d in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 					apply_random_list.append((0, 0))
 
-				for r in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+				for r in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 					randValue.append(0)
 
 		if app.ENABLE_REFINE_ELEMENT:
@@ -1042,10 +1043,10 @@ class CubeRenewalWindows(ui.ScriptWindow):
 				metinSlot = []
 				AttrList = []
 
-				for c in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+				for c in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 					metinSlot.append(playerm2g2.GetItemMetinSocket(idx_inv, c))
 
-				for b in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+				for b in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 					AttrList.append(playerm2g2.GetItemAttribute(idx_inv, b))
 
 		if app.ENABLE_SET_ITEM:

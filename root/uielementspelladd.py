@@ -51,7 +51,7 @@ class ElementsSpellAdd(ui.ScriptWindow):
 		self.toolTip = toolTip
 
 		self.slotList = []
-		for i in xrange(3):
+		for i in range(3):
 			slot = self.__MakeSlot()
 			slot.SetParent(toolTip)
 			slot.SetWindowVerticalAlignCenter()
@@ -106,20 +106,20 @@ class ElementsSpellAdd(ui.ScriptWindow):
 
 		self.toolTip.ClearToolTip()
 		metinSlot = []
-		for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM):
+		for i in range(playerm2g2.METIN_SOCKET_MAX_NUM):
 			metinSlot.append(playerm2g2.GetItemMetinSocket(itemPos, i))
 
 		attrSlot = []
-		for i in xrange(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
+		for i in range(playerm2g2.ATTRIBUTE_SLOT_MAX_NUM):
 			attrSlot.append(playerm2g2.GetItemAttribute(itemPos, i))
 
 		if app.ENABLE_YOHARA_SYSTEM:
 			apply_random_list = []
-			for i in xrange(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
+			for i in range(playerm2g2.APPLY_RANDOM_SLOT_MAX_NUM):
 				apply_random_list.append(playerm2g2.GetItemApplyRandom(itemPos, i))
 
 			randomValue = []
-			for i in xrange(playerm2g2.ITEM_RANDOM_VALUES_NUM):
+			for i in range(playerm2g2.ITEM_RANDOM_VALUES_NUM):
 				randomValue.append(playerm2g2.GetRandomValue(itemPos, i))
 
 			self.toolTip.AddElementsSpellItemData(ItemVnum, func, grade_add, itemPos, metinSlot, attrSlot, playerm2g2.INVENTORY, apply_random_list, randomValue, 0)
@@ -131,7 +131,7 @@ class ElementsSpellAdd(ui.ScriptWindow):
 		xSlotCount, ySlotCount = item.GetItemSize()
 		for slot in self.slotList:
 			slot.Hide()
-		for i in xrange(min(3, ySlotCount)):
+		for i in range(min(3, ySlotCount)):
 			self.slotList[i].SetPosition(-35, i*32 - (ySlotCount-1)*16)
 			self.slotList[i].Show()
 

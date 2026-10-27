@@ -180,7 +180,7 @@ class SungMahiWindow(ui.BoardWithTitleBar):
 		self.rewardSlotWindow.SetParent(self)
 		self.rewardSlotWindow.SetPosition(167, 67)
 		self.rewardSlotWindow.SetSize(160, 32)
-		for slotCount in xrange(MAX_REWARD_COUNT):
+		for slotCount in range(MAX_REWARD_COUNT):
 			self.rewardSlotWindow.AppendSlot(slotCount, (32*slotCount), 0, 32, 32)
 		self.rewardSlotWindow.SetSlotBaseImage("d:/ymir work/ui/public/Slot_Base.sub", 1.0, 1.0, 1.0, 1.0)
 		self.rewardSlotWindow.SetOverInItemEvent(ui.__mem_func__(self.OverInItem))
@@ -308,7 +308,7 @@ class SungMahiWindow(ui.BoardWithTitleBar):
 		self.scrollbar.SetPos(completedCount)
 
 	def SetCompletedDungeons(self, dungeonsCompleted):
-		for index in xrange(dungeonsCompleted):
+		for index in range(dungeonsCompleted):
 			self.levelListItems[index].MarkAsCompleted()
 
 		self.UpdateScrollPos(dungeonsCompleted)
@@ -329,7 +329,7 @@ class SungMahiWindow(ui.BoardWithTitleBar):
 		itemSlotContor = 0
 
 		self.rewardItemVnums = []
-		for slot in xrange(self.rewardSlotWindow.GetSlotCount()):
+		for slot in range(self.rewardSlotWindow.GetSlotCount()):
 			self.rewardSlotWindow.ClearSlot(slot)
 
 		for itemInfo in constInfo.sungMahiRewardInfo[levelIndex]:
@@ -350,7 +350,7 @@ class SungMahiWindow(ui.BoardWithTitleBar):
 
 			itemIndex = int(self.rewardItemVnums[overSlotPos])
 			if itemIndex:
-				self.tooltipItem.AddItemData(itemIndex, metinSlot = [0 for i in xrange(playerm2g2.METIN_SOCKET_MAX_NUM)])
+				self.tooltipItem.AddItemData(itemIndex, metinSlot = [0 for i in range(playerm2g2.METIN_SOCKET_MAX_NUM)])
 				self.tooltipItem.ShowToolTip()
 
 	def OverInElement(self):

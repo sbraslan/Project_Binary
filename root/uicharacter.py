@@ -58,7 +58,7 @@ if app.ENABLE_WOLFMAN_CHARACTER:
 	FACE_IMAGE_DICT.update({playerSettingModule.RACE_WOLFMAN_M  : "icon/face/wolfman_m.tga",})
 
 def unsigned32(n):
-	return n & 0xFFFFFFFFL
+	return n & 0xFFFFFFFF
 
 if app.ENABLE_QUEST_RENEWAL:
 	quest_slot_listbar = {
@@ -555,7 +555,7 @@ class CharacterWindow(ui.ScriptWindow):
 
 		if app.ENABLE_QUEST_RENEWAL:
 			self.questScrollBar.SetParent(self.quest_page_board_window)
-			for i in xrange(quest.QUEST_CATEGORY_MAX_NUM):
+			for i in range(quest.QUEST_CATEGORY_MAX_NUM):
 				self.questCategory = ui.SubTitleBar()
 				self.questCategory.SetParent(self.questPage)
 				self.questCategory.MakeSubTitleBar(210, "red")
@@ -566,13 +566,13 @@ class CharacterWindow(ui.ScriptWindow):
 				self.questCategoryRenderPos.append(0)
 
 			self.questScrollBar.SetParent(self.questPage)
-			self.RearrangeQuestCategories(xrange(quest.QUEST_CATEGORY_MAX_NUM))
+			self.RearrangeQuestCategories(list(range(quest.QUEST_CATEGORY_MAX_NUM)))
 		else:
 			self.questShowingStartIndex = 0
 			self.questScrollBar = self.GetChild("Quest_ScrollBar")
 			self.questScrollBar.SetScrollEvent(ui.__mem_func__(self.OnQuestScroll))
 			self.questSlot = self.GetChild("Quest_Slot")
-			for i in xrange(quest.QUEST_MAX_NUM):
+			for i in range(quest.QUEST_MAX_NUM):
 				self.questSlot.HideSlotBaseImage(i)
 				self.questSlot.SetCoverButton(i,\
 												"d:/ymir work/ui/game/quest/slot_button_01.sub",\
@@ -583,7 +583,7 @@ class CharacterWindow(ui.ScriptWindow):
 			self.questNameList = []
 			self.questLastTimeList = []
 			self.questLastCountList = []
-			for i in xrange(quest.QUEST_MAX_NUM):
+			for i in range(quest.QUEST_MAX_NUM):
 				self.questNameList.append(self.GetChild("Quest_Name_0" + str(i)))
 				self.questLastTimeList.append(self.GetChild("Quest_LastTime_0" + str(i)))
 				self.questLastCountList.append(self.GetChild("Quest_LastCount_0" + str(i)))
@@ -632,7 +632,7 @@ class CharacterWindow(ui.ScriptWindow):
 			elif "mouse_over_out" == event_type :
 				self.OverOutToolTipButton()
 			else :
-				print " uiCharacter.py ::EventProgress : FALSE"
+				print(" uiCharacter.py ::EventProgress : FALSE")
 
 	if app.ENABLE_DETAILS_UI:
 		def __InitCharacterDetailsUIButton(self):
@@ -671,7 +671,7 @@ class CharacterWindow(ui.ScriptWindow):
 				self.chDetailsWnd.AdjustPosition()
 
 	def __SetSkillSlotEvent(self):
-		for skillPageValue in self.skillPageDict.itervalues():
+		for skillPageValue in list(self.skillPageDict.values()):
 			skillPageValue.SetSlotStyle(wndMgr.SLOT_STYLE_NONE)
 			skillPageValue.SetSelectItemSlotEvent(ui.__mem_func__(self.SelectSkill))
 			skillPageValue.SetSelectEmptySlotEvent(ui.__mem_func__(self.SelectEmptySlot))
@@ -692,7 +692,7 @@ class CharacterWindow(ui.ScriptWindow):
 			self.specialEmotionList = []
 			self.specialEmotionListTime = {}
 
-			for i in xrange(app.SPECIAL_ACTION_START_INDEX, app.SPECIAL_ACTION_END_INDEX+1):
+			for i in range(app.SPECIAL_ACTION_START_INDEX, app.SPECIAL_ACTION_END_INDEX+1):
 				self.specialEmotionSlot.ClearSlot(i)
 
 		def AddEmotionsNew(self, id_emotion, time_emotion):
@@ -737,7 +737,7 @@ class CharacterWindow(ui.ScriptWindow):
 												"d:/ymir work/ui/game/windows/btn_plus_over.sub",\
 												"d:/ymir work/ui/game/windows/btn_plus_down.sub")
 
-		for slotIdx, datadict in emotion.EMOTION_DICT.items():
+		for slotIdx, datadict in list(emotion.EMOTION_DICT.items()):
 			emotionIdx = slotIdx
 
 			slot = self.soloEmotionSlot
@@ -753,7 +753,7 @@ class CharacterWindow(ui.ScriptWindow):
 
 		if app.ENABLE_EXPRESSING_EMOTION:
 			if len(self.specialEmotionList) > 0:
-				for i in xrange(0,len(self.specialEmotionList)):
+				for i in range(0,len(self.specialEmotionList)):
 					slotIdx = app.SPECIAL_ACTION_START_INDEX + i # Slot
 					emotionIdx = self.specialEmotionList[i][0] # Emotion
 
@@ -776,7 +776,7 @@ class CharacterWindow(ui.ScriptWindow):
 		mouseModule.mouseController.AttachObject(self, playerm2g2.SLOT_TYPE_EMOTION, slotIndex, slotIndex)
 
 	def __ClickEmotionSlot(self, slotIndex):
-		print "click emotion"
+		print("click emotion")
 		if app.ENABLE_EXPRESSING_EMOTION:
 			if not slotIndex in emotion.EMOTION_DICT and slotIndex < app.SPECIAL_ACTION_START_INDEX:
 				return
@@ -784,7 +784,7 @@ class CharacterWindow(ui.ScriptWindow):
 			if not slotIndex in emotion.EMOTION_DICT:
 				return
 
-		print "check acting"
+		print("check acting")
 		if playerm2g2.IsActingEmotion():
 			return
 
@@ -792,10 +792,10 @@ class CharacterWindow(ui.ScriptWindow):
 			command = ""
 			if slotIndex < app.SPECIAL_ACTION_START_INDEX:
 				command = emotion.EMOTION_DICT[slotIndex]["command"]
-			print "command", command
+			print(("command", command))
 		else:
 			command = emotion.EMOTION_DICT[slotIndex]["command"]
-			print "command", command
+			print(("command", command))
 
 		if app.ENABLE_EXPRESSING_EMOTION:
 			if slotIndex > 50 and slotIndex < 54:
@@ -871,38 +871,38 @@ class CharacterWindow(ui.ScriptWindow):
 			self.emotionToolTip.HideToolTip()
 
 	def __BindEvent(self):
-		for i in xrange(len(self.skillGroupButton)):
+		for i in range(len(self.skillGroupButton)):
 			self.skillGroupButton[i].SetEvent(ui.__mem_func__(self.__SelectSkillGroup),i)
 
 		self.RefreshQuest()
 		self.__HideJobToolTip()
 
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			tabButton.SetEvent(ui.__mem_func__(self.__OnClickTabButton), tabKey)
 			if app.ENABLE_YOHARA_SYSTEM:
 				tabButton.SetShowToolTipEvent(ui.__mem_func__(self.__OverInTabButton), tabKey)
 				tabButton.SetHideToolTipEvent(ui.__mem_func__(self.OverOutToolTipButton), tabKey)
 
 		if app.ENABLE_YOHARA_SYSTEM:
-			for (infoTabKey, infoTabButton) in self.tabInfoButtonDict.items():
+			for (infoTabKey, infoTabButton) in list(self.tabInfoButtonDict.items()):
 				infoTabButton.SetEvent(ui.__mem_func__(self.__OnClickTabInfoButton), infoTabKey)
 
-			for (sungmaStatusPlusKey, sungmaStatusPlusButton) in self.sungmaStatusPlusButtonDict.items():
+			for (sungmaStatusPlusKey, sungmaStatusPlusButton) in list(self.sungmaStatusPlusButtonDict.items()):
 				sungmaStatusPlusButton.SAFE_SetEvent(self.__OnClickSungmaStatusPlusButton, sungmaStatusPlusKey)
 				sungmaStatusPlusButton.SetShowToolTipEvent(ui.__mem_func__(self.__OverInSungmaStatButton), sungmaStatusPlusKey)
 				sungmaStatusPlusButton.SetHideToolTipEvent(ui.__mem_func__(self.OverOutToolTipButton), sungmaStatusPlusKey)
 
-		for (statusPlusKey, statusPlusButton) in self.statusPlusButtonDict.items():
+		for (statusPlusKey, statusPlusButton) in list(self.statusPlusButtonDict.items()):
 			statusPlusButton.SAFE_SetEvent(self.__OnClickStatusPlusButton, statusPlusKey)
 			statusPlusButton.SetShowToolTipEvent(ui.__mem_func__(self.__OverInStatButton), statusPlusKey)
 			statusPlusButton.SetHideToolTipEvent(ui.__mem_func__(self.__OverOutStatButton), statusPlusKey)
 
-		for (statusMinusKey, statusMinusButton) in self.statusMinusButtonDict.items():
+		for (statusMinusKey, statusMinusButton) in list(self.statusMinusButtonDict.items()):
 			statusMinusButton.SAFE_SetEvent(self.__OnClickStatusMinusButton, statusMinusKey)
 			statusMinusButton.SetShowToolTipEvent(ui.__mem_func__(self.__OverInStatMinusButton), statusMinusKey)
 			statusMinusButton.SetHideToolTipEvent(ui.__mem_func__(self.__OverOutStatMinusButton), statusMinusKey)
 
-		for titleBarValue in self.titleBarDict.itervalues():
+		for titleBarValue in list(self.titleBarDict.values()):
 			if app.ENABLE_DETAILS_UI:
 				titleBarValue.SetCloseEvent(ui.__mem_func__(self.Close))
 			else:
@@ -912,7 +912,7 @@ class CharacterWindow(ui.ScriptWindow):
 			self.questTitleBar.SetCloseEvent(ui.__mem_func__(self.Close))
 			self.questScrollBar.SetScrollEvent(ui.__mem_func__(self.__OnScrollQuest))
 
-			for i in xrange(quest.QUEST_CATEGORY_MAX_NUM):
+			for i in range(quest.QUEST_CATEGORY_MAX_NUM):
 				self.questCategoryList[i].SetEvent(ui.__mem_func__(self.__OnClickQuestCategoryButton), i)
 		else:
 			self.questSlot.SetSelectItemSlotEvent(ui.__mem_func__(self.__SelectQuest))
@@ -986,14 +986,14 @@ class CharacterWindow(ui.ScriptWindow):
 			else:
 				statusPlusCommand=self.statusPlusCommandDict[statusKey]
 				m2netm2g.SendChatPacket(statusPlusCommand)
-		except KeyError, msg:
+		except KeyError as msg:
 			dbg.TraceError("CharacterWindow.__OnClickStatusPlusButton KeyError: %s", msg)
 
 	def __OnClickStatusMinusButton(self, statusKey):
 		try:
 			statusMinusCommand=self.statusMinusCommandDict[statusKey]
 			m2netm2g.SendChatPacket(statusMinusCommand)
-		except KeyError, msg:
+		except KeyError as msg:
 			dbg.TraceError("CharacterWindow.__OnClickStatusMinusButton KeyError: %s", msg)
 
 	def __OnClickTabButton(self, stateKey):
@@ -1011,17 +1011,17 @@ class CharacterWindow(ui.ScriptWindow):
 			else:
 				self.__LoadQuestCategory()
 
-		for (tabKey, tabButton) in self.tabButtonDict.items():
+		for (tabKey, tabButton) in list(self.tabButtonDict.items()):
 			if stateKey!=tabKey:
 				tabButton.SetUp()
 
-		for tabValue in self.tabDict.itervalues():
+		for tabValue in list(self.tabDict.values()):
 			tabValue.Hide()
 
-		for pageValue in self.pageDict.itervalues():
+		for pageValue in list(self.pageDict.values()):
 			pageValue.Hide()
 
-		for titleBarValue in self.titleBarDict.itervalues():
+		for titleBarValue in list(self.titleBarDict.values()):
 			titleBarValue.Hide()
 
 		self.titleBarDict[stateKey].Show()
@@ -1036,7 +1036,7 @@ class CharacterWindow(ui.ScriptWindow):
 			try:
 				sungmaStatusPlusCommand=self.sungmaStatusPlusCommandDict[sungmaStatusKey]
 				m2netm2g.SendChatPacket(sungmaStatusPlusCommand)
-			except KeyError, msg:
+			except KeyError as msg:
 				dbg.TraceError("CharacterWindow.__OnClickSungmaStatusPlusButton KeyError: %s", msg)
 
 		def __OnClickTabInfoButton(self, infoStateKey):
@@ -1045,13 +1045,13 @@ class CharacterWindow(ui.ScriptWindow):
 		def SetInfoState(self, infoStateKey):
 			self.infoState = infoStateKey
 
-			for (infoTabKey, infoTabButton) in self.tabInfoButtonDict.items():
+			for (infoTabKey, infoTabButton) in list(self.tabInfoButtonDict.items()):
 				if infoStateKey!=infoTabKey:
 					infoTabButton.SetUp()
 				else:
 					infoTabButton.Down()
 
-			for pageValue in self.InfoPageDict.itervalues():
+			for pageValue in list(self.InfoPageDict.values()):
 				pageValue.Hide()
 
 			self.InfoPageDict[infoStateKey].Show() ## Slots info
@@ -1305,28 +1305,28 @@ class CharacterWindow(ui.ScriptWindow):
 		return localeInfo.TITLE_NAME_LIST[grade]
 
 	def __ShowStatusMinusButtonList(self):
-		for (stateMinusKey, statusMinusButton) in self.statusMinusButtonDict.items():
+		for (stateMinusKey, statusMinusButton) in list(self.statusMinusButtonDict.items()):
 			statusMinusButton.Show()
 
 	def __HideStatusMinusButtonList(self):
-		for (stateMinusKey, statusMinusButton) in self.statusMinusButtonDict.items():
+		for (stateMinusKey, statusMinusButton) in list(self.statusMinusButtonDict.items()):
 			statusMinusButton.Hide()
 
 	def ShowStatusPlusButtonList(self):
-		for (statePlusKey, statusPlusButton) in self.statusPlusButtonDict.items():
+		for (statePlusKey, statusPlusButton) in list(self.statusPlusButtonDict.items()):
 			statusPlusButton.Show()
 
 	def HideStatusPlusButtonList(self):
-		for (statePlusKey, statusPlusButton) in self.statusPlusButtonDict.items():
+		for (statePlusKey, statusPlusButton) in list(self.statusPlusButtonDict.items()):
 			statusPlusButton.Hide()
 
 	if app.ENABLE_YOHARA_SYSTEM:
 		def ShowSungmaStatusPlusButtonList(self):
-			for (sungmaStatePlusKey, sungmaStatusPlusButton) in self.sungmaStatusPlusButtonDict.items():
+			for (sungmaStatePlusKey, sungmaStatusPlusButton) in list(self.sungmaStatusPlusButtonDict.items()):
 				sungmaStatusPlusButton.Show()
 
 		def HideSungmaStatusPlusButtonList(self):
-			for (sungmaStatePlusKey, sungmaStatusPlusButton) in self.sungmaStatusPlusButtonDict.items():
+			for (sungmaStatePlusKey, sungmaStatusPlusButton) in list(self.sungmaStatusPlusButtonDict.items()):
 				sungmaStatusPlusButton.Hide()
 
 		#if app.ENABLE_PASSIVE_SYSTEM:
@@ -1412,7 +1412,7 @@ class CharacterWindow(ui.ScriptWindow):
 			self.OnQuestScroll()
 
 			questCount = quest.GetQuestCount()
-			questRange = range(quest.QUEST_MAX_NUM)
+			questRange = list(range(quest.QUEST_MAX_NUM))
 
 			if questCount > quest.QUEST_MAX_NUM:
 				self.questScrollBar.Show()
@@ -1489,7 +1489,7 @@ class CharacterWindow(ui.ScriptWindow):
 					clock.SetText(clockText)
 			else:
 				# QUEST_LIMIT_COUNT_BUG_FIX
-				for i in xrange(min(quest.GetQuestCount(), quest.QUEST_MAX_NUM)):
+				for i in range(min(quest.GetQuestCount(), quest.QUEST_MAX_NUM)):
 				# END_OF_QUEST_LIMIT_COUNT_BUG_FIX
 					(lastName, lastTime) = quest.GetQuestLastTime(i+self.questShowingStartIndex)
 
@@ -1585,7 +1585,7 @@ class CharacterWindow(ui.ScriptWindow):
 		if app.ENABLE_EXPRESSING_EMOTION:
 			if "EMOTICON" == self.state:
 				if len(self.specialEmotionList) > 0:
-					for i in xrange(0,len(self.specialEmotionList)):
+					for i in range(0,len(self.specialEmotionList)):
 						self.specialEmotionListTime[i] = self.SetTime(self.specialEmotionList[i][1])
 
 		if app.ENABLE_SKILL_COLOR_SYSTEM:
@@ -1609,11 +1609,11 @@ class CharacterWindow(ui.ScriptWindow):
 		getSkillLevel=playerm2g2.GetSkillLevel
 		getSkillLevelUpPoint=skill.GetSkillLevelUpPoint
 		getSkillMaxLevel=skill.GetSkillMaxLevel
-		for i in xrange(slotCount+1):
+		for i in range(slotCount+1):
 			slotIndex = i + startSlotIndex
 			skillIndex = getSkillIndex(slotIndex)
 
-			for j in xrange(skill.SKILL_GRADE_COUNT):
+			for j in range(skill.SKILL_GRADE_COUNT):
 				skillPage.ClearSlot(self.__GetRealSkillSlot(j, i))
 
 			if 0 == skillIndex:
@@ -1633,7 +1633,7 @@ class CharacterWindow(ui.ScriptWindow):
 
 			## ACTIVE
 			elif skill.SKILL_TYPE_ACTIVE == skillType:
-				for j in xrange(skill.SKILL_GRADE_COUNT):
+				for j in range(skill.SKILL_GRADE_COUNT):
 					realSlotIndex = self.__GetRealSkillSlot(j, slotIndex)
 					skillPage.SetSkillSlotNew(realSlotIndex, skillIndex, j, skillLevel)
 					skillPage.SetCoverButton(realSlotIndex)
@@ -1722,7 +1722,7 @@ class CharacterWindow(ui.ScriptWindow):
 			startSlotIndex += self.ACTIVE_PAGE_SLOT_COUNT
 
 		if statPoint > 0:
-			for i in xrange(self.PAGE_SLOT_COUNT):
+			for i in range(self.PAGE_SLOT_COUNT):
 				slotIndex = i + startSlotIndex
 				skillIndex = playerm2g2.GetSkillIndex(slotIndex)
 				skillGrade = playerm2g2.GetSkillGrade(slotIndex)
@@ -1751,7 +1751,7 @@ class CharacterWindow(ui.ScriptWindow):
 			self.skillColorButton = []
 
 			xPos, yPos = 0, 0
-			for idx in xrange(self.PAGE_SLOT_COUNT):
+			for idx in range(self.PAGE_SLOT_COUNT):
 				skillSlot = idx
 				if app.ENABLE_NINETH_SKILL:
 					if skillSlot < 10: # ACTIVE_PAGE_SLOT_COUNT
@@ -1880,7 +1880,7 @@ class CharacterWindow(ui.ScriptWindow):
 			if skill.SKILL_TYPE_ACTIVE == skillType:
 				return
 
-		for slotWindow in self.skillPageDict.values():
+		for slotWindow in list(self.skillPageDict.values()):
 			if slotWindow.HasSlot(slotIndex):
 				if skill.CanUseSkill(skillIndex):
 					playerm2g2.ClickSkillSlot(srcSlotIndex)
@@ -1902,7 +1902,7 @@ class CharacterWindow(ui.ScriptWindow):
 		else:
 			slotIndex = self.__GetETCSkillRealSlotIndex(slotIndex)
 
-		for slotWindow in self.skillPageDict.values():
+		for slotWindow in list(self.skillPageDict.values()):
 			if slotWindow.HasSlot(slotIndex):
 				slotWindow.StoreSlotCoolTime(skillType, slotIndex, coolTime)
 				self.__RestoreSlotCoolTime(slotWindow)
@@ -1913,7 +1913,7 @@ class CharacterWindow(ui.ScriptWindow):
 		skillGrade = playerm2g2.GetSkillGrade(slotIndex)
 		slotIndex = self.__GetRealSkillSlot(skillGrade, slotIndex)
 
-		for slotWindow in self.skillPageDict.values():
+		for slotWindow in list(self.skillPageDict.values()):
 			if slotWindow.HasSlot(slotIndex):
 				slotWindow.ActivateSlot(slotIndex)
 				return
@@ -1922,7 +1922,7 @@ class CharacterWindow(ui.ScriptWindow):
 		skillGrade = playerm2g2.GetSkillGrade(slotIndex)
 		slotIndex = self.__GetRealSkillSlot(skillGrade, slotIndex)
 
-		for slotWindow in self.skillPageDict.values():
+		for slotWindow in list(self.skillPageDict.values()):
 			if slotWindow.HasSlot(slotIndex):
 				slotWindow.DeactivateSlot(slotIndex)
 				return
@@ -1982,7 +1982,7 @@ class CharacterWindow(ui.ScriptWindow):
 			try:
 				self.faceImage.LoadImage(faceImageName)
 			except:
-				print "CharacterWindow.RefreshCharacter(race=%d, faceImageName=%s)" % (race, faceImageName)
+				print(("CharacterWindow.RefreshCharacter(race=%d, faceImageName=%s)" % (race, faceImageName)))
 				self.faceImage.Hide()
 
 		except KeyError:
@@ -2003,7 +2003,7 @@ class CharacterWindow(ui.ScriptWindow):
 	def __SetSkillGroupName(self, race, group):
 		job = chr.RaceToJob(race)
 
-		if not self.SKILL_GROUP_NAME_DICT.has_key(job):
+		if job not in self.SKILL_GROUP_NAME_DICT:
 			return
 
 		nameList = self.SKILL_GROUP_NAME_DICT[job]
@@ -2140,7 +2140,7 @@ class CharacterWindow(ui.ScriptWindow):
 
 			self.baseCutY = math.ceil(overflowingY * self.questScrollBar.GetPos())
 			self.displayY = 0
-			self.RearrangeQuestCategories(xrange(quest.QUEST_CATEGORY_MAX_NUM))
+			self.RearrangeQuestCategories(list(range(quest.QUEST_CATEGORY_MAX_NUM)))
 			self.RefreshQuestCategory()
 
 			if overflowingY > 0:
@@ -2157,13 +2157,13 @@ class CharacterWindow(ui.ScriptWindow):
 			if self.isLoaded == 0:
 				return
 
-			for i in xrange(quest.QUEST_CATEGORY_MAX_NUM):
+			for i in range(quest.QUEST_CATEGORY_MAX_NUM):
 				category = self.questCategoryList[i]
 
 				categoryName = category.GetProperty("name")
 				if not categoryName:
-					category.SetProperty("name", category.GetText())
-					categoryName = category.GetText()
+					category.SetProperty("name", ui.DecodeLocaleText(quest_label_dict[i]))
+					categoryName = ui.DecodeLocaleText(quest_label_dict[i])
 
 				questCount = self.GetQuestCountInCategory(i)
 				self.questCategoryList[i].SetTextAlignLeft(categoryName + " (" + str(questCount) + ")")
@@ -2259,10 +2259,10 @@ class CharacterWindow(ui.ScriptWindow):
 				self.displayY = self.questCategoryRenderPos[currentCategory]
 
 				self.LoadCategory(currentCategory)
-				self.RearrangeQuestCategories(xrange(currentCategory + 1, quest.QUEST_CATEGORY_MAX_NUM))
+				self.RearrangeQuestCategories(list(range(currentCategory + 1, quest.QUEST_CATEGORY_MAX_NUM)))
 
 		def RefreshQuestCategoriesCount(self):
-			for category in xrange(quest.QUEST_CATEGORY_MAX_NUM):
+			for category in range(quest.QUEST_CATEGORY_MAX_NUM):
 				categoryName = self.questCategoryList[category].GetProperty("name")
 				questCount = self.GetQuestCountInCategory(category)
 				self.questCategoryList[category].SetTextAlignLeft(categoryName + " (" + str(questCount) + ")")
@@ -2427,7 +2427,7 @@ class CharacterWindow(ui.ScriptWindow):
 		def GetQuestsInCategory(self, category, retCount = False):
 			questList = []
 			count = 0
-			for i in xrange(quest.GetQuestCount()):
+			for i in range(quest.GetQuestCount()):
 				(questIndex, questName, questCategory, questIcon, questCounterName, questCounterValue) = quest.GetQuestData(i)
 				if questCategory == category:
 					count += 1
