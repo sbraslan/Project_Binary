@@ -133,7 +133,7 @@ class ConnectingDialog(ui.ScriptWindow):
 			exception.Abort("ConnectingDialog.LoadDialog.BindObject")
 
 	def Open(self, waitTime):
-		curTime = time.clock()
+		curTime = time.perf_counter()
 		self.endTime = curTime + waitTime
 
 		self.Lock()
@@ -162,12 +162,12 @@ class ConnectingDialog(ui.ScriptWindow):
 		self.eventExit = ui.__mem_func__(event)
 
 	def OnUpdate(self):
-		lastTime = max(0, self.endTime - time.clock())
+		lastTime = max(0, self.endTime - time.perf_counter())
 		if 0 == lastTime:
 			self.Close()
 			self.eventTimeOver()
 		else:
-			self.SetCountDownMessage(self.endTime - time.clock())
+			self.SetCountDownMessage(self.endTime - time.perf_counter())
 
 	def OnPressExitKey(self):
 		#self.eventExit()
